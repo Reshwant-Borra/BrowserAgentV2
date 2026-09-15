@@ -144,11 +144,10 @@ Implication: long research is a dedicated controller mode with evidence gaps/com
 ## WebChoreArena
 
 - Paper: https://arxiv.org/abs/2506.01952
-- Repository/project: https://github.com/facebookresearch/WebChoreArena (when available/current; verify repo before implementation use)
 
 Findings used:
 - long tasks stress observation memory, calculation and long-term memory;
-- strong frontier models still have substantial room to improve.
+- strong models still have substantial room to improve.
 
 Implication: 100+ page research should use structured external state and deterministic calculation rather than prompt accumulation.
 
@@ -163,18 +162,40 @@ Findings used:
 
 Implication: internal controlled fixtures + separately classified live canaries.
 
-## WebBench
+## BrowserArena (2025)
 
-- Research/project references: verify latest official paper/repository before implementing benchmark integration.
+- Paper: https://arxiv.org/abs/2510.02418
 
-Finding used:
-- live web tasks emphasize authentication, forms, downloads, 2FA and changing sites.
+Findings used:
+- live open-web head-to-head evaluation with step-level human feedback;
+- recurring real-world failures include CAPTCHAs, pop-up/banner handling and direct navigation behavior;
+- modern web agents remain brittle on mundane environment interactions.
 
-Implication: these are first-class runtime/handoff cases, not edge-case cleanup after MVP.
+Implication: live canaries, explicit pop-up/banner fixtures, CAPTCHA as human handoff, and typed step-level failure traces.
+
+## WEBSERV (2025)
+
+- Paper: https://arxiv.org/abs/2510.16252
+
+Findings used:
+- identifies noisy/excessive context and non-deterministic UI/network waiting as important web-agent environment problems;
+- proposes compact site-agnostic browser representation and scalable controlled environments.
+
+Implication: direct support for BrowserAgentV2's compact observation + deterministic BrowserKernel design and future resettable training environment.
+
+## Web Agents with World Models
+
+- Paper: https://arxiv.org/abs/2410.13232
+
+Findings used:
+- action-consequence awareness can improve web policy selection;
+- transition-focused observation abstraction highlights state differences rather than huge repeated raw page states.
+
+Implication: BrowserAgentV2 `change_summary` is both a context optimization and a useful decision signal; high-impact action consequence reasoning may become a later extension if deterministic policy/verification is insufficient.
 
 ---
 
-# Open/local model evidence
+# Open/local model evidence and training
 
 ## Qwen3
 
@@ -204,7 +225,6 @@ Implication: strict model-output contract is practical locally.
 ## WebRL
 
 - Paper: https://arxiv.org/abs/2411.02337
-- Repository: https://github.com/THUDM/WebRL (verify current canonical repository before training work)
 
 Findings used:
 - web-specific reinforcement learning can dramatically improve open 8–9B-class models;
@@ -212,14 +232,36 @@ Findings used:
 
 Implication: Qwen3:8B has an explicit evaluation gate and a later fine-tuning/RL upgrade path.
 
+## WebAgent-R1 (2025)
+
+- Paper: https://arxiv.org/abs/2505.16421
+
+Findings used:
+- end-to-end multi-turn RL for web agents;
+- reported Qwen-2.5-3B improvement from 6.1% to 33.9% and Llama-3.1-8B from 8.5% to 44.8% on WebArena-Lite;
+- warm-up/behavior cloning and thinking/test-time interaction choices matter.
+
+Implication: local small-model web competence can be trained substantially; poor zero-shot Qwen results should trigger model/policy improvement rather than browser-runtime hacks.
+
 ## AgentTrek
 
-- ICLR 2025 research direction/repository: locate/verify canonical current repository before implementation.
+- Paper: https://arxiv.org/abs/2412.09605
 
-Finding used:
-- synthesizing/collecting web-agent trajectories is a plausible route to model improvement.
+Findings used:
+- trajectory synthesis through guided replay of web tutorials can create useful GUI-agent training data;
+- training on synthesized trajectories improves grounding/planning.
 
-Implication: BrowserAgentV2 traces should be structured enough that successful/failed trajectories can later become training data.
+Implication: BrowserAgentV2 trace schema should support later safe/redacted trajectory export and tutorial/fixture-based data generation.
+
+## DynaWeb (2026)
+
+- Paper: https://arxiv.org/abs/2601.22149
+
+Findings used:
+- model-based RL can train/improve open web agents partly through a learned web world model and simulated rollouts;
+- real expert trajectories can be mixed with synthetic/on-policy rollouts.
+
+Implication: recording `observation_before -> action -> observation_after/change -> verification/reward` from day one preserves a future scalable training path.
 
 ---
 
@@ -286,7 +328,7 @@ Findings used:
 - https://playwright.dev/python/docs/api/class-browsertype#browser-type-connect-over-cdp
 
 Critical finding:
-- Playwright documents `connect_over_cdp()` as **significantly lower fidelity** than the Playwright protocol;
+- Playwright documents `connect_over_cdp()` as significantly lower fidelity than the Playwright protocol;
 - it is Chromium-only and advanced behavior may be affected by how the browser was launched.
 
 Implication: existing/daily-driver Chrome attachment is not the MVP default; use a dedicated Playwright-managed persistent profile first.
@@ -295,14 +337,12 @@ Implication: existing/daily-driver Chrome attachment is not the MVP default; use
 
 # Playwright MCP
 
-## Introduction/tooling
-
-- https://playwright.dev/mcp/introduction
-- https://playwright.dev/mcp/snapshots
-- https://playwright.dev/mcp/tools/forms
-- https://playwright.dev/mcp/tools/tabs
-- https://playwright.dev/mcp/tools/dialogs
-- https://playwright.dev/mcp/tools/files
+- Introduction: https://playwright.dev/mcp/introduction
+- Snapshots: https://playwright.dev/mcp/snapshots
+- Forms: https://playwright.dev/mcp/tools/forms
+- Tabs: https://playwright.dev/mcp/tools/tabs
+- Dialogs: https://playwright.dev/mcp/tools/dialogs
+- Files: https://playwright.dev/mcp/tools/files
 
 Findings used:
 - structured accessibility snapshots with interaction refs;
@@ -334,7 +374,6 @@ Finding used:
 ## Stagehand
 
 - Repository: https://github.com/browserbase/stagehand
-- Docs: https://docs.stagehand.dev/ (verify current canonical docs at implementation time)
 
 Finding used:
 - AI observation/discovery can coexist with deterministic action execution/replay;
@@ -383,7 +422,7 @@ BrowserAgentV2 implication across all security sources:
 - action policy exists outside the model;
 - secrets/filesystem are minimized;
 - consequential actions and unexpected cross-origin disclosure are gated;
-- security requires adversarial fixtures and cannot be declared "solved" by one benchmark.
+- security requires adversarial fixtures and cannot be declared solved by one benchmark.
 
 ---
 
@@ -399,18 +438,25 @@ Files directly audited:
 - `agent/verifier.py`
 - `agent/loop_detector.py`
 - `agent/security_policy.py`
-- repository tree/tests/fixtures
+- unit/integration/model test directories and benchmark fixtures
 
-Findings recorded in `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`:
-- preserve append-only event sourcing, loop detectors, verifier/context principles and tests;
-- rewrite giant orchestration/controller/loop and tab-selection heuristics;
-- stage sophisticated memory rather than making it a kernel dependency.
+Old tests inspected include:
+- `tests/unit/test_agent_loop_tab_wiring.py`
+- `tests/integration/test_phase1_browser_actions.py`
+- `tests/integration/test_cdp_attach.py`
+- `tests/integration/test_phase2_verification_recovery.py`
+- `tests/integration/test_phase3_crash_recovery.py`
+- `tests/integration/test_phase4_long_horizon.py`
+
+Findings recorded in:
+- `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`
+- `04_TESTING/OLD_FAILURE_REGRESSION_MATRIX.md`
 
 ---
 
 # Research interpretation rule
 
-No paper or framework is being copied wholesale. BrowserAgentV2 uses converging evidence to choose **interfaces and experiments**:
+No paper or framework is copied wholesale. BrowserAgentV2 uses converging evidence to choose interfaces and experiments:
 
 ```text
 paper/documented behavior
