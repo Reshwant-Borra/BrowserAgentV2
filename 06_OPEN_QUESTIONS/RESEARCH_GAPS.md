@@ -1,126 +1,262 @@
 # Open Research Questions and Decision Gates
 
-**Status:** NOT READY FOR FINAL ARCHITECTURE FREEZE.
+**Status:** design plan is comprehensive; final architecture freeze still requires empirical P0 results.
 
-The repository now contains a strong working architecture, but several questions must be resolved by evidence before implementation is considered fully planned.
+The repository now contains a full top-to-bottom architecture and project roadmap. The remaining open questions are mostly things documentation/papers cannot answer for our exact machine, model, browser version, and workloads. They require small experiments, not another speculative architecture layer.
 
-## P0 — Must resolve before implementation freeze
+For the canonical decision table, also see `DECISION_GATES_V2.md`.
+
+## P0 — Must resolve before final implementation freeze
 
 ### 1. Playwright MCP vs direct Playwright
 
-Run the deterministic adoption spike. We need actual evidence for:
+Run the deterministic BrowserKernel adoption spike.
 
-- typing/fill reliability on dynamic apps;
+Measure:
+- typing/fill reliability on dynamic/controlled apps;
 - stale-ref semantics;
-- popup/tab behavior;
-- persistent profile behavior;
-- process restart/reconnect;
+- popup/tab/page identity;
+- iframe/dialog behavior;
+- dedicated persistent profile behavior;
+- controller/browser restart;
 - human takeover/resume;
-- error classification quality.
+- file operations;
+- error classification quality;
+- performance/latency overhead.
 
-**Decision:** use MCP if it passes; otherwise implement direct Playwright behind the same `BrowserKernel`.
+**Decision rule:** use MCP if it cleanly preserves our invariants; otherwise implement direct Playwright behind the exact same `BrowserKernel` contract.
 
-### 2. Qwen decision interface
+### 2. Qwen Decision interface
 
-Compare native tool/function calling with strict structured `Decision` output on a frozen observation dataset.
-
-Need measured schema-validity and correct-target rates before selecting the interface.
-
-### 3. Ambiguous side effects
-
-Define and test exactly what happens when a state-changing operation may have succeeded but the client lost confirmation. Examples include form submission, sending, and workflow transitions.
-
-Rule is already clear: no blind replay. The unresolved part is the generic evidence/reconciliation protocol.
-
-### 4. Observation invalidation policy
-
-Determine precisely which events create a new incompatible observation version:
-
-- DOM mutation;
-- route/URL change;
-- navigation;
-- tab switch;
-- dialog;
-- user manual action;
-- dynamic subtree update.
-
-Over-invalidation increases model calls; under-invalidation risks stale targets.
-
-### 5. Old BrowserAgent audit
-
-Inspect the actual old repository/code rather than relying on remembered architecture. Classify modules:
+Compare:
 
 ```text
-KEEP
-ADAPT
-REWRITE
-DELETE
+A. strict single Decision JSON schema
+B. native/Hermes-style tool calling
 ```
 
-Look specifically for useful test fixtures, SQLite/event-store code, browser-session utilities, and proven primitives. Do not import recovery complexity merely because it exists.
+Use the same frozen 100-300 Observation -> Decision cases.
 
-## P1 — Resolve during/after kernel spike
+Measure:
+- schema validity;
+- correct action/target;
+- exact arguments;
+- hallucinated targets;
+- safe ask/replan behavior;
+- latency/tokens.
 
-### 6. Downloads and uploads
+Do not choose from anecdotal demos.
 
-Define safe first-version semantics:
+### 3. Qwen3:8B capability threshold
 
-- download destination;
-- completion detection;
-- filename collisions;
-- file provenance;
-- upload selection and confirmation;
-- preventing arbitrary page instructions from choosing sensitive local files.
+This is distinct from output syntax.
 
-### 7. Iframe strategy
+Question:
 
-Confirm how Playwright MCP exposes nested/cross-origin frames and whether our target schema needs explicit frame ids.
+> Given a good compact observation/action space, does zero-shot Qwen3:8B make correct enough decisions to be the first autonomous policy?
 
-### 8. Visual fallback
+If no:
+- simplify observation/action contracts;
+- try thinking-mode policy changes;
+- test a larger local model if practical;
+- then use the supervised/trajectory/RL path in `01_RESEARCH/MODEL_STRATEGY_AND_TRAINING_PATH.md`.
 
-Determine the smallest fallback needed for canvas/custom controls. Do not build a full vision-first agent unless real tasks require it.
+Do not add browser recovery heuristics to hide a model-quality problem.
 
-### 9. Research fact retrieval
+### 4. Ambiguous side-effect reconciliation
 
-Define relevance selection and deduplication for hundreds/thousands of facts without introducing premature vector-memory complexity.
+Rule is already resolved: **no blind replay**.
 
-### 10. Progress/loop detection
+What must be experimentally proven:
+- exact event ordering/checkpoint boundaries;
+- what information the controller has after different crash points;
+- whether current page/server state can prove action success/not-applied;
+- how unresolved ambiguity reaches the user.
 
-Define deterministic/model-assisted signals for:
+Use a deterministic local endpoint with operation IDs and crash injection.
 
-- same action repeated;
-- same observation repeated;
-- oscillating between pages;
-- no new facts gathered;
-- repeated postcondition failure.
+### 5. Observation invalidation policy
 
-## P2 — Later architecture research
+Find the smallest safe invalidation policy.
 
-### 11. Progressive determinism/cache
+Experiment across:
+- full navigation;
+- SPA route changes;
+- DOM subtree rerender;
+- controlled input rerender/hydration;
+- frame reload/detach;
+- tab switch/new popup;
+- modal/dialog changes;
+- manual user action during handoff.
 
-Research whether successful observed actions should be converted into deterministic reusable recipes similar to Stagehand-style observe → replay patterns.
+Under-invalidation risks wrong targets; over-invalidation increases snapshots/model calls.
 
-### 12. External connectors/APIs
+### 6. Dedicated profile + page ownership invariants
 
-Define routing policy for tasks where direct APIs/connectors are more reliable than browser UI automation, such as Calendar or email. The browser kernel should remain useful for discovery/authenticated navigation while deterministic integrations perform structured actions.
+The architecture choice is provisionally strong, but prove repeatedly:
+- auth/session persists across controller restarts;
+- AGENT/USER/UNKNOWN page ownership is correct at creation/discovery;
+- only AGENT pages are auto-closed;
+- explicit target tasks never hijack unrelated pages;
+- current-page tasks intentionally use the user-selected page.
 
-### 13. Existing browser attachment
+### 7. Security/prompt-injection behavior
 
-Dedicated BrowserAgent profile is the MVP default. Research optional attachment to a user's existing browser later, with strict tab ownership and privacy boundaries.
+Run adversarial controlled pages that attempt to:
+- rewrite goal/instructions;
+- request secrets/cookies;
+- trigger uploads;
+- initiate unexpected cross-origin writes;
+- impersonate system/tool messages;
+- bypass confirmations.
 
-### 14. Long-running research
+Required result is not “the model noticed the injection”; required result is **the architecture prevents capability escalation even if the model is misled**.
 
-Test hundreds-of-page research with bounded context, provenance, resume, deduplication, and source revisit. This should happen only after the short/medium task loop is stable.
+## Completed research gaps
+
+### Old BrowserAgent audit — RESOLVED AT RESEARCH LEVEL
+
+The actual repo was inspected. Reuse matrix and old regression tests are documented in:
+- `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`
+- `04_TESTING/OLD_FAILURE_REGRESSION_MATRIX.md`
+
+### Downloads/uploads — DESIGNED, VERIFY DURING KERNEL SPIKE
+
+Current design:
+- downloads saved explicitly into ArtifactStore because browser temp files are not durable;
+- sanitized unique artifact paths + provenance/hash;
+- uploads may reference only approved task artifact IDs;
+- no arbitrary model-supplied local path;
+- unexpected/sensitive upload requires policy/confirmation.
+
+### Iframes — DESIGN RESOLVED, VERIFY IMPLEMENTATION
+
+Target identity includes frame scope; frame detach/reload invalidates the target.
+
+### Progress/loop detection — DESIGN RESOLVED, TUNE THRESHOLDS LATER
+
+Signals include:
+- repeated semantic action;
+- repeated observation/no useful change;
+- A/B navigation oscillation;
+- repeated postcondition failure;
+- no new research facts/progress.
+
+Detector emits evidence; controller owns replan/fail transition.
+
+### Long-research memory design — RESOLVED AT ARCHITECTURE LEVEL
+
+See `02_ARCHITECTURE/LONG_RESEARCH_AND_MEMORY_ARCHITECTURE.md` for:
+- research questions/gaps;
+- source queue;
+- provenance facts;
+- URL/content/claim dedupe;
+- contradiction groups;
+- source diversity;
+- coverage-based stopping;
+- bounded context;
+- resume/checkpoint semantics.
+
+It still requires later implementation/benchmarking after short/medium tasks are stable.
+
+## P1 — Resolve after core kernel loop is stable
+
+### Visual fallback trigger
+
+Determine from failed semantic tasks exactly when screenshot/vision is required.
+
+Questions:
+- which valid controls disappear from semantic/DOM view;
+- local vision-model capability/latency;
+- whether set-of-mark is needed;
+- coordinate action safety/verification.
+
+Do not build vision-first browsing without evidence.
+
+### Virtualized/infinite-scroll pages
+
+Design fixture for:
+- items rendered only near viewport;
+- repeated loading;
+- duplicate/recycled DOM nodes.
+
+Need safe observation/search/scroll strategy that does not assume the full list exists in DOM.
+
+### Rich editors / drag-drop / complex widgets
+
+After normal form primitives pass, test:
+- contenteditable editors;
+- custom dropdowns;
+- drag/drop;
+- date pickers;
+- canvas controls.
+
+Add general BrowserKernel capabilities only when a recurring task class requires them.
+
+### Connector/API routing
+
+Define capability contract for structured integrations such as Calendar/email/Drive.
+
+Need rules for:
+- browser vs connector routing;
+- consistent confirmation/policy;
+- provenance/state transfer;
+- connector failure/fallback;
+- no hidden app-specific browser logic.
+
+## P2 — Later research/program expansion
+
+### Progressive determinism / reusable recipes
+
+Study whether repeated successful observation->action patterns should be cached/replayed deterministically, similar in spirit to Stagehand-style workflows.
+
+Requirements before adopting:
+- stable element/semantic anchors;
+- invalidation/version strategy;
+- fallback to normal model decision;
+- no site-specific architecture explosion.
+
+### Existing daily-driver browser attachment
+
+Dedicated BrowserAgent profile stays default. Optional existing-browser attach needs separate research on:
+- CDP lower-fidelity limitations;
+- privacy boundaries;
+- tab ownership;
+- extension/service-worker behavior;
+- browser launch flags;
+- session locking.
+
+### Cross-task persistent memory
+
+Do not add until task-local facts are proven.
+
+Research:
+- user-controlled retention;
+- staleness/expiration;
+- privacy/deletion;
+- retrieval boundaries;
+- avoiding accidental transfer between unrelated tasks.
+
+### Long-horizon model training
+
+If measured traces show the model is the limiting factor, research/implement:
+- supervised decision tuning;
+- trajectory synthesis (AgentTrek direction);
+- multi-turn RL (WebRL / WebAgent-R1 direction);
+- world-model/simulated rollouts (DynaWeb direction).
+
+The runtime/state architecture should remain unchanged.
 
 ## Research completion definition
 
-Research is “complete enough to build” when:
+Research is “complete enough to build the planned MVP” when:
 
-1. all P0 questions are resolved with tests/data;
-2. architecture documents are internally consistent;
-3. every major component has an explicit responsibility and interface;
-4. failure ownership is clear;
-5. Day 1/Day 2 gates are executable tests, not vague goals;
-6. Codex can receive bounded implementation tasks without inventing architecture.
+1. all P0 questions have recorded experiment results;
+2. `END_TO_END_SYSTEM_SPEC.md` is updated to match those results;
+3. `DECISION_GATES_V2.md` has no unresolved architecture-changing P0 item;
+4. every high-risk invariant has a controlled fixture/test;
+5. model-vs-runtime failures are independently measurable;
+6. Day 1/Day 2 tasks can be handed to Codex in bounded stages without asking it to make architectural choices;
+7. README/status/sources/master documents are internally consistent.
 
-Until then, this repository remains an active research knowledge base.
+At that point, remaining P1/P2 topics are planned extensions rather than reasons to redesign the core.
