@@ -60,11 +60,13 @@ Current web-agent research supports this overall direction:
 - **AgentOccam:** a simpler observation/action design can be a strong baseline; complexity is not automatically intelligence.
 - **BrowserGym / AgentLab:** standardized observations/actions and reproducible traces are important for real evaluation.
 - **AssistantBench / WorkArena++ / WebChoreArena:** long knowledge-work tasks require planning, memory, information transfer, and explicit completeness mechanisms.
-- **WebRL:** open 8–9B models can become substantially more capable web agents with web-specific training, supporting a future local-model training path if zero-shot Qwen3:8B is insufficient.
-- **Online-Mind2Web:** live websites drift, authentication expires, CAPTCHAs appear, and benchmark tasks become invalid; live-web reliability must be measured separately from controlled fixtures.
+- **WebRL / WebAgent-R1:** open 3B–8B class models can improve dramatically at web tasks through web-specific multi-turn training, supporting a future local-model training path if zero-shot Qwen3:8B is insufficient.
+- **WEBSERV:** compact site-agnostic observations and deterministic browser/UI waiting are themselves important design variables for scalable web agents.
+- **World-model / DynaWeb research:** transition-focused state changes and training from structured trajectories are promising later extensions, which is why V2 preserves before/action/after/verification traces.
+- **Online-Mind2Web / BrowserArena:** live websites drift and repeatedly expose CAPTCHA, popup/banner, navigation and other mundane environment failures that sandbox benchmarks can hide.
 - **AgentDojo / InjecAgent / BIPIA:** webpage content must be treated as untrusted input and constrained by a policy layer outside the model.
 
-See `01_RESEARCH/PAPER_EVIDENCE_AND_FEASIBILITY.md` for the detailed evidence map and limitations.
+See `01_RESEARCH/PAPER_EVIDENCE_AND_FEASIBILITY.md` and `01_RESEARCH/RECENT_2025_2026_WEB_AGENT_RESEARCH.md` for the detailed evidence and caveats.
 
 ## Core rules
 
@@ -97,35 +99,43 @@ The old repo is now audited directly rather than from chat memory. Valuable part
 - startup health checks;
 - extensive unit/integration/fixture assets.
 
-The large orchestration modules (`agent/controller.py` ~104 KB and `agent/loop.py` ~69 KB) should **not** be ported wholesale. V2 reuses tests, contracts, and small deterministic utilities while rewriting orchestration around one state machine. See `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`.
+The large orchestration modules (`agent/controller.py` ~104 KB and `agent/loop.py` ~69 KB) should **not** be ported wholesale. V2 reuses tests, contracts, and small deterministic utilities while rewriting orchestration around one state machine. The old tests also document regressions around tab binding, typing/search, inference retry, verification/recovery and crash recovery; these have been converted into a V2 regression matrix.
+
+See:
+- `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`
+- `04_TESTING/OLD_FAILURE_REGRESSION_MATRIX.md`
 
 ## Recommended reading order
 
 1. `00_PROJECT/VISION_AND_SCOPE.md`
 2. `01_RESEARCH/PAPER_EVIDENCE_AND_FEASIBILITY.md`
-3. `01_RESEARCH/FAILURE_MODES_AND_MITIGATIONS.md`
-4. `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`
-5. `01_RESEARCH/BROWSER_RUNTIME_RESEARCH.md`
-6. `01_RESEARCH/GROUNDING_AND_CONTEXT.md`
-7. `01_RESEARCH/QWEN_MODEL_INTERFACE.md`
-8. `01_RESEARCH/MEMORY_RECOVERY_AND_SECURITY.md`
-9. `02_ARCHITECTURE/END_TO_END_SYSTEM_SPEC.md`
-10. `03_DECISIONS/ARCHITECTURE_DECISIONS.md`
-11. `06_OPEN_QUESTIONS/DECISION_GATES_V2.md`
-12. `04_TESTING/MASTER_VALIDATION_PLAN.md`
-13. `05_IMPLEMENTATION/FULL_PROJECT_ROADMAP.md`
-14. `05_IMPLEMENTATION/TWO_DAY_EXECUTION_PLAN_V3.md`
-15. `RESEARCH_STATUS.md`
-16. `SOURCES.md`
+3. `01_RESEARCH/RECENT_2025_2026_WEB_AGENT_RESEARCH.md`
+4. `01_RESEARCH/FAILURE_MODES_AND_MITIGATIONS.md`
+5. `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`
+6. `01_RESEARCH/BROWSER_RUNTIME_RESEARCH.md`
+7. `01_RESEARCH/GROUNDING_AND_CONTEXT.md`
+8. `01_RESEARCH/QWEN_MODEL_INTERFACE.md`
+9. `01_RESEARCH/MODEL_STRATEGY_AND_TRAINING_PATH.md`
+10. `01_RESEARCH/MEMORY_RECOVERY_AND_SECURITY.md`
+11. `02_ARCHITECTURE/END_TO_END_SYSTEM_SPEC.md`
+12. `02_ARCHITECTURE/LONG_RESEARCH_AND_MEMORY_ARCHITECTURE.md`
+13. `03_DECISIONS/ARCHITECTURE_DECISIONS.md`
+14. `06_OPEN_QUESTIONS/DECISION_GATES_V2.md`
+15. `04_TESTING/MASTER_VALIDATION_PLAN.md`
+16. `04_TESTING/OLD_FAILURE_REGRESSION_MATRIX.md`
+17. `05_IMPLEMENTATION/FULL_PROJECT_ROADMAP.md`
+18. `05_IMPLEMENTATION/TWO_DAY_EXECUTION_PLAN_V3.md`
+19. `RESEARCH_STATUS.md`
+20. `SOURCES.md`
 
 ## Folder map
 
 - `00_PROJECT/` — product goal, scope and constraints
 - `01_RESEARCH/` — research papers, browser runtime, model, grounding, memory, security, old-code audit and failure analysis
-- `02_ARCHITECTURE/` — complete runtime contracts and system design
+- `02_ARCHITECTURE/` — complete runtime contracts, long-research design, and system architecture
 - `03_DECISIONS/` — architectural choices and rejected approaches
-- `04_TESTING/` — deterministic kernel tests, model evaluations, fault injection, security tests, controlled/live benchmarks
-- `05_IMPLEMENTATION/` — entire phased roadmap plus two-day MVP sequence
+- `04_TESTING/` — deterministic kernel tests, model evaluations, old-regression matrix, fault injection, security tests, controlled/live benchmarks
+- `05_IMPLEMENTATION/` — entire phased roadmap plus concrete two-day MVP sequence
 - `06_OPEN_QUESTIONS/` — explicit unresolved experiments/decision gates
 
 ## Current P0 gates
