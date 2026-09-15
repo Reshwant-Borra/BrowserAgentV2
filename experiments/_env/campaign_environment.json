@@ -1,0 +1,60 @@
+{
+  "captured_at": "2026-09-15T19:04:38-0400",
+  "os": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel"
+  },
+  "python": "3.13.2",
+  "cpu_count": 28,
+  "git": {
+    "commit": "8d2d81b912c81ea711f7f0e7f36466a4dd240af6",
+    "branch": "experiment/p0-gate-campaign",
+    "dirty": true
+  },
+  "gpu": "NVIDIA GeForce RTX 4070, 12282 MiB, 610.60",
+  "node": "v24.15.0",
+  "npm": "11.13.0",
+  "playwright": "unknown",
+  "chromium_version": "151.0.7922.34",
+  "chromium_path": "C:\\Users\\reshw\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+  "playwright_mcp": "0.0.81",
+  "ollama_version": "ollama version is 0.34.0",
+  "ollama_models": "NAME                 ID              SIZE      MODIFIED     \nqwen3:8b             500a1f067a9f    5.2 GB    3 weeks ago     \nqwen2.5-coder:14b    9ec8897f747e    9.0 GB    3 months ago    \ngemma3:4b            a2af6cc3eb7f    3.3 GB    4 months ago    \nqwen2.5-coder:7b     dae161e27b0e    4.7 GB    4 months ago    \nqwen2.5:14b          7cdf5a0187d5    9.0 GB    4 months ago",
+  "experiment": "campaign_summary",
+  "model": {
+    "model": "qwen3:8b",
+    "host": "http://127.0.0.1:11434",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "qwen3",
+      "families": [
+        "qwen3"
+      ],
+      "parameter_size": "8.2B",
+      "quantization_level": "Q4_K_M"
+    },
+    "model_info": {
+      "general.architecture": "qwen3",
+      "general.parameter_count": 8190735360,
+      "qwen3.attention.head_count": 32,
+      "qwen3.attention.head_count_kv": 8,
+      "qwen3.block_count": 36,
+      "qwen3.context_length": 40960,
+      "qwen3.embedding_length": 4096
+    },
+    "capabilities": [
+      "completion",
+      "tools",
+      "thinking"
+    ],
+    "parameters": "temperature                    0.6\ntop_k                          20\ntop_p                          0.95\nrepeat_penalty                 1\nstop                           \"<|im_start|>\"\nstop                           \"<|im_end|>\"",
+    "template_sha": "ae370d884f108d16",
+    "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+    "size_bytes": 5225388164,
+    "modified_at": "2026-08-25T16:42:44.3716649-04:00"
+  }
+}

@@ -130,8 +130,19 @@ COLLECT_JS = """
     }
     return best;
   };
+  // A dropdown's option list is part of its state. Without it the model can see
+  // that a combobox exists but cannot know what values are selectable, so it
+  // cannot produce a correct SELECT argument. END_TO_END_SYSTEM_SPEC section 7
+  // lists "select options" as Tier 3 enrichment for exactly this reason.
+  const options = (e) => {
+    if (e.tagName !== 'SELECT') return null;
+    return [...e.options].slice(0, 30).map(o => ({
+      value: o.value, label: (o.textContent || '').trim()
+    }));
+  };
   const meta = els.map(e => ({
     section: section(e),
+    options: options(e),
     role: role(e), name: accName(e), value: value(e),
     enabled: !e.disabled && e.getAttribute('aria-disabled') !== 'true',
     visible: visible(e), tag: e.tagName.toLowerCase(),
@@ -496,6 +507,7 @@ class DirectPlaywrightKernel(BrowserKernel):
                         visible=m["visible"],
                         tag=m["tag"],
                         section=m.get("section", ""),
+                        options=m.get("options") or [],
                         attrs=m["attrs"],
                     )
                     elements.append(oe)

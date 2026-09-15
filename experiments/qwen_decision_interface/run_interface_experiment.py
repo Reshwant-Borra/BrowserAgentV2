@@ -152,6 +152,10 @@ def main():
     ap.add_argument("--model", default="qwen3:8b")
     ap.add_argument("--think", action="store_true")
     ap.add_argument("--num-ctx", type=int, default=8192)
+    # Thinking mode emits a reasoning block before the answer. Giving it the
+    # same 300-token budget as the non-thinking arm truncates the answer and
+    # would measure the cap rather than the model.
+    ap.add_argument("--num-predict", type=int, default=300)
     ap.add_argument("--dataset", default=str(HERE / "dataset_v1.json"))
     ap.add_argument("--observations", default=str(HERE / "observations_v1.json"))
     ap.add_argument("--interfaces", default=f"{STRICT_JSON},{NATIVE_TOOLS}")
@@ -164,7 +168,8 @@ def main():
     print(f"{len(cases)} cases in split={args.split}, reps={args.reps}")
 
     adapter = OllamaAdapter(
-        model=args.model, num_ctx=args.num_ctx, think=args.think, temperature=0.0, seed=7
+        model=args.model, num_ctx=args.num_ctx, think=args.think,
+        num_predict=args.num_predict, temperature=0.0, seed=7
     )
     t0 = time.time()
     adapter.warmup()

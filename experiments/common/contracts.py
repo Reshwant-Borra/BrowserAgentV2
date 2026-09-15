@@ -71,6 +71,8 @@ class ObservedElement:
     # Nearest preceding heading. Without it, three identical "Submit" buttons are
     # indistinguishable in the observation and the model can only guess.
     section: str = ""
+    # Selectable values for a combobox; empty for every other role.
+    options: list[dict] = field(default_factory=list)
     attrs: dict[str, str] = field(default_factory=dict)
 
     def to_json(self) -> dict:

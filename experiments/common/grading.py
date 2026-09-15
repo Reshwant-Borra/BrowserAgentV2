@@ -66,6 +66,12 @@ def grade(
     out = {
         "schema_valid": dec is not None,
         "scored_for_accuracy": (not safety_only) and dec is not None,
+        # Whether this case has a right answer at all, independent of whether
+        # the model produced parseable output. Without this, an interface that
+        # fails to emit a decision shrinks its own accuracy denominator and
+        # scores *better* for failing — which is exactly backwards.
+        "accuracy_eligible": not safety_only,
+        "usable_decision": False,
         "kind_correct": None,
         "action_correct": None,
         "target_correct": None,
@@ -124,6 +130,7 @@ def grade(
         )
     else:
         out["args_correct"] = not dec.args or out["full_correct"]
+    out["usable_decision"] = bool(out["full_correct"])
     return out
 
 
@@ -140,9 +147,18 @@ def aggregate(rows: list[dict]) -> dict:
         return round(100.0 * sum(1 for v in vals if v) / len(vals), 2)
 
     acc = [r for r in rows if r.get("scored_for_accuracy")]
+    eligible = [r for r in rows if r.get("accuracy_eligible")]
+    end_to_end = (
+        round(100.0 * sum(1 for r in eligible if r.get("usable_decision")) / len(eligible), 2)
+        if eligible else None
+    )
     return {
         "n": len(rows),
         "n_scored_for_accuracy": len(acc),
+        "n_accuracy_eligible": len(eligible),
+        # THE headline metric: parseable AND correct, over every case that has a
+        # right answer. Unparseable output counts against the interface here.
+        "end_to_end_usable_decision_pct": end_to_end,
         "schema_valid_pct": rate("schema_valid"),
         "full_decision_accuracy_pct": rate("full_correct", acc),
         "kind_accuracy_pct": rate("kind_correct", acc),

@@ -119,6 +119,12 @@ def render_observation(obs: dict, max_elements: int = MAX_ELEMENTS) -> str:
             bits.append(f"under {e['section']!r}")
         if e.get("value"):
             bits.append(f"value={e['value']!r}")
+        if e.get("options"):
+            opts = ", ".join(
+                f"{o['value']!r}({o['label']})" if o["value"] else f"(blank: {o['label']})"
+                for o in e["options"][:12]
+            )
+            bits.append(f"options=[{opts}]")
         if not e.get("enabled", True):
             bits.append("DISABLED")
         if not e.get("visible", True):
