@@ -1,0 +1,6 @@
+# Experiment scratch
+experiments/node_modules/
+experiments/.playwright-mcp/
+experiments/**/__pycache__/
+**/__pycache__/
+*.pyc

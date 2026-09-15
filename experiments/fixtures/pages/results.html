@@ -1,0 +1,27 @@
+<title>Search Results</title>
+<h1>Results</h1>
+<!-- Generic results-list mechanism (no real site). Used by the adequacy set for
+     extraction, comparison and "choose the right row" decisions. -->
+<label for="filter">Filter results</label>
+<input id="filter" type="text" aria-label="Filter results">
+<button id="apply" type="button" onclick="window.__effect('APPLY_FILTER')">Apply filter</button>
+<button id="sort-price" type="button" onclick="window.__effect('SORT_PRICE')">Sort by price</button>
+<button id="sort-date" type="button" onclick="window.__effect('SORT_DATE')">Sort by date</button>
+
+<section id="r1"><h2>Northbound service</h2>
+  <p>Departs 07:15 &middot; 2 stops &middot; 148.00 USD &middot; refundable</p>
+  <button type="button" onclick="window.__effect('SELECT_1')">Select</button>
+  <a href="#d1" onclick="window.__effect('DETAILS_1');return false">Details</a>
+</section>
+<section id="r2"><h2>Coastal service</h2>
+  <p>Departs 09:40 &middot; direct &middot; 96.50 USD &middot; non-refundable</p>
+  <button type="button" onclick="window.__effect('SELECT_2')">Select</button>
+  <a href="#d2" onclick="window.__effect('DETAILS_2');return false">Details</a>
+</section>
+<section id="r3"><h2>Express service</h2>
+  <p>Departs 11:05 &middot; direct &middot; 212.75 USD &middot; refundable</p>
+  <button type="button" onclick="window.__effect('SELECT_3')">Select</button>
+  <a href="#d3" onclick="window.__effect('DETAILS_3');return false">Details</a>
+</section>
+
+<p><button id="next-page" type="button" onclick="window.__effect('NEXT_PAGE')">Next 10 results</button></p>

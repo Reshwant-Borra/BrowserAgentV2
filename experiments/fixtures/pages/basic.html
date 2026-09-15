@@ -1,0 +1,8 @@
+<title>Basic Controls</title>
+<h1>Basic controls</h1>
+<label for="q">Search</label>
+<input id="q" name="q" type="text" aria-label="Search">
+<button id="go" type="button" onclick="window.__effect('GO'); document.getElementById('out').textContent='clicked:'+(++window.__n||1)">Go</button>
+<a id="next" href="/p/basic2">Next page</a>
+<div id="out">idle</div>
+<script>window.__n = 0;</script>

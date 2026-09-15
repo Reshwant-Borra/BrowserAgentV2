@@ -1,0 +1,8 @@
+{
+  "name": "browseragentv2-experiments",
+  "private": true,
+  "description": "Pinned tooling for the BrowserAgentV2 P0 experiment campaign (Playwright MCP candidate kernel).",
+  "dependencies": {
+    "@playwright/mcp": "0.0.81"
+  }
+}

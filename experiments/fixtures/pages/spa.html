@@ -1,0 +1,28 @@
+<title>SPA Router</title>
+<h1>SPA router</h1>
+<!-- Route changes via history.pushState: the URL changes, the whole view is
+     re-rendered, but there is no document navigation. document_token must
+     therefore NOT change, which is exactly why a URL-only invalidation rule
+     is insufficient and a DOM-identity rule is required. -->
+<nav>
+  <button id="to-home" type="button" onclick="route('/p/spa#home','Home')">Home</button>
+  <button id="to-orders" type="button" onclick="route('/p/spa#orders','Orders')">Orders</button>
+  <button id="to-settings" type="button" onclick="route('/p/spa#settings','Settings')">Settings</button>
+</nav>
+<div id="view"></div>
+<div id="log">boot</div>
+<script>
+function record(w){ window.__effect(w); document.getElementById('log').textContent = window.__fired.join(','); }
+function route(url, name){
+  history.pushState({name}, '', url);
+  const v = document.getElementById('view');
+  v.innerHTML = '';
+  const b = document.createElement('button');
+  b.id = 'primary-action'; b.type='button'; b.textContent = 'Continue';
+  b.addEventListener('click', () => record(name));
+  v.appendChild(b);
+  const h = document.createElement('h2'); h.textContent = name;
+  v.insertBefore(h, b);
+}
+route('/p/spa#home','Home');
+</script>

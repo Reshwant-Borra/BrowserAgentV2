@@ -1,0 +1,9 @@
+<title>Tabs and Popups</title>
+<h1>Tabs and popups</h1>
+<a id="blank-link" href="/p/basic2" target="_blank" rel="opener">Open in new tab</a>
+<button id="popup-open" type="button" onclick="window.open('/p/basic2','_blank')">window.open popup</button>
+<button id="popup-named" type="button" onclick="window.open('/p/duplicate_names','_blank','width=400,height=400')">Sized popup</button>
+<button id="self-close" type="button" onclick="window.close()">Close myself</button>
+<button id="same-tab" type="button" onclick="location.href='/p/basic2'">Same tab navigate</button>
+<!-- A page that opens an identical-URL twin, to prove URL is not identity. -->
+<button id="twin" type="button" onclick="window.open(location.href,'_blank')">Open identical twin tab</button>

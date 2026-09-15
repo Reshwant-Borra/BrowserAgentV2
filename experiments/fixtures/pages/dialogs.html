@@ -1,0 +1,13 @@
+<title>Dialogs</title>
+<h1>Dialogs</h1>
+<!-- Native dialogs block the page. The kernel must surface them as an explicit
+     state rather than deadlocking. -->
+<button id="do-alert" type="button" onclick="alert('alert fixture'); done('alert')">Alert</button>
+<button id="do-confirm" type="button" onclick="done('confirm:'+confirm('confirm fixture'))">Confirm</button>
+<button id="do-prompt" type="button" onclick="done('prompt:'+prompt('prompt fixture','default'))">Prompt</button>
+<button id="arm-beforeunload" type="button" onclick="window.onbeforeunload=function(e){e.preventDefault();return 'x';}">Arm beforeunload</button>
+<button id="plain" type="button" onclick="done('plain')">Plain button</button>
+<div id="log">none</div>
+<script>
+function done(w){window.__effect(w);document.getElementById('log').textContent=window.__fired.join(',');}
+</script>

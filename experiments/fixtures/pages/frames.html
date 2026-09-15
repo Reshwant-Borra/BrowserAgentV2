@@ -1,0 +1,25 @@
+<title>Frames</title>
+<h1>Frames</h1>
+<button id="top-action" type="button" onclick="rec('TOP')">Confirm</button>
+<div id="log">none</div>
+
+<h2>Same-origin frame</h2>
+<iframe id="same" src="/p/frame_child" width="420" height="160"></iframe>
+
+<h2>Cross-origin frame</h2>
+<iframe id="cross" src="__PEER_ORIGIN__/p/frame_child" width="420" height="160"></iframe>
+
+<p>
+<button id="reload-same" type="button" onclick="document.getElementById('same').contentWindow.location.reload()">Reload same-origin frame</button>
+<button id="detach-same" type="button" onclick="document.getElementById('same').remove()">Detach same-origin frame</button>
+<button id="reattach-same" type="button" onclick="reattach()">Reattach identical frame</button>
+</p>
+<script>
+function rec(w){window.__effect(w);document.getElementById('log').textContent=window.__fired.join(',');}
+function reattach(){
+  if(document.getElementById('same')) return;
+  const f=document.createElement('iframe');
+  f.id='same'; f.src='/p/frame_child'; f.width='420'; f.height='160';
+  document.body.appendChild(f);
+}
+</script>

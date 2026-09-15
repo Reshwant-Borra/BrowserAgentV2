@@ -1,0 +1,22 @@
+<title>Duplicate Accessible Names</title>
+<h1>Duplicate accessible names</h1>
+<!-- Three controls with byte-identical accessible names in three sections.
+     Only section B's button is correct for the task; a name-based resolver
+     cannot distinguish them. -->
+<section id="secA"><h2>Section A</h2>
+  <button type="button" onclick="mark('A')">Submit</button>
+  <a href="#a" onclick="mark('linkA');return false">Details</a>
+</section>
+<section id="secB"><h2>Section B</h2>
+  <button type="button" onclick="mark('B')">Submit</button>
+  <a href="#b" onclick="mark('linkB');return false">Details</a>
+</section>
+<section id="secC"><h2>Section C</h2>
+  <button type="button" onclick="mark('C')">Submit</button>
+  <a href="#c" onclick="mark('linkC');return false">Details</a>
+</section>
+<div id="clicked"></div>
+<script>
+window.__clicks = [];
+function mark(w){ window.__clicks.push(w); window.__effect(w); document.getElementById('clicked').textContent = window.__clicks.join(','); }
+</script>

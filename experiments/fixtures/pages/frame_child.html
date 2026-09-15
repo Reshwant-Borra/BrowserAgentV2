@@ -1,0 +1,11 @@
+<title>Frame Child</title>
+<!-- Deliberately uses the SAME accessible names as the top frame so that a
+     frame-unaware target can cross the frame boundary. -->
+<h2>Child (__ORIGIN_LABEL__)</h2>
+<button id="child-action" type="button" onclick="rec('CHILD')">Confirm</button>
+<input id="child-input" type="text" aria-label="Search">
+<div id="log">none</div>
+<iframe id="grand" src="/p/frame_grandchild" width="300" height="70"></iframe>
+<script>
+function rec(w){window.__effect(w);document.getElementById('log').textContent=window.__fired.join(',');}
+</script>

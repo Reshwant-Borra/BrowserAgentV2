@@ -1,0 +1,14 @@
+<title>Long List</title>
+<h1>Long list</h1>
+<p>A large page: 600 rows, each with a button sharing one of 6 accessible names.</p>
+<div id="rows"></div>
+<script>
+const names=['Open','Edit','Delete','Share','Archive','Details'];
+const host=document.getElementById('rows');
+let html='';
+for(let i=0;i<600;i++){
+  html += `<div class="row" data-row="${i}">Item ${i} <button type="button" data-row="${i}" onclick="rec(${i})">${names[i%6]}</button></div>`;
+}
+host.innerHTML = html;
+function rec(i){window.__effect('row'+i);}
+</script>

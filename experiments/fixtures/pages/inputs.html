@@ -1,0 +1,64 @@
+<title>Text Entry Variants</title>
+<h1>Text entry variants</h1>
+
+<p><label for="plain">Plain text</label>
+<input id="plain" type="text" aria-label="Plain text"></p>
+
+<p><label for="area">Notes</label>
+<textarea id="area" aria-label="Notes"></textarea></p>
+
+<p><span id="ce-label">Rich note</span>
+<div id="ce" contenteditable="true" role="textbox" aria-labelledby="ce-label"
+     style="border:1px solid #888;min-height:1.5em;width:20em"></div></p>
+
+<!-- Controlled input: value is owned by a JS "store" and re-applied on every
+     input event, mimicking a React controlled component. -->
+<p><label for="controlled">Controlled</label>
+<input id="controlled" type="text" aria-label="Controlled"></p>
+
+<!-- Hydration reset: a deferred "hydration" wipes the field once, 400ms after
+     first user input. Typing again immediately is exactly the wrong response;
+     the correct response is to classify HYDRATION_RESET. -->
+<p><label for="hydrated">Hydrated</label>
+<input id="hydrated" type="text" aria-label="Hydrated"></p>
+
+<!-- Key-handler field: only responds to real keydown events, one char at a time. -->
+<p><label for="keyonly">Key only</label>
+<input id="keyonly" type="text" aria-label="Key only" readonly></p>
+
+<p><label for="searchbox">Search query</label>
+<input id="searchbox" type="text" aria-label="Search query">
+<span id="submitted">not-submitted</span></p>
+
+<div id="report"></div>
+<script>
+// controlled component
+const store = {controlled: ''};
+const ctl = document.getElementById('controlled');
+ctl.addEventListener('input', e => { store.controlled = e.target.value; ctl.value = store.controlled; });
+
+// hydration reset (once)
+let hydrated_done = false;
+const hyd = document.getElementById('hydrated');
+hyd.addEventListener('input', () => {
+  if (hydrated_done) return;
+  hydrated_done = true;
+  setTimeout(() => { hyd.value = ''; window.__hydration_reset = true; }, 400);
+}, {once:false});
+
+// key-only field
+const ko = document.getElementById('keyonly');
+ko.addEventListener('keydown', e => {
+  if (e.key === 'Backspace') { ko.value = ko.value.slice(0,-1); }
+  else if (e.key.length === 1) { ko.value += e.key; }
+  e.preventDefault();
+});
+
+// enter-to-submit
+document.getElementById('searchbox').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    window.__submitted_value = e.target.value;
+    document.getElementById('submitted').textContent = 'submitted:' + e.target.value;
+  }
+});
+</script>

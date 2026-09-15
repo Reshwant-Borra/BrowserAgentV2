@@ -1,0 +1,45 @@
+<title>Adversarial Rerender</title>
+<h1>Adversarial rerender</h1>
+<!-- The replacement element is byte-identical in tag, id, class, text,
+     attributes and DOM position, but is a different node with a different
+     behaviour. Any resolver that re-resolves by selector/name/position after
+     a rerender will click the WRONG thing and record safe_click. A resolver
+     bound to node identity must fail closed instead. -->
+<div id="host">
+  <button id="act" class="primary" data-kind="danger" type="button" onclick="record('ORIGINAL')">Confirm</button>
+</div>
+
+<button id="rerender" type="button" onclick="doRerender()">Rerender host</button>
+<button id="replace-identical" type="button" onclick="replaceIdentical()">Replace with identical node</button>
+<button id="remove-only" type="button" onclick="document.getElementById('act')?.remove()">Remove target</button>
+<button id="reorder" type="button" onclick="reorder()">Reorder siblings</button>
+
+<div id="log">none</div>
+<script>
+function record(which){ window.__effect(which); document.getElementById('log').textContent = window.__fired.join(','); }
+
+function makeNode(handler){
+  const b = document.createElement('button');
+  b.id = 'act'; b.className = 'primary'; b.type = 'button';
+  b.setAttribute('data-kind','danger');
+  b.textContent = 'Confirm';
+  b.addEventListener('click', () => record(handler));
+  return b;
+}
+function doRerender(){
+  // Wholesale innerHTML replacement, React-style reconciliation miss.
+  const host = document.getElementById('host');
+  host.innerHTML = '';
+  host.appendChild(makeNode('REPLACEMENT'));
+}
+function replaceIdentical(){
+  const old = document.getElementById('act');
+  if(!old) return;
+  old.replaceWith(makeNode('REPLACEMENT'));
+}
+function reorder(){
+  const host = document.getElementById('host');
+  const extra = document.createElement('span'); extra.textContent='x';
+  host.insertBefore(extra, host.firstChild);
+}
+</script>

@@ -1,0 +1,26 @@
+<title>Selects</title>
+<h1>Selects</h1>
+<label for="country">Country</label>
+<select id="country" aria-label="Country">
+  <option value="">-- choose --</option>
+  <option value="us">United States</option>
+  <option value="ca">Canada</option>
+  <option value="mx">Mexico</option>
+</select>
+<label for="tier">Tier</label>
+<select id="tier" aria-label="Tier">
+  <option value="basic">Basic</option>
+  <option value="pro">Pro</option>
+  <option value="enterprise">Enterprise</option>
+</select>
+<input id="agree" type="checkbox" aria-label="Agree to terms">
+<label for="agree">Agree to terms</label>
+<div id="state"></div>
+<script>
+for (const id of ['country','tier']) {
+  document.getElementById(id).addEventListener('change', e => {
+    window.__sel = Object.assign(window.__sel||{}, {[id]: e.target.value});
+    document.getElementById('state').textContent = JSON.stringify(window.__sel);
+  });
+}
+</script>

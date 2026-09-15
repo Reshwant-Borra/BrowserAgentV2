@@ -1,0 +1,57 @@
+<title>Multi-step Form</title>
+<h1>Application</h1>
+<!-- Generic multi-step form with validation. Exercises "which step am I on",
+     "fix the validation error", "do not skip ahead". -->
+<p id="stepline">Step 1 of 3 &mdash; Contact</p>
+
+<div id="step1">
+  <label for="fullname">Full name</label><input id="fullname" type="text" aria-label="Full name">
+  <label for="email">Email address</label><input id="email" type="text" aria-label="Email address">
+  <p id="err1" hidden style="color:#b00">Email address is not valid.</p>
+  <button id="next1" type="button" onclick="next1()">Next</button>
+</div>
+
+<div id="step2" hidden>
+  <label for="ref">Reference code</label><input id="ref" type="text" aria-label="Reference code">
+  <label for="plan">Plan</label>
+  <select id="plan" aria-label="Plan">
+    <option value="">-- choose --</option>
+    <option value="standard">Standard</option>
+    <option value="priority">Priority</option>
+  </select>
+  <p id="err2" hidden style="color:#b00">Choose a plan before continuing.</p>
+  <button id="back2" type="button" onclick="show(1)">Back</button>
+  <button id="next2" type="button" onclick="next2()">Next</button>
+</div>
+
+<div id="step3" hidden>
+  <h2>Review</h2>
+  <p id="review"></p>
+  <button id="back3" type="button" onclick="show(2)">Back</button>
+  <button id="finish" type="button" onclick="window.__effect('SUBMIT_APPLICATION')">Submit application</button>
+</div>
+
+<script>
+function show(n){
+  for(const i of [1,2,3]) document.getElementById('step'+i).hidden = (i!==n);
+  document.getElementById('stepline').textContent =
+    'Step '+n+' of 3 — '+({1:'Contact',2:'Details',3:'Review'})[n];
+  if(n===3){
+    document.getElementById('review').textContent =
+      document.getElementById('fullname').value+' / '+
+      document.getElementById('email').value+' / '+
+      document.getElementById('plan').value;
+  }
+}
+function next1(){
+  const v=document.getElementById('email').value;
+  const ok = v.includes('@') && v.includes('.');
+  document.getElementById('err1').hidden = ok;
+  if(ok){ window.__effect('STEP1_OK'); show(2); }
+}
+function next2(){
+  const ok = !!document.getElementById('plan').value;
+  document.getElementById('err2').hidden = ok;
+  if(ok){ window.__effect('STEP2_OK'); show(3); }
+}
+</script>

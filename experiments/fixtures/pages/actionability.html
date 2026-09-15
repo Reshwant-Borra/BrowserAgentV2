@@ -1,0 +1,32 @@
+<title>Actionability</title>
+<h1>Actionability</h1>
+
+<!-- Disabled button that becomes enabled after a deterministic delay. -->
+<button id="later" type="button" disabled onclick="rec('LATER')">Proceed</button>
+<button id="enable" type="button" onclick="setTimeout(()=>document.getElementById('later').disabled=false,300)">Enable proceed in 300ms</button>
+
+<!-- Permanently disabled control: must never be clicked. -->
+<button id="never" type="button" disabled onclick="rec('NEVER')">Locked</button>
+
+<!-- Overlay covering the target. -->
+<div style="position:relative;height:80px">
+  <button id="covered" type="button" style="position:absolute;top:20px;left:20px" onclick="rec('COVERED')">Hidden Target</button>
+  <div id="overlay" style="position:absolute;top:0;left:0;width:300px;height:80px;background:rgba(0,0,0,.5)"></div>
+</div>
+<button id="lift" type="button" onclick="document.getElementById('overlay').remove()">Lift overlay</button>
+
+<!-- Element that is display:none. -->
+<button id="invisible" type="button" style="display:none" onclick="rec('INVISIBLE')">Invisible</button>
+
+<!-- Element that moves for 500ms then settles. -->
+<button id="mover" type="button" onclick="rec('MOVER')" style="position:relative">Moving Target</button>
+<button id="animate" type="button" onclick="animate()">Animate mover</button>
+
+<div id="log">none</div>
+<script>
+function rec(w){window.__effect(w);document.getElementById('log').textContent=window.__fired.join(',');}
+function animate(){
+  const m=document.getElementById('mover'); let i=0;
+  const t=setInterval(()=>{ m.style.left=(i*4)+'px'; if(++i>25){clearInterval(t); m.style.left='0px';} },20);
+}
+</script>

@@ -1,0 +1,40 @@
+<title>Consequential Submit</title>
+<h1>Consequential submit (fixture)</h1>
+<!-- Stands in for "booking / assignment submission / message send".
+     The page posts to /api/submit with an operation_id supplied by the agent,
+     so durable server-side truth is queryable after any crash.
+     `dedupe=false` makes the server a WORST-CASE app that happily performs the
+     effect twice; that is the only configuration in which an agent-side blind
+     replay is actually detectable as a duplicate side effect. -->
+<label for="opid">Operation ID</label><input id="opid" type="text" aria-label="Operation ID" size="40">
+<label for="amount">Amount</label><input id="amount" type="text" aria-label="Amount" value="1">
+<label for="delay">Server delay ms</label><input id="delay" type="text" aria-label="Server delay ms" value="0">
+<label for="postdelay">Server post-commit delay ms</label><input id="postdelay" type="text" aria-label="Server post-commit delay ms" value="0">
+<label for="dedupe">Server deduplicates</label><input id="dedupe" type="checkbox" aria-label="Server deduplicates">
+<button id="submit" type="button" onclick="send()">Submit booking</button>
+<div id="result">idle</div>
+<div id="confirmation" hidden></div>
+<script>
+window.__submit_state='idle';
+async function send(){
+  const op=document.getElementById('opid').value;
+  window.__submit_state='in-flight';
+  document.getElementById('result').textContent='in-flight';
+  try{
+    const r=await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({operation_id:op,kind:'booking',
+        amount:document.getElementById('amount').value,
+        delay_ms:Number(document.getElementById('delay').value||0),
+        post_delay_ms:Number(document.getElementById('postdelay').value||0),
+        dedupe:document.getElementById('dedupe').checked})});
+    const j=await r.json();
+    window.__submit_state='done'; window.__last_result=j;
+    document.getElementById('result').textContent='status:'+j.status+' seq:'+j.confirmation_seq;
+    const c=document.getElementById('confirmation');
+    c.hidden=false; c.textContent='Booking confirmed. Reference '+op+' (seq '+j.confirmation_seq+')';
+  }catch(e){
+    window.__submit_state='error';
+    document.getElementById('result').textContent='error:'+e;
+  }
+}
+</script>

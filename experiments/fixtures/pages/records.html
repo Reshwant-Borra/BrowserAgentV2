@@ -1,0 +1,18 @@
+<title>Records Table</title>
+<h1>Records</h1>
+<!-- Generic table with per-row actions sharing identical names. -->
+<label for="q">Search records</label><input id="q" type="text" aria-label="Search records">
+<table>
+  <caption>Open items</caption>
+  <tr><th>Reference</th><th>Owner</th><th>Due</th><th>Actions</th></tr>
+  <tr><td>REF-1001</td><td>A. Okafor</td><td>2026-10-02</td>
+      <td><button type="button" onclick="window.__effect('OPEN_1001')">Open</button>
+          <button type="button" onclick="window.__effect('ARCHIVE_1001')">Archive</button></td></tr>
+  <tr><td>REF-1002</td><td>B. Lindqvist</td><td>2026-09-28</td>
+      <td><button type="button" onclick="window.__effect('OPEN_1002')">Open</button>
+          <button type="button" onclick="window.__effect('ARCHIVE_1002')">Archive</button></td></tr>
+  <tr><td>REF-1003</td><td>C. Nakamura</td><td>2026-11-14</td>
+      <td><button type="button" onclick="window.__effect('OPEN_1003')">Open</button>
+          <button type="button" onclick="window.__effect('ARCHIVE_1003')">Archive</button></td></tr>
+</table>
+<p><button id="export" type="button" onclick="window.__effect('EXPORT')">Export all records</button></p>

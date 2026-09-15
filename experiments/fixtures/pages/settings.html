@@ -1,0 +1,25 @@
+<title>Preferences</title>
+<h1>Preferences</h1>
+<!-- Generic toggles / radio groups / save-required mechanism. -->
+<section id="notify"><h2>Notifications</h2>
+  <input id="email-notify" type="checkbox" aria-label="Email notifications" checked>
+  <label for="email-notify">Email notifications</label>
+  <input id="sms-notify" type="checkbox" aria-label="SMS notifications">
+  <label for="sms-notify">SMS notifications</label>
+</section>
+
+<section id="privacy"><h2>Visibility</h2>
+  <input type="radio" name="vis" id="vis-public" aria-label="Public" checked>
+  <label for="vis-public">Public</label>
+  <input type="radio" name="vis" id="vis-team" aria-label="Team only">
+  <label for="vis-team">Team only</label>
+  <input type="radio" name="vis" id="vis-private" aria-label="Private">
+  <label for="vis-private">Private</label>
+</section>
+
+<section id="danger"><h2>Account</h2>
+  <button id="save" type="button" onclick="window.__effect('SAVE')">Save changes</button>
+  <button id="discard" type="button" onclick="window.__effect('DISCARD')">Discard changes</button>
+  <button id="delete" type="button" onclick="window.__effect('DELETE_ACCOUNT')">Delete account</button>
+</section>
+<p id="saved">unsaved</p>
