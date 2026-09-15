@@ -1,0 +1,1400 @@
+{
+  "experiment": "E5_page_registry_ownership",
+  "question": "Can BrowserAgent know which pages are its own and never harm user pages?",
+  "invariant": "zero USER-owned tabs closed automatically",
+  "environment": {
+    "captured_at": "2026-09-15T18:49:45-0400",
+    "os": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "system": "Windows",
+      "release": "11",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel"
+    },
+    "python": "3.13.2",
+    "cpu_count": 28,
+    "git": {
+      "commit": "9024aedbe2bea31db2b03e4b21046a73917b4150",
+      "branch": "experiment/p0-gate-campaign",
+      "dirty": true
+    },
+    "gpu": "NVIDIA GeForce RTX 4070, 12282 MiB, 610.60",
+    "node": "v24.15.0",
+    "npm": "11.13.0",
+    "playwright": "unknown",
+    "chromium_version": "151.0.7922.34",
+    "chromium_path": "C:\\Users\\reshw\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+    "playwright_mcp": "0.0.81",
+    "ollama_version": "ollama version is 0.34.0",
+    "ollama_models": "NAME                 ID              SIZE      MODIFIED     \nqwen3:8b             500a1f067a9f    5.2 GB    3 weeks ago     \nqwen2.5-coder:14b    9ec8897f747e    9.0 GB    3 months ago    \ngemma3:4b            a2af6cc3eb7f    3.3 GB    4 months ago    \nqwen2.5-coder:7b     dae161e27b0e    4.7 GB    4 months ago    \nqwen2.5:14b          7cdf5a0187d5    9.0 GB    4 months ago",
+    "experiment": "E5_page_registry_ownership"
+  },
+  "reps": 20,
+  "summary": {
+    "total_runs": 220,
+    "counts": {
+      "PASS": 220
+    },
+    "user_tabs_harmed": 0,
+    "fatal_cases": [],
+    "failing_cases": [],
+    "harness_error_cases": [],
+    "by_case": {
+      "PR-01-agent-created": {
+        "PASS": 20
+      },
+      "PR-02-preexisting-page": {
+        "PASS": 20
+      },
+      "PR-03-popup-from-agent-page": {
+        "PASS": 20
+      },
+      "PR-04-popup-from-user-page": {
+        "PASS": 20
+      },
+      "PR-05-manual-tab-during-handoff": {
+        "PASS": 20
+      },
+      "PR-06-duplicate-url-and-title": {
+        "PASS": 20
+      },
+      "PR-07-cleanup-never-closes-user": {
+        "PASS": 20
+      },
+      "PR-08-closed-then-reopened": {
+        "PASS": 20
+      },
+      "PR-09-page-self-closes": {
+        "PASS": 20
+      },
+      "PR-10-ownership-survives-navigation": {
+        "PASS": 20
+      },
+      "PR-11-browser-restart": {
+        "PASS": 20
+      }
+    }
+  },
+  "raw": [
+    {
+      "rep": 1,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 1,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 1,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 1,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 1,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 1,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 1,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 1,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 1,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 1,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 1,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 2,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 2,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 2,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 2,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 2,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 2,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 2,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 2,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 2,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 2,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 2,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 3,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 3,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 3,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 3,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 3,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 3,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 3,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 3,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 3,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 3,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 3,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 4,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 4,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 4,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 4,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 4,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 4,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 4,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 4,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 4,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 4,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 4,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 5,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 5,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 5,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 5,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 5,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 5,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 5,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 5,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 5,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 5,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 5,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 6,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 6,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 6,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 6,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 6,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 6,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 6,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 6,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 6,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 6,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 6,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 7,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 7,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 7,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 7,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 7,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 7,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 7,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 7,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 7,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 7,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 7,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 8,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 8,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 8,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 8,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 8,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 8,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 8,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 8,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 8,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 8,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 8,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 9,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 9,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 9,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 9,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 9,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 9,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 9,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 9,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 9,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 9,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 9,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 10,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 10,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 10,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 10,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 10,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 10,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 10,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 10,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 10,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 10,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 10,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 11,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 11,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 11,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 11,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 11,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 11,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 11,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 11,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 11,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 11,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 11,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 12,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 12,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 12,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 12,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 12,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 12,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 12,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 12,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 12,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 12,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 12,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 13,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 13,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 13,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 13,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 13,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 13,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 13,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 13,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 13,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 13,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 13,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 14,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 14,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 14,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 14,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 14,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 14,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 14,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 14,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 14,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 14,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 14,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 15,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 15,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 15,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 15,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 15,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 15,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 15,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 15,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 15,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 15,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 15,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 16,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 16,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 16,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 16,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 16,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 16,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 16,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 16,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 16,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 16,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 16,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 17,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 17,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 17,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 17,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 17,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 17,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 17,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 17,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 17,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 17,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 17,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 18,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 18,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 18,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 18,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 18,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 18,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 18,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 18,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 18,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 18,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 18,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 19,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 19,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 19,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 19,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 19,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 19,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 19,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 19,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 19,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 19,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 19,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    },
+    {
+      "rep": 20,
+      "case": "PR-01-agent-created",
+      "status": "PASS",
+      "detail": "page_2=AGENT"
+    },
+    {
+      "rep": 20,
+      "case": "PR-02-preexisting-page",
+      "status": "PASS",
+      "detail": "startup page ownership={'page_1': 'AGENT'}"
+    },
+    {
+      "rep": 20,
+      "case": "PR-03-popup-from-agent-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=AGENT opener=page_2"
+    },
+    {
+      "rep": 20,
+      "case": "PR-04-popup-from-user-page",
+      "status": "PASS",
+      "detail": "popup page_3 owner=USER (inherited from its opener)"
+    },
+    {
+      "rep": 20,
+      "case": "PR-05-manual-tab-during-handoff",
+      "status": "PASS",
+      "detail": "manual tab page_2 owner=USER"
+    },
+    {
+      "rep": 20,
+      "case": "PR-06-duplicate-url-and-title",
+      "status": "PASS",
+      "detail": "3 pages share url={'http://127.0.0.1:8820/p/basic'} title={'Basic Controls'}; ids distinct=True; ownership={'page_2': 'AGENT', 'page_3': 'USER', 'page_4': 'AGENT'}"
+    },
+    {
+      "rep": 20,
+      "case": "PR-07-cleanup-never-closes-user",
+      "status": "PASS",
+      "detail": "closed=['page_1', 'page_2', 'page_4'] refused=['page_3', 'page_5'] user_pages_intact=['page_3', 'page_5'] agent_left=[]"
+    },
+    {
+      "rep": 20,
+      "case": "PR-08-closed-then-reopened",
+      "status": "PASS",
+      "detail": "old=page_2 (closed=True) new=page_3 id_reused=False"
+    },
+    {
+      "rep": 20,
+      "case": "PR-09-page-self-closes",
+      "status": "PASS",
+      "detail": "twin page_3 closed=True"
+    },
+    {
+      "rep": 20,
+      "case": "PR-10-ownership-survives-navigation",
+      "status": "PASS",
+      "detail": "user page page_2 owner after navigation=USER"
+    },
+    {
+      "rep": 20,
+      "case": "PR-11-browser-restart",
+      "status": "PASS",
+      "detail": "before={'page_1': 'about:blank', 'page_2': 'http://127.0.0.1:8820/p/basic', 'page_3': 'http://127.0.0.1:8820/p/duplicate_names'} after_restart={'page_1': ('about:blank', 'AGENT')}"
+    }
+  ]
+}

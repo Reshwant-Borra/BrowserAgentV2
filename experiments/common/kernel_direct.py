@@ -138,7 +138,11 @@ COLLECT_JS = """
     attrs: {id: e.id || '', type: (e.getAttribute('type') || ''),
             href: (e.getAttribute('href') || '').slice(0,120)}
   }));
+  // Only text a person could actually read. Hidden nodes (an inactive wizard
+  // step, a validation message that is not currently shown) would otherwise
+  // describe a page state that does not exist.
   const text = [...document.querySelectorAll('h1,h2,h3,p,li,td,label,span')]
+      .filter(visible)
       .map(n => (n.textContent || '').replace(/\\s+/g,' ').trim())
       .filter(t => t.length > 1 && t.length < 400).slice(0, 120);
   return { meta, els, text, doc: window.__bav2_doc || 'unknown' };

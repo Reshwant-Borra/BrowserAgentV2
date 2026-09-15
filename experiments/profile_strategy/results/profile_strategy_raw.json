@@ -1,0 +1,373 @@
+{
+  "experiment": "P0_profile_strategy",
+  "question": "Does the dedicated persistent profile deliver persistence and isolation?",
+  "environment": {
+    "captured_at": "2026-09-15T18:46:06-0400",
+    "os": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "system": "Windows",
+      "release": "11",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel"
+    },
+    "python": "3.13.2",
+    "cpu_count": 28,
+    "git": {
+      "commit": "9024aedbe2bea31db2b03e4b21046a73917b4150",
+      "branch": "experiment/p0-gate-campaign",
+      "dirty": true
+    },
+    "gpu": "NVIDIA GeForce RTX 4070, 12282 MiB, 610.60",
+    "node": "v24.15.0",
+    "npm": "11.13.0",
+    "playwright": "unknown",
+    "chromium_version": "151.0.7922.34",
+    "chromium_path": "C:\\Users\\reshw\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+    "playwright_mcp": "0.0.81",
+    "ollama_version": "ollama version is 0.34.0",
+    "ollama_models": "NAME                 ID              SIZE      MODIFIED     \nqwen3:8b             500a1f067a9f    5.2 GB    3 weeks ago     \nqwen2.5-coder:14b    9ec8897f747e    9.0 GB    3 months ago    \ngemma3:4b            a2af6cc3eb7f    3.3 GB    4 months ago    \nqwen2.5-coder:7b     dae161e27b0e    4.7 GB    4 months ago    \nqwen2.5:14b          7cdf5a0187d5    9.0 GB    4 months ago",
+    "experiment": "P0_profile_strategy"
+  },
+  "reps": 6,
+  "summary": {
+    "total_runs": 36,
+    "counts": {
+      "PASS": 36
+    },
+    "failing_cases": [],
+    "by_case": {
+      "PF-01-cookie-and-localstorage-restart": {
+        "PASS": 6
+      },
+      "PF-02-authenticated-page-after-restart": {
+        "PASS": 6
+      },
+      "PF-03-two-restarts-no-drift": {
+        "PASS": 6
+      },
+      "PF-04-profiles-isolated": {
+        "PASS": 6
+      },
+      "PF-05-user-chrome-untouched": {
+        "PASS": 6
+      },
+      "PF-06-profile-lock-exclusive": {
+        "PASS": 6
+      }
+    }
+  },
+  "raw": [
+    {
+      "rep": 1,
+      "case": "PF-01-cookie-and-localstorage-restart",
+      "status": "PASS",
+      "detail": "cookie_persisted=True localStorage_persisted=True; after={'local': {'bav2_user': 'student', 'bav2_account': 'school', 'bav2_stage': 'app'}, 'cookie': 'bav2_stage=app'}",
+      "before": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      },
+      "after": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      }
+    },
+    {
+      "rep": 1,
+      "case": "PF-02-authenticated-page-after-restart",
+      "status": "PASS",
+      "detail": "authenticated view restored=True; account_text=True; controls=['Continue', 'I am not a robot', 'Password', 'Personal', 'School', 'Sign in']"
+    },
+    {
+      "rep": 1,
+      "case": "PF-03-two-restarts-no-drift",
+      "status": "PASS",
+      "detail": "stages=['app', 'app']"
+    },
+    {
+      "rep": 1,
+      "case": "PF-04-profiles-isolated",
+      "status": "PASS",
+      "detail": "second profile sees session=False; storage={'local': {}, 'cookie': ''}"
+    },
+    {
+      "rep": 1,
+      "case": "PF-05-user-chrome-untouched",
+      "status": "PASS",
+      "detail": "real chrome profiles found=['C:\\\\Users\\\\reshw\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data']; modified_by_run=[]; dedicated profile populated=True"
+    },
+    {
+      "rep": 1,
+      "case": "PF-06-profile-lock-exclusive",
+      "status": "PASS",
+      "detail": "second controller refused: Error: It looks like you are using Playwright Sync API inside the asyncio loop.\nPlease use the Async API instead."
+    },
+    {
+      "rep": 2,
+      "case": "PF-01-cookie-and-localstorage-restart",
+      "status": "PASS",
+      "detail": "cookie_persisted=True localStorage_persisted=True; after={'local': {'bav2_user': 'student', 'bav2_account': 'school', 'bav2_stage': 'app'}, 'cookie': 'bav2_stage=app'}",
+      "before": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      },
+      "after": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      }
+    },
+    {
+      "rep": 2,
+      "case": "PF-02-authenticated-page-after-restart",
+      "status": "PASS",
+      "detail": "authenticated view restored=True; account_text=True; controls=['Continue', 'I am not a robot', 'Password', 'Personal', 'School', 'Sign in']"
+    },
+    {
+      "rep": 2,
+      "case": "PF-03-two-restarts-no-drift",
+      "status": "PASS",
+      "detail": "stages=['app', 'app']"
+    },
+    {
+      "rep": 2,
+      "case": "PF-04-profiles-isolated",
+      "status": "PASS",
+      "detail": "second profile sees session=False; storage={'local': {}, 'cookie': ''}"
+    },
+    {
+      "rep": 2,
+      "case": "PF-05-user-chrome-untouched",
+      "status": "PASS",
+      "detail": "real chrome profiles found=['C:\\\\Users\\\\reshw\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data']; modified_by_run=[]; dedicated profile populated=True"
+    },
+    {
+      "rep": 2,
+      "case": "PF-06-profile-lock-exclusive",
+      "status": "PASS",
+      "detail": "second controller refused: Error: It looks like you are using Playwright Sync API inside the asyncio loop.\nPlease use the Async API instead."
+    },
+    {
+      "rep": 3,
+      "case": "PF-01-cookie-and-localstorage-restart",
+      "status": "PASS",
+      "detail": "cookie_persisted=True localStorage_persisted=True; after={'local': {'bav2_user': 'student', 'bav2_account': 'school', 'bav2_stage': 'app'}, 'cookie': 'bav2_stage=app'}",
+      "before": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      },
+      "after": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      }
+    },
+    {
+      "rep": 3,
+      "case": "PF-02-authenticated-page-after-restart",
+      "status": "PASS",
+      "detail": "authenticated view restored=True; account_text=True; controls=['Continue', 'I am not a robot', 'Password', 'Personal', 'School', 'Sign in']"
+    },
+    {
+      "rep": 3,
+      "case": "PF-03-two-restarts-no-drift",
+      "status": "PASS",
+      "detail": "stages=['app', 'app']"
+    },
+    {
+      "rep": 3,
+      "case": "PF-04-profiles-isolated",
+      "status": "PASS",
+      "detail": "second profile sees session=False; storage={'local': {}, 'cookie': ''}"
+    },
+    {
+      "rep": 3,
+      "case": "PF-05-user-chrome-untouched",
+      "status": "PASS",
+      "detail": "real chrome profiles found=['C:\\\\Users\\\\reshw\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data']; modified_by_run=[]; dedicated profile populated=True"
+    },
+    {
+      "rep": 3,
+      "case": "PF-06-profile-lock-exclusive",
+      "status": "PASS",
+      "detail": "second controller refused: Error: It looks like you are using Playwright Sync API inside the asyncio loop.\nPlease use the Async API instead."
+    },
+    {
+      "rep": 4,
+      "case": "PF-01-cookie-and-localstorage-restart",
+      "status": "PASS",
+      "detail": "cookie_persisted=True localStorage_persisted=True; after={'local': {'bav2_user': 'student', 'bav2_account': 'school', 'bav2_stage': 'app'}, 'cookie': 'bav2_stage=app'}",
+      "before": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      },
+      "after": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      }
+    },
+    {
+      "rep": 4,
+      "case": "PF-02-authenticated-page-after-restart",
+      "status": "PASS",
+      "detail": "authenticated view restored=True; account_text=True; controls=['Continue', 'I am not a robot', 'Password', 'Personal', 'School', 'Sign in']"
+    },
+    {
+      "rep": 4,
+      "case": "PF-03-two-restarts-no-drift",
+      "status": "PASS",
+      "detail": "stages=['app', 'app']"
+    },
+    {
+      "rep": 4,
+      "case": "PF-04-profiles-isolated",
+      "status": "PASS",
+      "detail": "second profile sees session=False; storage={'local': {}, 'cookie': ''}"
+    },
+    {
+      "rep": 4,
+      "case": "PF-05-user-chrome-untouched",
+      "status": "PASS",
+      "detail": "real chrome profiles found=['C:\\\\Users\\\\reshw\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data']; modified_by_run=[]; dedicated profile populated=True"
+    },
+    {
+      "rep": 4,
+      "case": "PF-06-profile-lock-exclusive",
+      "status": "PASS",
+      "detail": "second controller refused: Error: It looks like you are using Playwright Sync API inside the asyncio loop.\nPlease use the Async API instead."
+    },
+    {
+      "rep": 5,
+      "case": "PF-01-cookie-and-localstorage-restart",
+      "status": "PASS",
+      "detail": "cookie_persisted=True localStorage_persisted=True; after={'local': {'bav2_user': 'student', 'bav2_account': 'school', 'bav2_stage': 'app'}, 'cookie': 'bav2_stage=app'}",
+      "before": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      },
+      "after": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      }
+    },
+    {
+      "rep": 5,
+      "case": "PF-02-authenticated-page-after-restart",
+      "status": "PASS",
+      "detail": "authenticated view restored=True; account_text=True; controls=['Continue', 'I am not a robot', 'Password', 'Personal', 'School', 'Sign in']"
+    },
+    {
+      "rep": 5,
+      "case": "PF-03-two-restarts-no-drift",
+      "status": "PASS",
+      "detail": "stages=['app', 'app']"
+    },
+    {
+      "rep": 5,
+      "case": "PF-04-profiles-isolated",
+      "status": "PASS",
+      "detail": "second profile sees session=False; storage={'local': {}, 'cookie': ''}"
+    },
+    {
+      "rep": 5,
+      "case": "PF-05-user-chrome-untouched",
+      "status": "PASS",
+      "detail": "real chrome profiles found=['C:\\\\Users\\\\reshw\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data']; modified_by_run=[]; dedicated profile populated=True"
+    },
+    {
+      "rep": 5,
+      "case": "PF-06-profile-lock-exclusive",
+      "status": "PASS",
+      "detail": "second controller refused: Error: It looks like you are using Playwright Sync API inside the asyncio loop.\nPlease use the Async API instead."
+    },
+    {
+      "rep": 6,
+      "case": "PF-01-cookie-and-localstorage-restart",
+      "status": "PASS",
+      "detail": "cookie_persisted=True localStorage_persisted=True; after={'local': {'bav2_user': 'student', 'bav2_account': 'school', 'bav2_stage': 'app'}, 'cookie': 'bav2_stage=app'}",
+      "before": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      },
+      "after": {
+        "local": {
+          "bav2_user": "student",
+          "bav2_account": "school",
+          "bav2_stage": "app"
+        },
+        "cookie": "bav2_stage=app"
+      }
+    },
+    {
+      "rep": 6,
+      "case": "PF-02-authenticated-page-after-restart",
+      "status": "PASS",
+      "detail": "authenticated view restored=True; account_text=True; controls=['Continue', 'I am not a robot', 'Password', 'Personal', 'School', 'Sign in']"
+    },
+    {
+      "rep": 6,
+      "case": "PF-03-two-restarts-no-drift",
+      "status": "PASS",
+      "detail": "stages=['app', 'app']"
+    },
+    {
+      "rep": 6,
+      "case": "PF-04-profiles-isolated",
+      "status": "PASS",
+      "detail": "second profile sees session=False; storage={'local': {}, 'cookie': ''}"
+    },
+    {
+      "rep": 6,
+      "case": "PF-05-user-chrome-untouched",
+      "status": "PASS",
+      "detail": "real chrome profiles found=['C:\\\\Users\\\\reshw\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data']; modified_by_run=[]; dedicated profile populated=True"
+    },
+    {
+      "rep": 6,
+      "case": "PF-06-profile-lock-exclusive",
+      "status": "PASS",
+      "detail": "second controller refused: Error: It looks like you are using Playwright Sync API inside the asyncio loop.\nPlease use the Async API instead."
+    }
+  ]
+}

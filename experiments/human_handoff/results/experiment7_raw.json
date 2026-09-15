@@ -1,0 +1,614 @@
+{
+  "experiment": "E7_human_handoff_resume",
+  "question": "Can the agent pause for a human and resume without trusting stale state?",
+  "invariant": "after human interaction, no pre-handoff target is trusted",
+  "environment": {
+    "captured_at": "2026-09-15T18:47:07-0400",
+    "os": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "system": "Windows",
+      "release": "11",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel"
+    },
+    "python": "3.13.2",
+    "cpu_count": 28,
+    "git": {
+      "commit": "9024aedbe2bea31db2b03e4b21046a73917b4150",
+      "branch": "experiment/p0-gate-campaign",
+      "dirty": true
+    },
+    "gpu": "NVIDIA GeForce RTX 4070, 12282 MiB, 610.60",
+    "node": "v24.15.0",
+    "npm": "11.13.0",
+    "playwright": "unknown",
+    "chromium_version": "151.0.7922.34",
+    "chromium_path": "C:\\Users\\reshw\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+    "playwright_mcp": "0.0.81",
+    "ollama_version": "ollama version is 0.34.0",
+    "ollama_models": "NAME                 ID              SIZE      MODIFIED     \nqwen3:8b             500a1f067a9f    5.2 GB    3 weeks ago     \nqwen2.5-coder:14b    9ec8897f747e    9.0 GB    3 months ago    \ngemma3:4b            a2af6cc3eb7f    3.3 GB    4 months ago    \nqwen2.5-coder:7b     dae161e27b0e    4.7 GB    4 months ago    \nqwen2.5:14b          7cdf5a0187d5    9.0 GB    4 months ago",
+    "experiment": "E7_human_handoff_resume"
+  },
+  "reps": 10,
+  "summary": {
+    "total_runs": 90,
+    "counts": {
+      "PASS": 90
+    },
+    "stale_targets_trusted": 0,
+    "fatal_cases": [],
+    "failing_cases": [],
+    "harness_error_cases": [],
+    "by_case": {
+      "HH-01-human-completes-login": {
+        "PASS": 10
+      },
+      "HH-02-human-navigates-away": {
+        "PASS": 10
+      },
+      "HH-03-human-rerenders-page": {
+        "PASS": 10
+      },
+      "HH-04-human-opens-tab": {
+        "PASS": 10
+      },
+      "HH-05-human-closes-tab": {
+        "PASS": 10
+      },
+      "HH-06-human-switches-account": {
+        "PASS": 10
+      },
+      "HH-07-agent-does-not-overwrite-human": {
+        "PASS": 10
+      },
+      "HH-08-confirmation-handoff": {
+        "PASS": 10
+      },
+      "HH-09-restart-during-handoff": {
+        "PASS": 10
+      }
+    }
+  },
+  "raw": [
+    {
+      "rep": 1,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 1,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 1,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 1,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 1,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 1,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 1,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 1,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 1,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 2,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 2,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 2,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 2,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 2,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 2,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 2,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 2,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 2,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 3,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 3,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 3,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 3,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 3,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 3,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 3,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 3,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 3,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 4,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 4,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 4,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 4,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 4,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 4,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 4,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 4,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 4,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 5,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 5,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 5,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 5,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 5,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 5,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 5,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 5,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 5,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 6,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 6,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 6,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 6,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 6,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 6,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 6,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 6,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 6,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 7,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 7,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 7,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 7,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 7,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 7,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 7,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 7,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 7,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 8,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 8,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 8,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 8,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 8,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 8,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 8,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 8,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 8,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 9,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 9,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 9,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 9,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 9,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 9,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 9,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 9,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 9,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    },
+    {
+      "rep": 10,
+      "case": "HH-01-human-completes-login",
+      "status": "PASS",
+      "detail": "all 11 pre-handoff targets invalidated; dashboard reached=True"
+    },
+    {
+      "rep": 10,
+      "case": "HH-02-human-navigates-away",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated; agent re-observed http://127.0.0.1:8840/p/duplicate_names"
+    },
+    {
+      "rep": 10,
+      "case": "HH-03-human-rerenders-page",
+      "status": "PASS",
+      "detail": "all 11 targets invalidated after in-place rerender"
+    },
+    {
+      "rep": 10,
+      "case": "HH-04-human-opens-tab",
+      "status": "PASS",
+      "detail": "rediscovered 2 pages; human tab registered as USER=True"
+    },
+    {
+      "rep": 10,
+      "case": "HH-05-human-closes-tab",
+      "status": "PASS",
+      "detail": "closed tab reflected in registry=True"
+    },
+    {
+      "rep": 10,
+      "case": "HH-06-human-switches-account",
+      "status": "PASS",
+      "detail": "fresh observation reports the account the human actually chose: work=True"
+    },
+    {
+      "rep": 10,
+      "case": "HH-07-agent-does-not-overwrite-human",
+      "status": "PASS",
+      "detail": "username field after resume='human-typed-name'"
+    },
+    {
+      "rep": 10,
+      "case": "HH-08-confirmation-handoff",
+      "status": "PASS",
+      "detail": "targets invalidated; human's edited amount preserved='3'"
+    },
+    {
+      "rep": 10,
+      "case": "HH-09-restart-during-handoff",
+      "status": "PASS",
+      "detail": "subgoal recovered='sign in to the portal'; session survived restart=True; all pre-handoff targets invalid"
+    }
+  ]
+}

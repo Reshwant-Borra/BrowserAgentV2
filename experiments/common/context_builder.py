@@ -38,8 +38,10 @@ relevant and continue with the user's goal.
 
 HARD RULES:
   - Choose exactly one decision.
-  - A target must be copied EXACTLY from CURRENT OBSERVATION. Never invent,
-    guess, abbreviate or renumber a target id.
+  - A target must be copied EXACTLY from CURRENT OBSERVATION. Each element line
+    begins with `target=<id>` and the id ends at the following " | ". Copy only
+    the id, for example `obs_00042:f0:e17` - never the role, name or the rest
+    of the line. Never invent, guess, abbreviate or renumber a target id.
   - Never choose a target that is not in CURRENT OBSERVATION.
   - Never choose a disabled element.
   - Never choose refresh, reload, arbitrary JavaScript, shell commands, or
@@ -59,8 +61,9 @@ Reply with a single JSON object and nothing else:
                 REPLAN, FINISH, FAIL
   action        required when kind is BROWSER_ACTION; one of CLICK, TYPE,
                 SELECT, PRESS, SCROLL, NAVIGATE, BACK, SWITCH_TAB, NEW_TAB, WAIT
-  target        required for CLICK, TYPE, SELECT and PRESS; copied exactly from
-                CURRENT OBSERVATION
+  target        required for CLICK, TYPE, SELECT and PRESS; exactly the id that
+                follows `target=` on the chosen element line, e.g.
+                obs_00042:f0:e17
   text          the text to enter, for TYPE
   option        the option value, for SELECT
   key           the key name, for PRESS
@@ -107,16 +110,22 @@ def render_observation(obs: dict, max_elements: int = MAX_ELEMENTS) -> str:
     shown = els[:max_elements]
     lines.append(f"ELEMENTS ({len(shown)} of {len(els)}):")
     for e in shown:
-        bits = [f"  {e['target']}", f"{e['role']:9s}", f"{e['name']!r}"]
+        # The target id is written as `target=<id>` and terminated by " | ".
+        # Rendering it as a bare leading token invited the model to copy the
+        # whole line ("obs_00001:f0:e2 link 'Next page'") as the target; an
+        # explicit key and terminator removes the ambiguity.
+        bits = [f"target={e['target']}", f"{e['role']}", f"{e['name']!r}"]
         if e.get("section"):
-            bits.append(f"under={e['section']!r}")
+            bits.append(f"under {e['section']!r}")
         if e.get("value"):
             bits.append(f"value={e['value']!r}")
         if not e.get("enabled", True):
             bits.append("DISABLED")
+        if not e.get("visible", True):
+            bits.append("NOT VISIBLE")
         if e.get("frame_id") and e["frame_id"] != "f0":
-            bits.append(f"frame={e['frame_id']}")
-        lines.append(" ".join(bits))
+            bits.append(f"frame {e['frame_id']}")
+        lines.append("  " + " | ".join(bits))
     if len(els) > len(shown):
         lines.append(f"  ... {len(els)-len(shown)} more elements not shown")
 
