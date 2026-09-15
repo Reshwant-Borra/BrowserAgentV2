@@ -18,7 +18,7 @@ REJECTED       — do not implement without a new ADR backed by evidence
 
 | Gate | Current status | Current strongest choice | Resolution evidence required |
 |---|---|---|---|
-| Browser kernel: MCP vs direct Playwright | OPEN | Playwright MCP first candidate behind `BrowserKernel` | scripted spike covering refs, typing, tabs, frames, dialogs, profile persistence, handoff, errors, crash |
+| Browser kernel: MCP vs direct Playwright | **RESOLVED (2026-09-15)** | **Direct Playwright**, behind `BrowserKernel` | Scripted spike (`experiments/browser_kernel/`, 295 cases/candidate) covering refs, typing, tabs, frames, dialogs, profile persistence, handoff, errors, crash. Direct Playwright 285/295 (96.6%) vs MCP 275/295 (93.2%); MCP failed exact typing (40/50) deterministically due to whitespace-normalizing accessibility-snapshot value reporting — a critical-invariant failure per ADR-002. Full evidence: `experiments/browser_kernel/results/report.md`. |
 | Qwen output interface | OPEN | strict single `Decision` JSON or native Hermes tool call | frozen 100-300 observation evaluation; schema validity, action+target accuracy, latency |
 | Qwen3:8B adequacy | OPEN | use as first local model only if measured | >= target action selection on easy/medium fixtures; if not, revise action space/model |
 | Browser profile strategy | PROVISIONAL | dedicated Playwright-managed persistent profile | restart/auth tests; CDP remains later optional due documented lower fidelity |

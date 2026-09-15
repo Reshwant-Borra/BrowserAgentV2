@@ -129,8 +129,8 @@ See:
 
 ## Remaining P0 empirical work
 
-1. Run Playwright MCP vs direct Playwright BrowserKernel spike.
-2. Freeze exact runtime/browser/MCP versions after the spike.
+1. ~~Run Playwright MCP vs direct Playwright BrowserKernel spike.~~ **DONE (2026-09-15).** Direct Playwright adopted; see ADR-002 and `experiments/browser_kernel/results/report.md`.
+2. ~~Freeze exact runtime/browser/MCP versions after the spike.~~ **DONE** — versions recorded in ADR-002 and the experiment report.
 3. Build 100-300 frozen model-decision cases and compare Qwen interface modes.
 4. Determine whether zero-shot Qwen3:8B reaches action-selection threshold; if not, invoke the model-improvement path instead of adding retries.
 5. Measure exact observation invalidation rules under SPA churn, frames, tabs, dialogs and manual user action.

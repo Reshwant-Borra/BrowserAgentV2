@@ -1,8 +1,12 @@
 # Browser Runtime Research
 
-**Status:** active research
+**Status:** MCP-vs-direct-Playwright question RESOLVED 2026-09-15 (see below); rest of this document remains background research.
 
-## Current conclusion
+## Resolution (2026-09-15)
+
+The spike described below as still-to-run has been run. **Direct Playwright was adopted**, not Playwright MCP — see ADR-002 in `03_DECISIONS/ARCHITECTURE_DECISIONS.md` and the full report at `experiments/browser_kernel/results/report.md`. In short: MCP failed the exact-typing invariant deterministically (its accessibility-snapshot value reporting normalizes whitespace, which is structural, not a bug) while direct Playwright passed every critical invariant cleanly and was also 10–20x lower latency. The rest of this document is retained as background/context for why MCP was the reasonable first candidate to test — that reasoning was sound; the empirical result simply went the other way.
+
+## Original conclusion (superseded by the resolution above)
 
 The browser layer should be a replaceable `BrowserKernel` abstraction. For the two-day MVP, the first implementation to test is **Playwright MCP**, not a custom low-level browser driver. If the spike exposes a fundamental blocker, the adapter can be replaced with direct Playwright without changing the controller, state model, or model interface.
 

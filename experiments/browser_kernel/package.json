@@ -1,0 +1,26 @@
+{
+  "name": "browser-kernel-spike",
+  "version": "0.1.0",
+  "private": true,
+  "description": "P0 Experiment 1: BrowserKernel Adoption Spike (Playwright MCP vs direct Playwright)",
+  "type": "module",
+  "scripts": {
+    "fixtures": "tsx fixtures/server.ts",
+    "test:direct": "tsx tests/run_all.ts direct",
+    "test:mcp": "tsx tests/run_all.ts mcp",
+    "test:all": "tsx tests/run_all.ts both",
+    "report": "tsx scripts/build_report.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@playwright/mcp": "0.0.81",
+    "express": "4.21.2",
+    "playwright": "1.63.0"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "22.10.2",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
+  }
+}

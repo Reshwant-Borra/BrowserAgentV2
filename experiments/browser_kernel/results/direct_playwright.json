@@ -1,0 +1,2663 @@
+{
+  "candidate": "direct_playwright",
+  "generatedAt": "2026-09-15T19:08:22.524Z",
+  "totalElapsedSec": 97.1,
+  "overall": {
+    "passed": 285,
+    "total": 295
+  },
+  "latency": {
+    "medianMs": null,
+    "p95Ms": null,
+    "sampleCount": 0
+  },
+  "suites": [
+    {
+      "suite": "stable_click",
+      "candidate": "direct_playwright",
+      "passed": 50,
+      "total": 50,
+      "cases": [
+        {
+          "name": "click-0",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 39.47087499999998
+        },
+        {
+          "name": "click-1",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.738709000000085
+        },
+        {
+          "name": "click-2",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 28.193541000000096
+        },
+        {
+          "name": "click-3",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 28.191583000000037
+        },
+        {
+          "name": "click-4",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.1572910000001
+        },
+        {
+          "name": "click-5",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.825375000000008
+        },
+        {
+          "name": "click-6",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.79124999999999
+        },
+        {
+          "name": "click-7",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.62412500000005
+        },
+        {
+          "name": "click-8",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.724000000000046
+        },
+        {
+          "name": "click-9",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.723416000000043
+        },
+        {
+          "name": "click-10",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.56766700000003
+        },
+        {
+          "name": "click-11",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.15391699999998
+        },
+        {
+          "name": "click-12",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 28.213583000000085
+        },
+        {
+          "name": "click-13",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.901542000000063
+        },
+        {
+          "name": "click-14",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.773375000000215
+        },
+        {
+          "name": "click-15",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.476667000000134
+        },
+        {
+          "name": "click-16",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.57224999999994
+        },
+        {
+          "name": "click-17",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.39625000000001
+        },
+        {
+          "name": "click-18",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.866457999999966
+        },
+        {
+          "name": "click-19",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.878375000000005
+        },
+        {
+          "name": "click-20",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.54950000000008
+        },
+        {
+          "name": "click-21",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.24091700000008
+        },
+        {
+          "name": "click-22",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.43745799999988
+        },
+        {
+          "name": "click-23",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.30724999999984
+        },
+        {
+          "name": "click-24",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.186541999999918
+        },
+        {
+          "name": "click-25",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.210041000000047
+        },
+        {
+          "name": "click-26",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.300666999999976
+        },
+        {
+          "name": "click-27",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.491625000000113
+        },
+        {
+          "name": "click-28",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.39058399999999
+        },
+        {
+          "name": "click-29",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.505833000000166
+        },
+        {
+          "name": "click-30",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.61654199999998
+        },
+        {
+          "name": "click-31",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.162750000000187
+        },
+        {
+          "name": "click-32",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.488042000000178
+        },
+        {
+          "name": "click-33",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.36958299999992
+        },
+        {
+          "name": "click-34",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.97858300000007
+        },
+        {
+          "name": "click-35",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.881458000000066
+        },
+        {
+          "name": "click-36",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.513709000000063
+        },
+        {
+          "name": "click-37",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.509875000000193
+        },
+        {
+          "name": "click-38",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.301124999999956
+        },
+        {
+          "name": "click-39",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.437333000000308
+        },
+        {
+          "name": "click-40",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.197583000000122
+        },
+        {
+          "name": "click-41",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.64491599999974
+        },
+        {
+          "name": "click-42",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 28.721457999999984
+        },
+        {
+          "name": "click-43",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.898375000000215
+        },
+        {
+          "name": "click-44",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.281459000000268
+        },
+        {
+          "name": "click-45",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.310417000000143
+        },
+        {
+          "name": "click-46",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.0876659999999
+        },
+        {
+          "name": "click-47",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.42470800000001
+        },
+        {
+          "name": "click-48",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 27.043417000000318
+        },
+        {
+          "name": "click-49",
+          "passed": true,
+          "detail": {
+            "after": "clicked:0"
+          },
+          "latencyMs": 26.860791000000063
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:06:45.577Z",
+      "finishedAt": "2026-09-15T19:06:47.630Z"
+    },
+    {
+      "suite": "exact_fill",
+      "candidate": "direct_playwright",
+      "passed": 50,
+      "total": 50,
+      "cases": [
+        {
+          "name": "fill-0",
+          "passed": true,
+          "detail": {
+            "value": "hello world#0"
+          },
+          "latencyMs": 18.217916999999943
+        },
+        {
+          "name": "fill-1",
+          "passed": true,
+          "detail": {
+            "value": "The quick brown fox#1"
+          },
+          "latencyMs": 9.9409169999999
+        },
+        {
+          "name": "fill-2",
+          "passed": true,
+          "detail": {
+            "value": "user+test@example.com#2"
+          },
+          "latencyMs": 8.759874999999738
+        },
+        {
+          "name": "fill-3",
+          "passed": true,
+          "detail": {
+            "value": "  leading and trailing  #3"
+          },
+          "latencyMs": 8.474041999999827
+        },
+        {
+          "name": "fill-4",
+          "passed": true,
+          "detail": {
+            "value": "line1\ttabbed#4"
+          },
+          "latencyMs": 9.053290999999717
+        },
+        {
+          "name": "fill-5",
+          "passed": true,
+          "detail": {
+            "value": "special !@#$%^&*()_+-=[]{}#5"
+          },
+          "latencyMs": 8.540833999999904
+        },
+        {
+          "name": "fill-6",
+          "passed": true,
+          "detail": {
+            "value": "unicode: café ☃ 中文#6"
+          },
+          "latencyMs": 13.138166000000183
+        },
+        {
+          "name": "fill-7",
+          "passed": true,
+          "detail": {
+            "value": "12345#7"
+          },
+          "latencyMs": 8.424083000000337
+        },
+        {
+          "name": "fill-8",
+          "passed": true,
+          "detail": {
+            "value": "a#8"
+          },
+          "latencyMs": 8.98516699999982
+        },
+        {
+          "name": "fill-9",
+          "passed": true,
+          "detail": {
+            "value": "a rather long string to make sure nothing truncates it unexpectedly at some arbitrary boundary#9"
+          },
+          "latencyMs": 8.456375000000207
+        },
+        {
+          "name": "fill-10",
+          "passed": true,
+          "detail": {
+            "value": "hello world#10"
+          },
+          "latencyMs": 8.025000000000091
+        },
+        {
+          "name": "fill-11",
+          "passed": true,
+          "detail": {
+            "value": "The quick brown fox#11"
+          },
+          "latencyMs": 8.466541999999663
+        },
+        {
+          "name": "fill-12",
+          "passed": true,
+          "detail": {
+            "value": "user+test@example.com#12"
+          },
+          "latencyMs": 8.02429200000006
+        },
+        {
+          "name": "fill-13",
+          "passed": true,
+          "detail": {
+            "value": "  leading and trailing  #13"
+          },
+          "latencyMs": 8.653709000000163
+        },
+        {
+          "name": "fill-14",
+          "passed": true,
+          "detail": {
+            "value": "line1\ttabbed#14"
+          },
+          "latencyMs": 8.209249999999884
+        },
+        {
+          "name": "fill-15",
+          "passed": true,
+          "detail": {
+            "value": "special !@#$%^&*()_+-=[]{}#15"
+          },
+          "latencyMs": 8.249291000000085
+        },
+        {
+          "name": "fill-16",
+          "passed": true,
+          "detail": {
+            "value": "unicode: café ☃ 中文#16"
+          },
+          "latencyMs": 8.242209000000003
+        },
+        {
+          "name": "fill-17",
+          "passed": true,
+          "detail": {
+            "value": "12345#17"
+          },
+          "latencyMs": 8.224500000000262
+        },
+        {
+          "name": "fill-18",
+          "passed": true,
+          "detail": {
+            "value": "a#18"
+          },
+          "latencyMs": 8.785416999999597
+        },
+        {
+          "name": "fill-19",
+          "passed": true,
+          "detail": {
+            "value": "a rather long string to make sure nothing truncates it unexpectedly at some arbitrary boundary#19"
+          },
+          "latencyMs": 8.372833000000355
+        },
+        {
+          "name": "fill-20",
+          "passed": true,
+          "detail": {
+            "value": "hello world#20"
+          },
+          "latencyMs": 8.149915999999848
+        },
+        {
+          "name": "fill-21",
+          "passed": true,
+          "detail": {
+            "value": "The quick brown fox#21"
+          },
+          "latencyMs": 8.644249999999829
+        },
+        {
+          "name": "fill-22",
+          "passed": true,
+          "detail": {
+            "value": "user+test@example.com#22"
+          },
+          "latencyMs": 8.361333000000286
+        },
+        {
+          "name": "fill-23",
+          "passed": true,
+          "detail": {
+            "value": "  leading and trailing  #23"
+          },
+          "latencyMs": 8.33770800000002
+        },
+        {
+          "name": "fill-24",
+          "passed": true,
+          "detail": {
+            "value": "line1\ttabbed#24"
+          },
+          "latencyMs": 8.347249999999804
+        },
+        {
+          "name": "fill-25",
+          "passed": true,
+          "detail": {
+            "value": "special !@#$%^&*()_+-=[]{}#25"
+          },
+          "latencyMs": 8.335625000000164
+        },
+        {
+          "name": "fill-26",
+          "passed": true,
+          "detail": {
+            "value": "unicode: café ☃ 中文#26"
+          },
+          "latencyMs": 8.150834000000032
+        },
+        {
+          "name": "fill-27",
+          "passed": true,
+          "detail": {
+            "value": "12345#27"
+          },
+          "latencyMs": 8.356165999999575
+        },
+        {
+          "name": "fill-28",
+          "passed": true,
+          "detail": {
+            "value": "a#28"
+          },
+          "latencyMs": 8.324125000000095
+        },
+        {
+          "name": "fill-29",
+          "passed": true,
+          "detail": {
+            "value": "a rather long string to make sure nothing truncates it unexpectedly at some arbitrary boundary#29"
+          },
+          "latencyMs": 8.479125000000295
+        },
+        {
+          "name": "fill-30",
+          "passed": true,
+          "detail": {
+            "value": "hello world#30"
+          },
+          "latencyMs": 8.303292000000056
+        },
+        {
+          "name": "fill-31",
+          "passed": true,
+          "detail": {
+            "value": "The quick brown fox#31"
+          },
+          "latencyMs": 8.437125000000378
+        },
+        {
+          "name": "fill-32",
+          "passed": true,
+          "detail": {
+            "value": "user+test@example.com#32"
+          },
+          "latencyMs": 8.276459000000159
+        },
+        {
+          "name": "fill-33",
+          "passed": true,
+          "detail": {
+            "value": "  leading and trailing  #33"
+          },
+          "latencyMs": 8.421416000000136
+        },
+        {
+          "name": "fill-34",
+          "passed": true,
+          "detail": {
+            "value": "line1\ttabbed#34"
+          },
+          "latencyMs": 8.41333399999985
+        },
+        {
+          "name": "fill-35",
+          "passed": true,
+          "detail": {
+            "value": "special !@#$%^&*()_+-=[]{}#35"
+          },
+          "latencyMs": 8.58370799999966
+        },
+        {
+          "name": "fill-36",
+          "passed": true,
+          "detail": {
+            "value": "unicode: café ☃ 中文#36"
+          },
+          "latencyMs": 8.414500000000317
+        },
+        {
+          "name": "fill-37",
+          "passed": true,
+          "detail": {
+            "value": "12345#37"
+          },
+          "latencyMs": 8.655999999999949
+        },
+        {
+          "name": "fill-38",
+          "passed": true,
+          "detail": {
+            "value": "a#38"
+          },
+          "latencyMs": 8.762624999999844
+        },
+        {
+          "name": "fill-39",
+          "passed": true,
+          "detail": {
+            "value": "a rather long string to make sure nothing truncates it unexpectedly at some arbitrary boundary#39"
+          },
+          "latencyMs": 9.21716699999979
+        },
+        {
+          "name": "fill-40",
+          "passed": true,
+          "detail": {
+            "value": "hello world#40"
+          },
+          "latencyMs": 8.582334000000174
+        },
+        {
+          "name": "fill-41",
+          "passed": true,
+          "detail": {
+            "value": "The quick brown fox#41"
+          },
+          "latencyMs": 8.459792000000107
+        },
+        {
+          "name": "fill-42",
+          "passed": true,
+          "detail": {
+            "value": "user+test@example.com#42"
+          },
+          "latencyMs": 8.750749999999698
+        },
+        {
+          "name": "fill-43",
+          "passed": true,
+          "detail": {
+            "value": "  leading and trailing  #43"
+          },
+          "latencyMs": 8.677208000000064
+        },
+        {
+          "name": "fill-44",
+          "passed": true,
+          "detail": {
+            "value": "line1\ttabbed#44"
+          },
+          "latencyMs": 8.570165999999972
+        },
+        {
+          "name": "fill-45",
+          "passed": true,
+          "detail": {
+            "value": "special !@#$%^&*()_+-=[]{}#45"
+          },
+          "latencyMs": 8.963459000000057
+        },
+        {
+          "name": "fill-46",
+          "passed": true,
+          "detail": {
+            "value": "unicode: café ☃ 中文#46"
+          },
+          "latencyMs": 8.870792000000165
+        },
+        {
+          "name": "fill-47",
+          "passed": true,
+          "detail": {
+            "value": "12345#47"
+          },
+          "latencyMs": 8.626207999999679
+        },
+        {
+          "name": "fill-48",
+          "passed": true,
+          "detail": {
+            "value": "a#48"
+          },
+          "latencyMs": 8.783915999999863
+        },
+        {
+          "name": "fill-49",
+          "passed": true,
+          "detail": {
+            "value": "a rather long string to make sure nothing truncates it unexpectedly at some arbitrary boundary#49"
+          },
+          "latencyMs": 8.768541999999798
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:06:47.705Z",
+      "finishedAt": "2026-09-15T19:06:48.435Z"
+    },
+    {
+      "suite": "stale_target_rejection",
+      "candidate": "direct_playwright",
+      "passed": 30,
+      "total": 30,
+      "cases": [
+        {
+          "name": "stale-rerender-0",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-1",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-spa-2",
+          "passed": true,
+          "detail": {
+            "scenario": "spa",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-domreplace-3",
+          "passed": true,
+          "detail": {
+            "scenario": "domreplace",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-rerender-4",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-5",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-spa-6",
+          "passed": true,
+          "detail": {
+            "scenario": "spa",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-domreplace-7",
+          "passed": true,
+          "detail": {
+            "scenario": "domreplace",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-rerender-8",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-9",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-spa-10",
+          "passed": true,
+          "detail": {
+            "scenario": "spa",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-domreplace-11",
+          "passed": true,
+          "detail": {
+            "scenario": "domreplace",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-rerender-12",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-13",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-spa-14",
+          "passed": true,
+          "detail": {
+            "scenario": "spa",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-domreplace-15",
+          "passed": true,
+          "detail": {
+            "scenario": "domreplace",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-rerender-16",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-17",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-spa-18",
+          "passed": true,
+          "detail": {
+            "scenario": "spa",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-domreplace-19",
+          "passed": true,
+          "detail": {
+            "scenario": "domreplace",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-rerender-20",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-21",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-spa-22",
+          "passed": true,
+          "detail": {
+            "scenario": "spa",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-domreplace-23",
+          "passed": true,
+          "detail": {
+            "scenario": "domreplace",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-rerender-24",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-25",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-spa-26",
+          "passed": true,
+          "detail": {
+            "scenario": "spa",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-domreplace-27",
+          "passed": true,
+          "detail": {
+            "scenario": "domreplace",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-rerender-28",
+          "passed": true,
+          "detail": {
+            "scenario": "rerender",
+            "errorCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "stale-navigate-29",
+          "passed": true,
+          "detail": {
+            "scenario": "navigate",
+            "errorCode": "TARGET_STALE"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:06:48.511Z",
+      "finishedAt": "2026-09-15T19:07:03.838Z"
+    },
+    {
+      "suite": "popup_capture",
+      "candidate": "direct_playwright",
+      "passed": 20,
+      "total": 20,
+      "cases": [
+        {
+          "name": "popup-blank_link-0",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-window_open-0",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=windowopen",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-delayed_popup-0",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=delayed",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-nested_popup-0",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/e/child",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-blank_link-1",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-window_open-1",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=windowopen",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-delayed_popup-1",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=delayed",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-nested_popup-1",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/e/child",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-blank_link-2",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-window_open-2",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=windowopen",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-delayed_popup-2",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=delayed",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-nested_popup-2",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/e/child",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-blank_link-3",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-window_open-3",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=windowopen",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-delayed_popup-3",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=delayed",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-nested_popup-3",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/e/child",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-blank_link-4",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-window_open-4",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=windowopen",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-delayed_popup-4",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/a?via=delayed",
+            "owner": "AGENT"
+          }
+        },
+        {
+          "name": "popup-nested_popup-4",
+          "passed": true,
+          "detail": {
+            "popupUrl": "http://localhost:4173/fixtures/e/child",
+            "owner": "AGENT"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:07:03.928Z",
+      "finishedAt": "2026-09-15T19:07:09.206Z"
+    },
+    {
+      "suite": "page_ownership",
+      "candidate": "direct_playwright",
+      "passed": 20,
+      "total": 20,
+      "cases": [
+        {
+          "name": "initial-pages-not-agent",
+          "passed": true,
+          "detail": {
+            "count": 1
+          }
+        },
+        {
+          "name": "newpage-agent-0",
+          "passed": true,
+          "detail": {
+            "pageId": "page-1-0f93cf"
+          }
+        },
+        {
+          "name": "newpage-agent-1",
+          "passed": true,
+          "detail": {
+            "pageId": "page-2-e58d64"
+          }
+        },
+        {
+          "name": "newpage-agent-2",
+          "passed": true,
+          "detail": {
+            "pageId": "page-3-dce4c7"
+          }
+        },
+        {
+          "name": "newpage-agent-3",
+          "passed": true,
+          "detail": {
+            "pageId": "page-4-8c32fe"
+          }
+        },
+        {
+          "name": "newpage-agent-4",
+          "passed": true,
+          "detail": {
+            "pageId": "page-5-487352"
+          }
+        },
+        {
+          "name": "agent-popup-agent-0",
+          "passed": true,
+          "detail": {
+            "pageId": "page-7-0deba1"
+          }
+        },
+        {
+          "name": "agent-popup-agent-1",
+          "passed": true,
+          "detail": {
+            "pageId": "page-8-d772ac"
+          }
+        },
+        {
+          "name": "agent-popup-agent-2",
+          "passed": true,
+          "detail": {
+            "pageId": "page-9-45d2b2"
+          }
+        },
+        {
+          "name": "agent-popup-agent-3",
+          "passed": true,
+          "detail": {
+            "pageId": "page-10-c3ee8e"
+          }
+        },
+        {
+          "name": "agent-popup-agent-4",
+          "passed": true,
+          "detail": {
+            "pageId": "page-11-7edba2"
+          }
+        },
+        {
+          "name": "external-tab-not-agent-0",
+          "passed": true,
+          "detail": {
+            "pageId": "page-12-5c4355",
+            "owner": "UNKNOWN"
+          }
+        },
+        {
+          "name": "external-tab-not-agent-1",
+          "passed": true,
+          "detail": {
+            "pageId": "page-13-e23253",
+            "owner": "UNKNOWN"
+          }
+        },
+        {
+          "name": "external-tab-not-agent-2",
+          "passed": true,
+          "detail": {
+            "pageId": "page-14-109460",
+            "owner": "UNKNOWN"
+          }
+        },
+        {
+          "name": "external-tab-not-agent-3",
+          "passed": true,
+          "detail": {
+            "pageId": "page-15-94ca6b",
+            "owner": "UNKNOWN"
+          }
+        },
+        {
+          "name": "external-tab-not-agent-4",
+          "passed": true,
+          "detail": {
+            "pageId": "page-16-c4a560",
+            "owner": "UNKNOWN"
+          }
+        },
+        {
+          "name": "close-refuses-non-agent-0",
+          "passed": true,
+          "detail": {
+            "targetPageId": "page-0-91bfc2"
+          }
+        },
+        {
+          "name": "close-refuses-non-agent-1",
+          "passed": true,
+          "detail": {
+            "targetPageId": "page-0-91bfc2"
+          }
+        },
+        {
+          "name": "close-succeeds-agent-0",
+          "passed": true,
+          "detail": {
+            "pageId": "page-17-0974e1"
+          }
+        },
+        {
+          "name": "close-succeeds-agent-1",
+          "passed": true,
+          "detail": {
+            "pageId": "page-18-456978"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:07:09.295Z",
+      "finishedAt": "2026-09-15T19:07:19.034Z"
+    },
+    {
+      "suite": "frame_targeting",
+      "candidate": "direct_playwright",
+      "passed": 20,
+      "total": 20,
+      "cases": [
+        {
+          "name": "frame-a-0",
+          "passed": true,
+          "detail": {
+            "value": "frameA-0",
+            "framePath": [
+              "main",
+              "iframe:frame1"
+            ]
+          }
+        },
+        {
+          "name": "frame-a-1",
+          "passed": true,
+          "detail": {
+            "value": "frameA-1",
+            "framePath": [
+              "main",
+              "iframe:frame1"
+            ]
+          }
+        },
+        {
+          "name": "frame-a-2",
+          "passed": true,
+          "detail": {
+            "value": "frameA-2",
+            "framePath": [
+              "main",
+              "iframe:frame1"
+            ]
+          }
+        },
+        {
+          "name": "frame-a-3",
+          "passed": true,
+          "detail": {
+            "value": "frameA-3",
+            "framePath": [
+              "main",
+              "iframe:frame1"
+            ]
+          }
+        },
+        {
+          "name": "frame-a-4",
+          "passed": true,
+          "detail": {
+            "value": "frameA-4",
+            "framePath": [
+              "main",
+              "iframe:frame1"
+            ]
+          }
+        },
+        {
+          "name": "frame-a-5",
+          "passed": true,
+          "detail": {
+            "value": "frameA-5",
+            "framePath": [
+              "main",
+              "iframe:frame1"
+            ]
+          }
+        },
+        {
+          "name": "frame-nested-0",
+          "passed": true,
+          "detail": {
+            "value": "nested-0",
+            "framePath": [
+              "main",
+              "iframe:frame-nested-outer",
+              "iframe:frame-nested-inner"
+            ]
+          }
+        },
+        {
+          "name": "frame-nested-1",
+          "passed": true,
+          "detail": {
+            "value": "nested-1",
+            "framePath": [
+              "main",
+              "iframe:frame-nested-outer",
+              "iframe:frame-nested-inner"
+            ]
+          }
+        },
+        {
+          "name": "frame-nested-2",
+          "passed": true,
+          "detail": {
+            "value": "nested-2",
+            "framePath": [
+              "main",
+              "iframe:frame-nested-outer",
+              "iframe:frame-nested-inner"
+            ]
+          }
+        },
+        {
+          "name": "frame-nested-3",
+          "passed": true,
+          "detail": {
+            "value": "nested-3",
+            "framePath": [
+              "main",
+              "iframe:frame-nested-outer",
+              "iframe:frame-nested-inner"
+            ]
+          }
+        },
+        {
+          "name": "frame-nested-4",
+          "passed": true,
+          "detail": {
+            "value": "nested-4",
+            "framePath": [
+              "main",
+              "iframe:frame-nested-outer",
+              "iframe:frame-nested-inner"
+            ]
+          }
+        },
+        {
+          "name": "frame-nested-5",
+          "passed": true,
+          "detail": {
+            "value": "nested-5",
+            "framePath": [
+              "main",
+              "iframe:frame-nested-outer",
+              "iframe:frame-nested-inner"
+            ]
+          }
+        },
+        {
+          "name": "frame-sibling-no-crosstalk-0",
+          "passed": true,
+          "detail": {
+            "targetFrame": [
+              "main",
+              "iframe:frame1"
+            ],
+            "siblingFrame": [
+              "main",
+              "iframe:frame-nested-outer"
+            ]
+          }
+        },
+        {
+          "name": "frame-sibling-no-crosstalk-1",
+          "passed": true,
+          "detail": {
+            "targetFrame": [
+              "main",
+              "iframe:frame1"
+            ],
+            "siblingFrame": [
+              "main",
+              "iframe:frame-nested-outer"
+            ]
+          }
+        },
+        {
+          "name": "frame-sibling-no-crosstalk-2",
+          "passed": true,
+          "detail": {
+            "targetFrame": [
+              "main",
+              "iframe:frame1"
+            ],
+            "siblingFrame": [
+              "main",
+              "iframe:frame-nested-outer"
+            ]
+          }
+        },
+        {
+          "name": "frame-sibling-no-crosstalk-3",
+          "passed": true,
+          "detail": {
+            "targetFrame": [
+              "main",
+              "iframe:frame1"
+            ],
+            "siblingFrame": [
+              "main",
+              "iframe:frame-nested-outer"
+            ]
+          }
+        },
+        {
+          "name": "frame-replace-stale-0",
+          "passed": true,
+          "detail": {
+            "code": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "frame-replace-stale-1",
+          "passed": true,
+          "detail": {
+            "code": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "frame-replace-stale-2",
+          "passed": true,
+          "detail": {
+            "code": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "frame-replace-stale-3",
+          "passed": true,
+          "detail": {
+            "code": "TARGET_STALE"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:07:19.117Z",
+      "finishedAt": "2026-09-15T19:07:22.182Z"
+    },
+    {
+      "suite": "react_controlled_typing",
+      "candidate": "direct_playwright",
+      "passed": 10,
+      "total": 20,
+      "cases": [
+        {
+          "name": "react-fill-0",
+          "passed": true,
+          "detail": {
+            "value": "fillval-0-"
+          }
+        },
+        {
+          "name": "react-fill-1",
+          "passed": true,
+          "detail": {
+            "value": "fillval-1-x"
+          }
+        },
+        {
+          "name": "react-fill-2",
+          "passed": true,
+          "detail": {
+            "value": "fillval-2-xx"
+          }
+        },
+        {
+          "name": "react-fill-3",
+          "passed": true,
+          "detail": {
+            "value": "fillval-3-xxx"
+          }
+        },
+        {
+          "name": "react-fill-4",
+          "passed": true,
+          "detail": {
+            "value": "fillval-4-xxxx"
+          }
+        },
+        {
+          "name": "react-fill-5",
+          "passed": true,
+          "detail": {
+            "value": "fillval-5-"
+          }
+        },
+        {
+          "name": "react-fill-6",
+          "passed": true,
+          "detail": {
+            "value": "fillval-6-x"
+          }
+        },
+        {
+          "name": "react-fill-7",
+          "passed": true,
+          "detail": {
+            "value": "fillval-7-xx"
+          }
+        },
+        {
+          "name": "react-fill-8",
+          "passed": true,
+          "detail": {
+            "value": "fillval-8-xxx"
+          }
+        },
+        {
+          "name": "react-fill-9",
+          "passed": true,
+          "detail": {
+            "value": "fillval-9-xxxx"
+          }
+        },
+        {
+          "name": "react-typeSequential-0",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq0abc\", got \"s\"",
+          "detail": {
+            "value": "seq0abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-1",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq1abc\", got \"s\"",
+          "detail": {
+            "value": "seq1abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-2",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq2abc\", got \"s\"",
+          "detail": {
+            "value": "seq2abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-3",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq3abc\", got \"s\"",
+          "detail": {
+            "value": "seq3abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-4",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq4abc\", got \"s\"",
+          "detail": {
+            "value": "seq4abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-5",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq5abc\", got \"s\"",
+          "detail": {
+            "value": "seq5abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-6",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq6abc\", got \"s\"",
+          "detail": {
+            "value": "seq6abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-7",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq7abc\", got \"s\"",
+          "detail": {
+            "value": "seq7abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-8",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq8abc\", got \"s\"",
+          "detail": {
+            "value": "seq8abc",
+            "method": "typeSequential"
+          }
+        },
+        {
+          "name": "react-typeSequential-9",
+          "passed": false,
+          "errorMessage": "typeSequential lost/garbled value across per-keystroke re-render: expected \"seq9abc\", got \"s\"",
+          "detail": {
+            "value": "seq9abc",
+            "method": "typeSequential"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:07:22.276Z",
+      "finishedAt": "2026-09-15T19:07:32.342Z"
+    },
+    {
+      "suite": "delayed_hydration",
+      "candidate": "direct_playwright",
+      "passed": 20,
+      "total": 20,
+      "cases": [
+        {
+          "name": "hydration-wait-then-fill-0",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-0"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-1",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-1"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-2",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-2"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-3",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-3"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-4",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-4"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-5",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-5"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-6",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-6"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-7",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-7"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-8",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-8"
+          }
+        },
+        {
+          "name": "hydration-wait-then-fill-9",
+          "passed": true,
+          "detail": {
+            "value": "posthydrate-9"
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-0",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-1",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-2",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-3",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-4",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-5",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-6",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-7",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-8",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        },
+        {
+          "name": "hydration-fill-before-ready-9",
+          "passed": true,
+          "detail": {
+            "immediateMismatch": false,
+            "finalValue": ""
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:07:32.449Z",
+      "finishedAt": "2026-09-15T19:07:58.193Z"
+    },
+    {
+      "suite": "dialog_handling",
+      "candidate": "direct_playwright",
+      "passed": 30,
+      "total": 30,
+      "cases": [
+        {
+          "name": "dialog-alert-0",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-1",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-2",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-3",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-4",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-5",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-6",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-7",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-8",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-alert-9",
+          "passed": true,
+          "detail": {
+            "dialog": {
+              "kind": "alert",
+              "message": "Hello from alert",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-0",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-1",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-2",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-3",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-4",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-5",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-6",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-7",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-8",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-confirm-9",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "confirm",
+              "message": "Are you sure?",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-0",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-1",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-2",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-3",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-4",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-5",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-6",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-7",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-8",
+          "passed": true,
+          "detail": {
+            "accept": true,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        },
+        {
+          "name": "dialog-prompt-9",
+          "passed": true,
+          "detail": {
+            "accept": false,
+            "dialog": {
+              "kind": "prompt",
+              "message": "Enter value",
+              "pageId": "page-1-3dd288"
+            }
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:07:58.305Z",
+      "finishedAt": "2026-09-15T19:07:59.675Z"
+    },
+    {
+      "suite": "downloads",
+      "candidate": "direct_playwright",
+      "passed": 10,
+      "total": 10,
+      "cases": [
+        {
+          "name": "download-report-0",
+          "passed": true,
+          "detail": {
+            "path": "/var/folders/2r/84f7ltfs18n1t6l6msl1rsth0000gn/T/bk-direct_playwright-suite-g7crFI/downloads/52369732-report.txt"
+          },
+          "latencyMs": 38.630667000004905
+        },
+        {
+          "name": "download-report-1",
+          "passed": true,
+          "detail": {
+            "path": "/var/folders/2r/84f7ltfs18n1t6l6msl1rsth0000gn/T/bk-direct_playwright-suite-g7crFI/downloads/176add5b-report.txt"
+          },
+          "latencyMs": 35.80604199999652
+        },
+        {
+          "name": "download-report-2",
+          "passed": true,
+          "detail": {
+            "path": "/var/folders/2r/84f7ltfs18n1t6l6msl1rsth0000gn/T/bk-direct_playwright-suite-g7crFI/downloads/d5f87126-report.txt"
+          },
+          "latencyMs": 35.747750000009546
+        },
+        {
+          "name": "download-report-3",
+          "passed": true,
+          "detail": {
+            "path": "/var/folders/2r/84f7ltfs18n1t6l6msl1rsth0000gn/T/bk-direct_playwright-suite-g7crFI/downloads/cb01f72e-report.txt"
+          },
+          "latencyMs": 36.12908400000015
+        },
+        {
+          "name": "download-slow-0",
+          "passed": true,
+          "detail": {
+            "path": "/var/folders/2r/84f7ltfs18n1t6l6msl1rsth0000gn/T/bk-direct_playwright-suite-g7crFI/downloads/83000a92-slow.bin"
+          },
+          "latencyMs": 445.89966700000514
+        },
+        {
+          "name": "download-slow-1",
+          "passed": true,
+          "detail": {
+            "path": "/var/folders/2r/84f7ltfs18n1t6l6msl1rsth0000gn/T/bk-direct_playwright-suite-g7crFI/downloads/3ca33b6a-slow.bin"
+          },
+          "latencyMs": 462.13445800000045
+        },
+        {
+          "name": "download-slow-2",
+          "passed": true,
+          "detail": {
+            "path": "/var/folders/2r/84f7ltfs18n1t6l6msl1rsth0000gn/T/bk-direct_playwright-suite-g7crFI/downloads/63c43ba4-slow.bin"
+          },
+          "latencyMs": 461.6575419999863
+        },
+        {
+          "name": "download-fail-0",
+          "passed": true,
+          "detail": {
+            "code": "DOWNLOAD_FAILED"
+          }
+        },
+        {
+          "name": "download-fail-1",
+          "passed": true,
+          "detail": {
+            "code": "DOWNLOAD_FAILED"
+          }
+        },
+        {
+          "name": "download-fail-2",
+          "passed": true,
+          "detail": {
+            "code": "DOWNLOAD_FAILED"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:07:59.748Z",
+      "finishedAt": "2026-09-15T19:08:02.475Z"
+    },
+    {
+      "suite": "human_handoff_resume",
+      "candidate": "direct_playwright",
+      "passed": 5,
+      "total": 5,
+      "cases": [
+        {
+          "name": "handoff-popup-0",
+          "passed": true,
+          "detail": {
+            "withPopup": true,
+            "staleCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "handoff-dom-replace-1",
+          "passed": true,
+          "detail": {
+            "withPopup": false,
+            "staleCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "handoff-popup-2",
+          "passed": true,
+          "detail": {
+            "withPopup": true,
+            "staleCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "handoff-dom-replace-3",
+          "passed": true,
+          "detail": {
+            "withPopup": false,
+            "staleCode": "TARGET_STALE"
+          }
+        },
+        {
+          "name": "handoff-popup-4",
+          "passed": true,
+          "detail": {
+            "withPopup": true,
+            "staleCode": "TARGET_STALE"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:08:02.583Z",
+      "finishedAt": "2026-09-15T19:08:05.421Z"
+    },
+    {
+      "suite": "persistent_profile_restart",
+      "candidate": "direct_playwright",
+      "passed": 10,
+      "total": 10,
+      "cases": [
+        {
+          "name": "persistence-0",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-1",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-2",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-3",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-4",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-5",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-6",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-7",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-8",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        },
+        {
+          "name": "persistence-9",
+          "passed": true,
+          "detail": {
+            "cookieAfter": "abc123",
+            "localAfter": "xyz789"
+          }
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:08:05.442Z",
+      "finishedAt": "2026-09-15T19:08:07.485Z"
+    },
+    {
+      "suite": "crash_reconnect",
+      "candidate": "direct_playwright",
+      "passed": 10,
+      "total": 10,
+      "cases": [
+        {
+          "name": "crash-reconnect-0",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 460.54716700001154
+          },
+          "latencyMs": 460.54716700001154
+        },
+        {
+          "name": "crash-reconnect-1",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 443.48450000000594
+          },
+          "latencyMs": 443.48450000000594
+        },
+        {
+          "name": "crash-reconnect-2",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 441.3857500000013
+          },
+          "latencyMs": 441.3857500000013
+        },
+        {
+          "name": "crash-reconnect-3",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 439.8072089999914
+          },
+          "latencyMs": 439.8072089999914
+        },
+        {
+          "name": "crash-reconnect-4",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 436.6470830000035
+          },
+          "latencyMs": 436.6470830000035
+        },
+        {
+          "name": "crash-reconnect-5",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 438.7381250000035
+          },
+          "latencyMs": 438.7381250000035
+        },
+        {
+          "name": "crash-reconnect-6",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 437.82016699999804
+          },
+          "latencyMs": 437.82016699999804
+        },
+        {
+          "name": "crash-reconnect-7",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 445.7448330000043
+          },
+          "latencyMs": 445.7448330000043
+        },
+        {
+          "name": "crash-reconnect-8",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 444.0493750000023
+          },
+          "latencyMs": 444.0493750000023
+        },
+        {
+          "name": "crash-reconnect-9",
+          "passed": true,
+          "detail": {
+            "reconnectLatencyMs": 442.0355830000044
+          },
+          "latencyMs": 442.0355830000044
+        }
+      ],
+      "latenciesMs": [],
+      "startedAt": "2026-09-15T19:08:07.485Z",
+      "finishedAt": "2026-09-15T19:08:22.523Z"
+    }
+  ]
+}
