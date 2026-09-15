@@ -1,79 +1,427 @@
-# Research Sources
+# BrowserAgentV2 Research Sources
 
-This file tracks primary sources used to shape the BrowserAgentV2 research documents. Prefer original project documentation, source repositories, and papers over secondary summaries.
+**Snapshot:** 2026-09-15
 
-## Playwright / Playwright MCP
+This ledger tracks primary sources used to shape BrowserAgentV2. Prefer original papers, official documentation, source repositories, and benchmark maintainers over secondary summaries.
 
-- Playwright actionability: https://playwright.dev/docs/actionability
-- Playwright locators: https://playwright.dev/docs/locators
-- Playwright authentication/state: https://playwright.dev/docs/auth
-- Playwright MCP snapshots: https://playwright.dev/mcp/snapshots
-- Playwright MCP profile/state: https://playwright.dev/mcp/configuration/user-profile
+## Source-quality rules
 
-Key findings used:
+1. Prefer official/current primary sources.
+2. Record version/date when behavior is version-sensitive.
+3. Distinguish documented behavior from our architectural inference.
+4. Turn important claims into BrowserAgentV2 tests whenever possible.
+5. If documentation conflicts with reproducible live behavior, preserve the experiment and document the discrepancy.
+6. A benchmark score supports feasibility/comparison; it does not prove production reliability on arbitrary websites.
 
-- browser actions should rely on locator/actionability semantics rather than arbitrary sleeps;
-- MCP exposes accessibility snapshots with interaction refs;
-- persistent profiles can retain cookies/login state;
-- browser/profile lifecycle and stale targets need explicit ownership.
+---
 
-## Browser Use
+# Web-agent research papers and benchmarks
 
-- Main repository: https://github.com/browser-use/browser-use
-- DOM service: https://github.com/browser-use/browser-use/blob/main/browser_use/dom/service.py
+## Mind2Web — Towards a Generalist Agent for the Web
 
-Key finding used: modern grounding can combine accessibility trees, DOM/CDP information, frames, visibility/layout, and selected metadata instead of forcing the model to consume raw HTML.
+- Paper: https://arxiv.org/abs/2306.06070
+- Repository: https://github.com/OSU-NLP-Group/Mind2Web
 
-## Stagehand
+Findings used:
+- 2,000+ tasks across 137 websites and 31 domains establish broad web-task diversity;
+- raw HTML from real sites is often too large for an LLM;
+- candidate-element filtering improves efficiency/effectiveness;
+- cross-website/domain generalization is substantially harder than seen-site performance.
 
-- Main repository: https://github.com/browserbase/stagehand
-- Python SDK README: https://github.com/browserbase/stagehand/blob/main/packages/sdk-python/README.md
-- Documentation: https://github.com/browserbase/stagehand/tree/main/packages/docs
+BrowserAgentV2 implication: compact/retrieved semantic observation rather than raw page dumps.
 
-Key finding used: AI-powered observation/discovery can coexist with deterministic locator execution; repeatable workflows should trend toward determinism rather than permanently relying on natural-language actions.
+## WebArena
+
+- Paper: https://arxiv.org/abs/2307.13854
+- Project/repository: https://webarena.dev/ and https://github.com/web-arena-x/webarena
+
+Findings used:
+- realistic, reproducible, long-horizon web tasks are much harder than toy browsing;
+- reported GPT-4 baseline task success was 14.41% compared with 78.24% human performance in the original paper.
+
+Implication: end-to-end success must be measured independently from primitive success; one good demo has little evidentiary value.
+
+## WebArena-Verified
+
+- Repository: https://github.com/ServiceNow/webarena-verified
+
+Findings used:
+- audited tasks and deterministic scoring help reduce benchmark ambiguity;
+- useful as a later external regression target once internal controlled tasks are stable.
+
+## SeeAct — GPT-4V is a Generalist Web Agent, if Grounded
+
+- Paper: https://arxiv.org/abs/2401.01614
+- Repository: https://github.com/OSU-NLP-Group/SeeAct
+
+Findings used:
+- manual grounding substantially improves task completion relative to automatic grounding;
+- grounding is a separable bottleneck from high-level planning/reasoning;
+- combining textual/HTML and visual information can improve grounding.
+
+Implication: target grounding receives a dedicated deterministic contract/test layer; vision is a fallback, not assumed default.
+
+## WebVoyager
+
+- ACL 2024 paper: https://aclanthology.org/2024.acl-long.371/
+- Repository: https://github.com/MinorJerry/WebVoyager
+
+Findings used:
+- demonstrates useful end-to-end multimodal operation on real websites;
+- supports keeping a future screenshot/vision fallback for controls not represented semantically.
 
 ## Agent-E
 
 - Paper: https://arxiv.org/abs/2407.13032
 - Repository: https://github.com/EmergenceAI/Agent-E
 
-Key findings used: hierarchical task reasoning and observing changes after actions can reduce context bloat and improve control-loop clarity.
+Findings used:
+- hierarchical task reasoning;
+- DOM distillation/denoising;
+- observing changes after actions;
+- reported improvements over previous methods on WebVoyager categories.
+
+Implication: coarse plan/subgoal state + one immediate action; change summaries instead of repeated whole-history prompts.
+
+## AgentOccam
+
+- ICLR 2025 project/repository: https://github.com/amazon-science/AgentOccam
+
+Findings used:
+- comparatively simple observation/action-space alignment can produce a strong web-agent baseline;
+- more reflection/multi-agent machinery is not automatically better.
+
+Implication: BrowserAgentV2 defaults to one controller and one model rather than a planner/executor/verifier agent team.
+
+## WebLINX
+
+- ICML 2024 paper: https://proceedings.mlr.press/v235/lu24e.html
+- Repository: https://github.com/McGill-NLP/weblinx
+
+Findings used:
+- 100K interactions over 150+ websites;
+- real page context requires retrieval/pruning for practical processing;
+- smaller fine-tuned models can be competitive on appropriate distributions;
+- unseen-site generalization remains difficult.
+
+Implication: context retrieval is a required architecture concern; local-model generalization must be measured rather than assumed.
 
 ## BrowserGym / AgentLab
 
 - BrowserGym: https://github.com/ServiceNow/BrowserGym
 - AgentLab: https://github.com/ServiceNow/AgentLab
+- Ecosystem paper: https://arxiv.org/abs/2412.05467
 
-Key finding used: observation/action standardization, reproducible traces, and benchmark infrastructure should be designed alongside the agent rather than added later.
+Findings used:
+- standardized observation/action spaces;
+- reproducible trajectories/traces and benchmark infrastructure;
+- systematic experiment harnesses are part of agent research, not an afterthought.
 
-## Web-agent benchmarks
+Implication: BrowserAgentV2 testing/trace schema is designed alongside the runtime.
 
-- WebArena paper: https://arxiv.org/abs/2307.13854
-- Online-Mind2Web: https://github.com/OSU-NLP-Group/Online-Mind2Web
-- WorkArena: https://github.com/ServiceNow/WorkArena
-- BrowserGym benchmark ecosystem: https://github.com/ServiceNow/BrowserGym
+## WorkArena / WorkArena++
 
-Key findings used: live websites drift; authentication, tabs, forms, long-horizon composition, and recovery materially affect real task reliability; benchmark validity must be tracked over time.
+- WorkArena repository: https://github.com/ServiceNow/WorkArena
+- WorkArena++ paper: https://arxiv.org/abs/2407.05291
 
-## Qwen
+Findings used:
+- compositional knowledge-work tasks expose weaknesses in planning, retrieval, contextual understanding, arithmetic and memory;
+- real workflows require more than individual clicks.
 
-- Qwen3 repository: https://github.com/QwenLM/Qwen3
-- Function-calling documentation: https://github.com/QwenLM/Qwen3/blob/main/docs/source/framework/function_call.md
+Implication: explicit PlanState/subgoals and structured facts are necessary for complex tasks.
 
-Key findings used: browser action output should use native tools/function calling or strict structured output rather than fragile free-form ReAct parsing; local-model context/action surfaces should remain compact.
+## AssistantBench
 
-## Security / prompt injection
+- Paper: https://arxiv.org/abs/2407.15711
+- Project: https://assistantbench.github.io/
 
-- ServiceNow DoomArena: https://github.com/ServiceNow/DoomArena
-- WASP-related paper reference used in research: https://arxiv.org/abs/2504.18575
-- OpenAI prompt-injection overview used for layered-defense framing: https://openai.com/safety/prompt-injections/
+Findings used:
+- realistic information-seeking/assistant tasks remain difficult for web agents;
+- planning and memory improve performance on long, time-consuming tasks.
 
-Key findings used: webpage content is untrusted input; capability minimization, explicit authority boundaries, confirmations, and secret isolation are architectural requirements rather than prompt-only mitigations.
+Implication: long research is a dedicated controller mode with evidence gaps/completeness rather than an oversized normal prompt.
 
-## Source-quality rules for future research
+## WebChoreArena
 
-1. Prefer official docs/current source repositories.
-2. Record version/date when a behavior is version-sensitive.
-3. Distinguish documented behavior from our architectural inference.
-4. Convert important claims into a test whenever possible.
-5. If a source conflicts with live behavior, trust the reproducible experiment and document the discrepancy.
+- Paper: https://arxiv.org/abs/2506.01952
+- Repository/project: https://github.com/facebookresearch/WebChoreArena (when available/current; verify repo before implementation use)
+
+Findings used:
+- long tasks stress observation memory, calculation and long-term memory;
+- strong frontier models still have substantial room to improve.
+
+Implication: 100+ page research should use structured external state and deterministic calculation rather than prompt accumulation.
+
+## Online-Mind2Web
+
+- Repository: https://github.com/OSU-NLP-Group/Online-Mind2Web
+
+Findings used:
+- live website tasks require ongoing maintenance;
+- tasks can become invalid and CAPTCHAs/site changes alter evaluation;
+- live-web success must distinguish agent failure from task/site invalidity.
+
+Implication: internal controlled fixtures + separately classified live canaries.
+
+## WebBench
+
+- Research/project references: verify latest official paper/repository before implementing benchmark integration.
+
+Finding used:
+- live web tasks emphasize authentication, forms, downloads, 2FA and changing sites.
+
+Implication: these are first-class runtime/handoff cases, not edge-case cleanup after MVP.
+
+---
+
+# Open/local model evidence
+
+## Qwen3
+
+- Repository: https://github.com/QwenLM/Qwen3
+- Function calling documentation: https://github.com/QwenLM/Qwen3/blob/main/docs/source/framework/function_call.md
+
+Findings used:
+- tool/function calling is supported;
+- Hermes-style tool interfaces are preferred in relevant deployments;
+- stopword-based free-form ReAct parsing is explicitly problematic for reasoning models;
+- thinking/non-thinking modes can be evaluated separately.
+
+Implication: compare native tool calling vs one strict structured `Decision` schema; no regex/free-form action parsing.
+
+## Ollama structured outputs
+
+- Documentation: https://docs.ollama.com/capabilities/structured-outputs
+- Blog/reference: https://ollama.com/blog/structured-outputs
+
+Findings used:
+- JSON Schema constrained outputs are supported;
+- Pydantic/typed validation is practical;
+- low/zero temperature can improve determinism for extraction/structured decisions.
+
+Implication: strict model-output contract is practical locally.
+
+## WebRL
+
+- Paper: https://arxiv.org/abs/2411.02337
+- Repository: https://github.com/THUDM/WebRL (verify current canonical repository before training work)
+
+Findings used:
+- web-specific reinforcement learning can dramatically improve open 8–9B-class models;
+- reported WebArena-Lite improvements demonstrate that small/open web agents are trainable, but zero-shot competence should not be assumed.
+
+Implication: Qwen3:8B has an explicit evaluation gate and a later fine-tuning/RL upgrade path.
+
+## AgentTrek
+
+- ICLR 2025 research direction/repository: locate/verify canonical current repository before implementation.
+
+Finding used:
+- synthesizing/collecting web-agent trajectories is a plausible route to model improvement.
+
+Implication: BrowserAgentV2 traces should be structured enough that successful/failed trajectories can later become training data.
+
+---
+
+# Playwright / browser runtime
+
+## Playwright actionability
+
+- https://playwright.dev/docs/actionability
+
+Findings used:
+- locator actions auto-wait for conditions such as visibility, stability, event reception and enabled/editable state;
+- deterministic browser mechanics should use these semantics instead of arbitrary sleeps.
+
+## Playwright locators
+
+- https://playwright.dev/docs/locators
+
+Findings used:
+- role/label/text-oriented locators are generally preferred over brittle DOM paths;
+- locators are re-resolved rather than storing long-lived element handles.
+
+## Playwright authentication
+
+- https://playwright.dev/docs/auth
+
+Findings used:
+- persisted authentication state can contain sensitive cookies/headers capable of impersonating a user;
+- auth/profile artifacts must remain outside git/model context.
+
+## Playwright pages/popups
+
+- https://playwright.dev/python/docs/pages
+
+Findings used:
+- multiple pages/popups are first-class context events;
+- page registry can capture new pages deterministically rather than relying on tab-order guessing.
+
+## Playwright frames
+
+- https://playwright.dev/docs/frames
+
+Findings used:
+- frame scope should be explicit in target identity;
+- frame locators are required for nested content.
+
+## Playwright dialogs
+
+- https://playwright.dev/python/docs/dialogs
+
+Findings used:
+- modal dialogs can block browser execution;
+- dialogs need explicit runtime state/handling rather than generic click retries.
+
+## Playwright downloads
+
+- https://playwright.dev/python/docs/downloads
+
+Findings used:
+- downloads are temporary and are removed when browser context closes unless explicitly saved;
+- artifact persistence is a BrowserAgent responsibility.
+
+## Playwright CDP attachment
+
+- https://playwright.dev/python/docs/api/class-browsertype#browser-type-connect-over-cdp
+
+Critical finding:
+- Playwright documents `connect_over_cdp()` as **significantly lower fidelity** than the Playwright protocol;
+- it is Chromium-only and advanced behavior may be affected by how the browser was launched.
+
+Implication: existing/daily-driver Chrome attachment is not the MVP default; use a dedicated Playwright-managed persistent profile first.
+
+---
+
+# Playwright MCP
+
+## Introduction/tooling
+
+- https://playwright.dev/mcp/introduction
+- https://playwright.dev/mcp/snapshots
+- https://playwright.dev/mcp/tools/forms
+- https://playwright.dev/mcp/tools/tabs
+- https://playwright.dev/mcp/tools/dialogs
+- https://playwright.dev/mcp/tools/files
+
+Findings used:
+- structured accessibility snapshots with interaction refs;
+- refs are snapshot-scoped/stale refs fail rather than silently retargeting;
+- fresh state follows actions;
+- tabs/dialogs/forms/files are exposed as tools;
+- frame-qualified refs can be represented;
+- find/subtree operations can reduce page context.
+
+Implication: Playwright MCP is the first BrowserKernel candidate, tested behind an adapter.
+
+Security note:
+- MCP convenience origin/file controls are useful guardrails but are not treated as the only security boundary;
+- BrowserAgentV2 still applies its own PolicyEngine and constrained action schema.
+
+Unsafe capabilities such as arbitrary browser code/evaluate are not exposed to the model in the MVP.
+
+---
+
+# Browser-agent implementation references
+
+## Browser Use
+
+- Repository: https://github.com/browser-use/browser-use
+
+Finding used:
+- modern browser grounding can combine accessibility, DOM/CDP, frames, visibility/layout and metadata rather than raw HTML alone.
+
+## Stagehand
+
+- Repository: https://github.com/browserbase/stagehand
+- Docs: https://docs.stagehand.dev/ (verify current canonical docs at implementation time)
+
+Finding used:
+- AI observation/discovery can coexist with deterministic action execution/replay;
+- repeated successful workflows can trend toward determinism later.
+
+Implication: progressive deterministic caching is a later optimization, not an MVP dependency.
+
+---
+
+# Security and indirect prompt injection
+
+## AgentDojo
+
+- Paper: https://arxiv.org/abs/2406.13352
+
+Findings used:
+- tool-using agents need both utility and security evaluation;
+- indirect prompt injection is a concrete agent/tool threat, not a hypothetical prompt problem.
+
+## InjecAgent
+
+- ACL Findings paper: https://aclanthology.org/2024.findings-acl.624/
+- arXiv: https://arxiv.org/abs/2403.02691
+
+Findings used:
+- tool-integrated agents are vulnerable to injected external instructions;
+- stronger attacks materially increase success rates.
+
+## BIPIA
+
+- Paper: https://arxiv.org/abs/2312.14197
+
+Findings used:
+- LLMs often fail to distinguish trusted instructions from untrusted external content;
+- boundary/reminder defenses help but do not establish complete security.
+
+## OpenAI prompt-injection overview
+
+- https://openai.com/safety/prompt-injections/
+
+Finding used:
+- layered defense, least privilege, and architecture-level boundaries are preferable to prompt-only mitigation.
+
+BrowserAgentV2 implication across all security sources:
+- webpage content cannot authorize new capabilities;
+- action policy exists outside the model;
+- secrets/filesystem are minimized;
+- consequential actions and unexpected cross-origin disclosure are gated;
+- security requires adversarial fixtures and cannot be declared "solved" by one benchmark.
+
+---
+
+# BrowserAgent old repository evidence
+
+- Repository: https://github.com/Reshwant-Borra/BrowserAgent
+
+Files directly audited:
+- `README.md`
+- `browser/playwright_backend.py`
+- `memory/event_store.py`
+- `agent/context_builder.py`
+- `agent/verifier.py`
+- `agent/loop_detector.py`
+- `agent/security_policy.py`
+- repository tree/tests/fixtures
+
+Findings recorded in `01_RESEARCH/OLD_BROWSERAGENT_AUDIT.md`:
+- preserve append-only event sourcing, loop detectors, verifier/context principles and tests;
+- rewrite giant orchestration/controller/loop and tab-selection heuristics;
+- stage sophisticated memory rather than making it a kernel dependency.
+
+---
+
+# Research interpretation rule
+
+No paper or framework is being copied wholesale. BrowserAgentV2 uses converging evidence to choose **interfaces and experiments**:
+
+```text
+paper/documented behavior
+        ↓
+architecture hypothesis
+        ↓
+controlled BrowserAgentV2 experiment
+        ↓
+recorded ADR/decision
+        ↓
+implementation + permanent regression test
+```
+
+That chain is required for any major architecture choice.
