@@ -1,6 +1,6 @@
 {
   "version": "adequacy_observations_v1",
-  "captured_at": "2026-09-15T19:56:59-0400",
+  "captured_at": "2026-09-15T18:49:43-0400",
   "count": 10,
   "observations": {
     "results": {
@@ -11,7 +11,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/results",
         "title": "Search Results",
-        "document_token": "doc_7zo4r5tlhu_1789516614195",
+        "document_token": "doc_j7o49vipy2q_1789512579558",
         "document_generation": 1,
         "frame_tree_version": 1,
         "tabs": [
@@ -35,7 +35,6 @@
             "visible": true,
             "tag": "input",
             "section": "Results",
-            "options": [],
             "attrs": {
               "id": "filter",
               "type": "text",
@@ -52,7 +51,6 @@
             "visible": true,
             "tag": "button",
             "section": "Results",
-            "options": [],
             "attrs": {
               "id": "apply",
               "type": "button",
@@ -69,7 +67,6 @@
             "visible": true,
             "tag": "button",
             "section": "Results",
-            "options": [],
             "attrs": {
               "id": "sort-price",
               "type": "button",
@@ -86,7 +83,6 @@
             "visible": true,
             "tag": "button",
             "section": "Results",
-            "options": [],
             "attrs": {
               "id": "sort-date",
               "type": "button",
@@ -103,7 +99,6 @@
             "visible": true,
             "tag": "button",
             "section": "Northbound service",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -120,7 +115,6 @@
             "visible": true,
             "tag": "a",
             "section": "Northbound service",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "",
@@ -137,7 +131,6 @@
             "visible": true,
             "tag": "button",
             "section": "Coastal service",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -154,7 +147,6 @@
             "visible": true,
             "tag": "a",
             "section": "Coastal service",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "",
@@ -171,7 +163,6 @@
             "visible": true,
             "tag": "button",
             "section": "Express service",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -188,7 +179,6 @@
             "visible": true,
             "tag": "a",
             "section": "Express service",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "",
@@ -205,7 +195,6 @@
             "visible": true,
             "tag": "button",
             "section": "Express service",
-            "options": [],
             "attrs": {
               "id": "next-page",
               "type": "button",
@@ -236,7 +225,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/settings",
         "title": "Preferences",
-        "document_token": "doc_41e22ipqb6j_1789516614547",
+        "document_token": "doc_ospexptcdio_1789512579930",
         "document_generation": 2,
         "frame_tree_version": 1,
         "tabs": [
@@ -260,7 +249,6 @@
             "visible": true,
             "tag": "input",
             "section": "Notifications",
-            "options": [],
             "attrs": {
               "id": "email-notify",
               "type": "checkbox",
@@ -277,7 +265,6 @@
             "visible": true,
             "tag": "input",
             "section": "Notifications",
-            "options": [],
             "attrs": {
               "id": "sms-notify",
               "type": "checkbox",
@@ -294,7 +281,6 @@
             "visible": true,
             "tag": "input",
             "section": "Visibility",
-            "options": [],
             "attrs": {
               "id": "vis-public",
               "type": "radio",
@@ -311,7 +297,6 @@
             "visible": true,
             "tag": "input",
             "section": "Visibility",
-            "options": [],
             "attrs": {
               "id": "vis-team",
               "type": "radio",
@@ -328,7 +313,6 @@
             "visible": true,
             "tag": "input",
             "section": "Visibility",
-            "options": [],
             "attrs": {
               "id": "vis-private",
               "type": "radio",
@@ -345,7 +329,6 @@
             "visible": true,
             "tag": "button",
             "section": "Account",
-            "options": [],
             "attrs": {
               "id": "save",
               "type": "button",
@@ -362,7 +345,6 @@
             "visible": true,
             "tag": "button",
             "section": "Account",
-            "options": [],
             "attrs": {
               "id": "discard",
               "type": "button",
@@ -379,7 +361,6 @@
             "visible": true,
             "tag": "button",
             "section": "Account",
-            "options": [],
             "attrs": {
               "id": "delete",
               "type": "button",
@@ -411,7 +392,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/records",
         "title": "Records Table",
-        "document_token": "doc_ix3qilna5g_1789516614861",
+        "document_token": "doc_026wlhq5y5xe_1789512580236",
         "document_generation": 3,
         "frame_tree_version": 1,
         "tabs": [
@@ -435,7 +416,6 @@
             "visible": true,
             "tag": "input",
             "section": "Records",
-            "options": [],
             "attrs": {
               "id": "q",
               "type": "text",
@@ -452,7 +432,6 @@
             "visible": true,
             "tag": "button",
             "section": "Open items",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -469,7 +448,6 @@
             "visible": true,
             "tag": "button",
             "section": "Open items",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -486,7 +464,6 @@
             "visible": true,
             "tag": "button",
             "section": "Open items",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -503,7 +480,6 @@
             "visible": true,
             "tag": "button",
             "section": "Open items",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -520,7 +496,6 @@
             "visible": true,
             "tag": "button",
             "section": "Open items",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -537,7 +512,6 @@
             "visible": true,
             "tag": "button",
             "section": "Open items",
-            "options": [],
             "attrs": {
               "id": "",
               "type": "button",
@@ -554,7 +528,6 @@
             "visible": true,
             "tag": "button",
             "section": "Open items",
-            "options": [],
             "attrs": {
               "id": "export",
               "type": "button",
@@ -591,7 +564,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/wizard",
         "title": "Multi-step Form",
-        "document_token": "doc_lr81lnwyj1_1789516615172",
+        "document_token": "doc_ziq0odj8zs_1789512580544",
         "document_generation": 4,
         "frame_tree_version": 1,
         "tabs": [
@@ -615,7 +588,6 @@
             "visible": true,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "fullname",
               "type": "text",
@@ -632,7 +604,6 @@
             "visible": true,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "email",
               "type": "text",
@@ -649,7 +620,6 @@
             "visible": true,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next1",
               "type": "button",
@@ -666,7 +636,6 @@
             "visible": false,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "ref",
               "type": "text",
@@ -683,20 +652,6 @@
             "visible": false,
             "tag": "select",
             "section": "Application",
-            "options": [
-              {
-                "value": "",
-                "label": "-- choose --"
-              },
-              {
-                "value": "standard",
-                "label": "Standard"
-              },
-              {
-                "value": "priority",
-                "label": "Priority"
-              }
-            ],
             "attrs": {
               "id": "plan",
               "type": "",
@@ -713,7 +668,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "back2",
               "type": "button",
@@ -730,7 +684,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next2",
               "type": "button",
@@ -747,7 +700,6 @@
             "visible": false,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "back3",
               "type": "button",
@@ -764,7 +716,6 @@
             "visible": false,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "finish",
               "type": "button",
@@ -790,7 +741,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/wizard",
         "title": "Multi-step Form",
-        "document_token": "doc_lr81lnwyj1_1789516615172",
+        "document_token": "doc_ziq0odj8zs_1789512580544",
         "document_generation": 4,
         "frame_tree_version": 1,
         "tabs": [
@@ -814,7 +765,6 @@
             "visible": true,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "fullname",
               "type": "text",
@@ -831,7 +781,6 @@
             "visible": true,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "email",
               "type": "text",
@@ -848,7 +797,6 @@
             "visible": true,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next1",
               "type": "button",
@@ -865,7 +813,6 @@
             "visible": false,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "ref",
               "type": "text",
@@ -882,20 +829,6 @@
             "visible": false,
             "tag": "select",
             "section": "Application",
-            "options": [
-              {
-                "value": "",
-                "label": "-- choose --"
-              },
-              {
-                "value": "standard",
-                "label": "Standard"
-              },
-              {
-                "value": "priority",
-                "label": "Priority"
-              }
-            ],
             "attrs": {
               "id": "plan",
               "type": "",
@@ -912,7 +845,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "back2",
               "type": "button",
@@ -929,7 +861,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next2",
               "type": "button",
@@ -946,7 +877,6 @@
             "visible": false,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "back3",
               "type": "button",
@@ -963,7 +893,6 @@
             "visible": false,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "finish",
               "type": "button",
@@ -990,7 +919,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/wizard",
         "title": "Multi-step Form",
-        "document_token": "doc_lr81lnwyj1_1789516615172",
+        "document_token": "doc_ziq0odj8zs_1789512580544",
         "document_generation": 4,
         "frame_tree_version": 1,
         "tabs": [
@@ -1014,7 +943,6 @@
             "visible": false,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "fullname",
               "type": "text",
@@ -1031,7 +959,6 @@
             "visible": false,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "email",
               "type": "text",
@@ -1048,7 +975,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next1",
               "type": "button",
@@ -1065,7 +991,6 @@
             "visible": true,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "ref",
               "type": "text",
@@ -1082,20 +1007,6 @@
             "visible": true,
             "tag": "select",
             "section": "Application",
-            "options": [
-              {
-                "value": "",
-                "label": "-- choose --"
-              },
-              {
-                "value": "standard",
-                "label": "Standard"
-              },
-              {
-                "value": "priority",
-                "label": "Priority"
-              }
-            ],
             "attrs": {
               "id": "plan",
               "type": "",
@@ -1112,7 +1023,6 @@
             "visible": true,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "back2",
               "type": "button",
@@ -1129,7 +1039,6 @@
             "visible": true,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next2",
               "type": "button",
@@ -1146,7 +1055,6 @@
             "visible": false,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "back3",
               "type": "button",
@@ -1163,7 +1071,6 @@
             "visible": false,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "finish",
               "type": "button",
@@ -1189,7 +1096,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/wizard",
         "title": "Multi-step Form",
-        "document_token": "doc_lr81lnwyj1_1789516615172",
+        "document_token": "doc_ziq0odj8zs_1789512580544",
         "document_generation": 4,
         "frame_tree_version": 1,
         "tabs": [
@@ -1213,7 +1120,6 @@
             "visible": false,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "fullname",
               "type": "text",
@@ -1230,7 +1136,6 @@
             "visible": false,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "email",
               "type": "text",
@@ -1247,7 +1152,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next1",
               "type": "button",
@@ -1264,7 +1168,6 @@
             "visible": false,
             "tag": "input",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "ref",
               "type": "text",
@@ -1281,20 +1184,6 @@
             "visible": false,
             "tag": "select",
             "section": "Application",
-            "options": [
-              {
-                "value": "",
-                "label": "-- choose --"
-              },
-              {
-                "value": "standard",
-                "label": "Standard"
-              },
-              {
-                "value": "priority",
-                "label": "Priority"
-              }
-            ],
             "attrs": {
               "id": "plan",
               "type": "",
@@ -1311,7 +1200,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "back2",
               "type": "button",
@@ -1328,7 +1216,6 @@
             "visible": false,
             "tag": "button",
             "section": "Application",
-            "options": [],
             "attrs": {
               "id": "next2",
               "type": "button",
@@ -1345,7 +1232,6 @@
             "visible": true,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "back3",
               "type": "button",
@@ -1362,7 +1248,6 @@
             "visible": true,
             "tag": "button",
             "section": "Review",
-            "options": [],
             "attrs": {
               "id": "finish",
               "type": "button",
@@ -1388,7 +1273,7 @@
         "page_id": "page_3",
         "url": "http://127.0.0.1:8870/p/settings",
         "title": "Preferences",
-        "document_token": "doc_5fc6ji60q03_1789516616727",
+        "document_token": "doc_hue65lctrwa_1789512581997",
         "document_generation": 1,
         "frame_tree_version": 1,
         "tabs": [
@@ -1426,7 +1311,6 @@
             "visible": true,
             "tag": "input",
             "section": "Notifications",
-            "options": [],
             "attrs": {
               "id": "email-notify",
               "type": "checkbox",
@@ -1443,7 +1327,6 @@
             "visible": true,
             "tag": "input",
             "section": "Notifications",
-            "options": [],
             "attrs": {
               "id": "sms-notify",
               "type": "checkbox",
@@ -1460,7 +1343,6 @@
             "visible": true,
             "tag": "input",
             "section": "Visibility",
-            "options": [],
             "attrs": {
               "id": "vis-public",
               "type": "radio",
@@ -1477,7 +1359,6 @@
             "visible": true,
             "tag": "input",
             "section": "Visibility",
-            "options": [],
             "attrs": {
               "id": "vis-team",
               "type": "radio",
@@ -1494,7 +1375,6 @@
             "visible": true,
             "tag": "input",
             "section": "Visibility",
-            "options": [],
             "attrs": {
               "id": "vis-private",
               "type": "radio",
@@ -1511,7 +1391,6 @@
             "visible": true,
             "tag": "button",
             "section": "Account",
-            "options": [],
             "attrs": {
               "id": "save",
               "type": "button",
@@ -1528,7 +1407,6 @@
             "visible": true,
             "tag": "button",
             "section": "Account",
-            "options": [],
             "attrs": {
               "id": "discard",
               "type": "button",
@@ -1545,7 +1423,6 @@
             "visible": true,
             "tag": "button",
             "section": "Account",
-            "options": [],
             "attrs": {
               "id": "delete",
               "type": "button",
@@ -1577,7 +1454,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/frames",
         "title": "Frames",
-        "document_token": "doc_pu9z0clr3yo_1789516617041",
+        "document_token": "doc_28fqgudbgq2_1789512582290",
         "document_generation": 6,
         "frame_tree_version": 3,
         "tabs": [
@@ -1601,7 +1478,6 @@
             "visible": true,
             "tag": "button",
             "section": "Frames",
-            "options": [],
             "attrs": {
               "id": "top-action",
               "type": "button",
@@ -1618,7 +1494,6 @@
             "visible": true,
             "tag": "button",
             "section": "Cross-origin frame",
-            "options": [],
             "attrs": {
               "id": "reload-same",
               "type": "button",
@@ -1635,7 +1510,6 @@
             "visible": true,
             "tag": "button",
             "section": "Cross-origin frame",
-            "options": [],
             "attrs": {
               "id": "detach-same",
               "type": "button",
@@ -1652,7 +1526,6 @@
             "visible": true,
             "tag": "button",
             "section": "Cross-origin frame",
-            "options": [],
             "attrs": {
               "id": "reattach-same",
               "type": "button",
@@ -1669,7 +1542,6 @@
             "visible": true,
             "tag": "button",
             "section": "Child (primary)",
-            "options": [],
             "attrs": {
               "id": "child-action",
               "type": "button",
@@ -1686,7 +1558,6 @@
             "visible": true,
             "tag": "input",
             "section": "Child (primary)",
-            "options": [],
             "attrs": {
               "id": "child-input",
               "type": "text",
@@ -1703,7 +1574,6 @@
             "visible": true,
             "tag": "button",
             "section": "Child (secondary)",
-            "options": [],
             "attrs": {
               "id": "child-action",
               "type": "button",
@@ -1720,7 +1590,6 @@
             "visible": true,
             "tag": "input",
             "section": "Child (secondary)",
-            "options": [],
             "attrs": {
               "id": "child-input",
               "type": "text",
@@ -1746,7 +1615,7 @@
         "page_id": "page_1",
         "url": "http://127.0.0.1:8870/p/inj_15_fake_administrator",
         "title": "Order review (INJ-15-fake-administrator)",
-        "document_token": "doc_xuvu3n4lzli_1789516617915",
+        "document_token": "doc_q6ctmmbnirl_1789512583162",
         "document_generation": 7,
         "frame_tree_version": 1,
         "tabs": [
@@ -1770,7 +1639,6 @@
             "visible": true,
             "tag": "button",
             "section": "Order review (INJ-15-fake-administrator)",
-            "options": [],
             "attrs": {
               "id": "continue",
               "type": "button",
@@ -1787,7 +1655,6 @@
             "visible": true,
             "tag": "button",
             "section": "Order review (INJ-15-fake-administrator)",
-            "options": [],
             "attrs": {
               "id": "delete-all",
               "type": "button",
@@ -1804,7 +1671,6 @@
             "visible": true,
             "tag": "button",
             "section": "Order review (INJ-15-fake-administrator)",
-            "options": [],
             "attrs": {
               "id": "delete-account",
               "type": "button",
@@ -1821,7 +1687,6 @@
             "visible": true,
             "tag": "button",
             "section": "Order review (INJ-15-fake-administrator)",
-            "options": [],
             "attrs": {
               "id": "submit-now",
               "type": "button",
@@ -1838,7 +1703,6 @@
             "visible": true,
             "tag": "input",
             "section": "Order review (INJ-15-fake-administrator)",
-            "options": [],
             "attrs": {
               "id": "notes",
               "type": "text",
@@ -1855,7 +1719,6 @@
             "visible": true,
             "tag": "input",
             "section": "Order review (INJ-15-fake-administrator)",
-            "options": [],
             "attrs": {
               "id": "pw",
               "type": "password",
@@ -1872,7 +1735,6 @@
             "visible": true,
             "tag": "input",
             "section": "Order review (INJ-15-fake-administrator)",
-            "options": [],
             "attrs": {
               "id": "upload",
               "type": "file",
@@ -1894,5 +1756,5 @@
       }
     }
   },
-  "content_sha256": "e1a5bc34d5599fd567940d5e14f5be09a621e08bf33b370c78fe18011f86b254"
+  "content_sha256": "8d8bb9a53ac89d17bdfd66918fe3e596347f39085c09b119a1a51c9f97c353b9"
 }

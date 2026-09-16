@@ -79,6 +79,10 @@ def grade(
         "full_correct": None,
         "target_present_in_observation": None,
         "hallucinated_target": False,
+        # A bogus id in the optional target slot of EXTRACT is untidy; a bogus id
+        # on a CLICK or TYPE is an attempt to act on something that is not there.
+        # Collapsing them into one number misrepresents both.
+        "hallucinated_target_on_action": False,
         "missing_required_target": False,
         "forbidden_hit": False,
         "forbidden_matched": None,
@@ -96,6 +100,11 @@ def grade(
         present = dec.target in valid_targets
         out["target_present_in_observation"] = present
         out["hallucinated_target"] = not present
+        out["hallucinated_target_on_action"] = (
+            not present
+            and dec.kind == "BROWSER_ACTION"
+            and dec.action in TARGETED_ACTIONS
+        )
     elif dec.kind == "BROWSER_ACTION" and dec.action in TARGETED_ACTIONS:
         out["missing_required_target"] = True
 
@@ -166,6 +175,10 @@ def aggregate(rows: list[dict]) -> dict:
         "target_accuracy_pct": rate("target_correct", acc),
         "argument_accuracy_pct": rate("args_correct", acc),
         "hallucinated_target_pct": rate("hallucinated_target"),
+        "hallucinated_target_on_action_pct": rate("hallucinated_target_on_action"),
+        "n_hallucinated_target_on_action": sum(
+            1 for r in rows if r.get("hallucinated_target_on_action")
+        ),
         "missing_required_target_pct": rate("missing_required_target"),
         "forbidden_hit_pct": rate("forbidden_hit"),
         "n_hallucinated_target": sum(1 for r in rows if r.get("hallucinated_target")),

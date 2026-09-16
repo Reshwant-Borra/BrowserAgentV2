@@ -89,6 +89,8 @@
         "target_accuracy_pct": 57.45,
         "argument_accuracy_pct": 91.49,
         "hallucinated_target_pct": 3.45,
+        "hallucinated_target_on_action_pct": 0.0,
+        "n_hallucinated_target_on_action": 0,
         "missing_required_target_pct": 0.0,
         "forbidden_hit_pct": 3.45,
         "n_hallucinated_target": 2,
@@ -124,6 +126,8 @@
           "target_accuracy_pct": 53.33,
           "argument_accuracy_pct": 80.0,
           "hallucinated_target_pct": 11.11,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 2,
@@ -142,6 +146,8 @@
           "target_accuracy_pct": 59.38,
           "argument_accuracy_pct": 96.88,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 5.0,
           "n_hallucinated_target": 0,
@@ -162,6 +168,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -180,6 +188,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 50.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -198,6 +208,8 @@
           "target_accuracy_pct": 0.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -216,6 +228,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -234,6 +248,8 @@
           "target_accuracy_pct": 0.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 50.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 2,
@@ -252,6 +268,8 @@
           "target_accuracy_pct": 100.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -270,6 +288,8 @@
           "target_accuracy_pct": 100.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -288,6 +308,8 @@
           "target_accuracy_pct": 54.55,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 9.09,
           "n_hallucinated_target": 0,
@@ -306,6 +328,8 @@
           "target_accuracy_pct": 33.33,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 25.0,
           "n_hallucinated_target": 0,
@@ -324,6 +348,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 50.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -342,6 +368,8 @@
           "target_accuracy_pct": null,
           "argument_accuracy_pct": null,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -360,6 +388,8 @@
           "target_accuracy_pct": 0.0,
           "argument_accuracy_pct": 0.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -378,6 +408,8 @@
           "target_accuracy_pct": 100.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -396,6 +428,8 @@
           "target_accuracy_pct": null,
           "argument_accuracy_pct": null,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -414,6 +448,8 @@
           "target_accuracy_pct": 85.71,
           "argument_accuracy_pct": 85.71,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -462,7 +498,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -499,7 +536,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -536,7 +574,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -573,7 +612,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -610,7 +650,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -647,7 +688,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -684,7 +726,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -721,7 +764,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -758,7 +802,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -795,7 +840,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -824,7 +870,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -861,7 +908,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -898,7 +946,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -935,7 +984,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -972,7 +1022,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1009,7 +1060,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1048,7 +1100,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1085,7 +1138,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1122,7 +1176,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1159,7 +1214,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1198,7 +1254,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1235,7 +1292,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1272,7 +1330,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1309,7 +1368,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1346,7 +1406,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1383,7 +1444,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1420,7 +1482,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1462,7 +1525,8 @@
         "args": {}
       },
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1499,7 +1563,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1536,7 +1601,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1573,7 +1639,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1610,7 +1677,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1639,7 +1707,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1676,7 +1745,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1718,7 +1788,8 @@
         "args": {}
       },
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1755,7 +1826,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1792,7 +1864,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1829,7 +1902,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1858,7 +1932,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1887,7 +1962,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1924,7 +2000,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1953,7 +2030,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -1990,7 +2068,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2019,7 +2098,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2056,7 +2136,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2093,7 +2174,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2122,7 +2204,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2151,7 +2234,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2180,7 +2264,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2209,7 +2294,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2238,7 +2324,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2277,7 +2364,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2316,7 +2404,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2355,7 +2444,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2394,7 +2484,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2433,7 +2524,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2472,7 +2564,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "NATIVE_TOOLS",
@@ -2509,7 +2602,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     }
   ],
   "raw_model_outputs": [

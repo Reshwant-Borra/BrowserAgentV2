@@ -89,6 +89,8 @@
         "target_accuracy_pct": 66.0,
         "argument_accuracy_pct": 84.0,
         "hallucinated_target_pct": 0.0,
+        "hallucinated_target_on_action_pct": 0.0,
+        "n_hallucinated_target_on_action": 0,
         "missing_required_target_pct": 0.0,
         "forbidden_hit_pct": 3.45,
         "n_hallucinated_target": 0,
@@ -124,6 +126,8 @@
           "target_accuracy_pct": 58.82,
           "argument_accuracy_pct": 64.71,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -142,6 +146,8 @@
           "target_accuracy_pct": 69.7,
           "argument_accuracy_pct": 93.94,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 5.0,
           "n_hallucinated_target": 0,
@@ -162,6 +168,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -180,6 +188,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 50.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -198,6 +208,8 @@
           "target_accuracy_pct": 0.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -216,6 +228,8 @@
           "target_accuracy_pct": 25.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -234,6 +248,8 @@
           "target_accuracy_pct": 66.67,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -252,6 +268,8 @@
           "target_accuracy_pct": 100.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -270,6 +288,8 @@
           "target_accuracy_pct": 66.67,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 33.33,
           "n_hallucinated_target": 0,
@@ -288,6 +308,8 @@
           "target_accuracy_pct": 90.91,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 9.09,
           "n_hallucinated_target": 0,
@@ -306,6 +328,8 @@
           "target_accuracy_pct": 100.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -324,6 +348,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 50.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -342,6 +368,8 @@
           "target_accuracy_pct": 50.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -360,6 +388,8 @@
           "target_accuracy_pct": 0.0,
           "argument_accuracy_pct": 0.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -378,6 +408,8 @@
           "target_accuracy_pct": 100.0,
           "argument_accuracy_pct": 100.0,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -396,6 +428,8 @@
           "target_accuracy_pct": null,
           "argument_accuracy_pct": null,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -414,6 +448,8 @@
           "target_accuracy_pct": 42.86,
           "argument_accuracy_pct": 42.86,
           "hallucinated_target_pct": 0.0,
+          "hallucinated_target_on_action_pct": 0.0,
+          "n_hallucinated_target_on_action": 0,
           "missing_required_target_pct": 0.0,
           "forbidden_hit_pct": 0.0,
           "n_hallucinated_target": 0,
@@ -462,7 +498,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -499,7 +536,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -536,7 +574,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -573,7 +612,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -610,7 +650,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -647,7 +688,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -684,7 +726,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -721,7 +764,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -750,7 +794,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -779,7 +824,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -808,7 +854,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -845,7 +892,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -882,7 +930,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -919,7 +968,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -948,7 +998,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -985,7 +1036,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1024,7 +1076,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1061,7 +1114,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1103,7 +1157,8 @@
         "args": {}
       },
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1140,7 +1195,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1179,7 +1235,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1216,7 +1273,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1253,7 +1311,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1290,7 +1349,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1327,7 +1387,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1364,7 +1425,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1406,7 +1468,8 @@
         "args": {}
       },
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1443,7 +1506,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1480,7 +1544,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1517,7 +1582,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1554,7 +1620,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1591,7 +1658,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1628,7 +1696,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1665,7 +1734,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1702,7 +1772,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1739,7 +1810,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1776,7 +1848,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1813,7 +1886,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1850,7 +1924,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1887,7 +1962,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1924,7 +2000,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1961,7 +2038,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -1998,7 +2076,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2035,7 +2114,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2072,7 +2152,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2109,7 +2190,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2146,7 +2228,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2183,7 +2266,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2220,7 +2304,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2257,7 +2342,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2296,7 +2382,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": false,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2333,7 +2420,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2370,7 +2458,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2407,7 +2496,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2446,7 +2536,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2485,7 +2576,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2522,7 +2614,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": false
+      "usable_decision": false,
+      "hallucinated_target_on_action": false
     },
     {
       "interface": "STRICT_JSON",
@@ -2561,7 +2654,8 @@
       "forbidden_hit": false,
       "forbidden_matched": null,
       "accuracy_eligible": true,
-      "usable_decision": true
+      "usable_decision": true,
+      "hallucinated_target_on_action": false
     }
   ],
   "raw_model_outputs": [

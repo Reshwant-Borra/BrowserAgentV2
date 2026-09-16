@@ -749,6 +749,7 @@ def main():
         c["split"] = "eval"          # the whole adequacy set is held out
     payload = {
         "version": "adequacy_v1",
+        "observations_sha256": json.loads(OBS_OUT.read_text(encoding="utf-8"))["content_sha256"],
         "n_cases": len(CASES),
         "difficulty": {
             d: sum(1 for c in CASES if c["difficulty"] == d) for d in ("easy", "medium")
