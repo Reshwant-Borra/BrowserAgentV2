@@ -146,6 +146,13 @@ action itself is disallowed.
 The Verifier is therefore the only layer that can close the remaining gap, and
 it must exist before any autonomous run.
 
+**Built and proven:** `browser_agent_v2/verification/`. All three preserved
+wrong-but-permitted Qwen decisions (AD-M22, AD-M23, AD-M29) are replayed from
+the committed P0 evidence through PolicyEngine (still `ALLOW`) and the
+BrowserKernel (click still succeeds), and all three are caught as
+`NOT_SATISFIED`. 280 stress runs across ten categories produced **0 false
+SATISFIED**. See [`browser_agent_v2/verification/README.md`](../browser_agent_v2/verification/README.md).
+
 ## ADR-011 — No site-specific architecture
 
 **Decision:** ACCEPTED.
@@ -208,6 +215,34 @@ deduplicate: **0 duplicate side effects**. The `blind_replay` control produced
 Known limit: this requires a correlatable identifier to exist. On a site that
 offers none, an interrupted submission is permanently ambiguous and must go to
 the human. That is by design, and it is site-dependent.
+
+## ADR-015 — A frame id is a positional index, not an identity
+
+**Decision:** ACCEPTED.
+
+A postcondition may not be scoped to a non-main frame by `frame_id` alone. The
+main frame (`f0`) is stable; any other frame must be pinned by a content anchor
+(`section`, the nearest heading inside that frame's own document). An unpinned
+non-main frame scope is answered `AMBIGUOUS`, never guessed.
+
+**Evidence:** found while building the Verifier. The kernel assigns frame ids by
+enumerating the frame list, so detaching a frame renumbers the rest. On the
+frames fixture, `f1` means "Child (primary)" before a detach and "Child
+(secondary)" after — while `frame_tree_version` stays at 3, so a count-based
+guard does not catch it. Both frames contain a control named "Confirm", so an
+index-trusting verifier reports a wrong-frame **false success**. This is the same
+defect class as identifying a tab by index, which
+[ADR/Experiment 5](../experiments/page_registry/REPORT.md) ruled out for pages.
+
+Regression tests: `test_unpinned_child_frame_scope_is_refused`,
+`test_frame_renumbering_cannot_produce_a_false_success`, and the mutation test
+`test_disabling_frame_pinning_produces_a_wrong_frame_false_success`, which shows
+the false success reappearing when the guard is removed.
+
+**Owed to the BrowserKernel, not fixed here:** the proper fix is a stable frame
+identity minted at frame-attach time. The Verifier's `section` pin is a correct
+but defensive workaround, and it is the reason frame-scoped verification is more
+awkward than page-scoped verification.
 
 ## Rejected approaches for the MVP
 

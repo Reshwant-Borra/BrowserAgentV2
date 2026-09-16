@@ -1,0 +1,44 @@
+<title>Search Results</title>
+<h1>Results</h1>
+<!-- Mirrors experiments/fixtures/pages/results.html EXACTLY in control
+     structure, order, roles, accessible names and section headings, so a
+     preserved Qwen decision replays faithfully. Adds an observable outcome
+     line that records WHICH service was selected and at what price, which is
+     what makes "selected a 96.50 service when the goal said under 50"
+     detectable from fresh page state. -->
+<label for="filter">Filter results</label>
+<input id="filter" type="text" aria-label="Filter results">
+<button id="apply" type="button" onclick="window.__effect('APPLY_FILTER')">Apply filter</button>
+<button id="sort-price" type="button" onclick="window.__effect('SORT_PRICE')">Sort by price</button>
+<button id="sort-date" type="button" onclick="window.__effect('SORT_DATE')">Sort by date</button>
+
+<section id="r1"><h2>Northbound service</h2>
+  <p>Departs 07:15 &middot; 2 stops &middot; 148.00 USD &middot; refundable</p>
+  <button type="button" onclick="select_('Northbound service','148.00')">Select</button>
+  <a href="#d1" onclick="details('Northbound service');return false">Details</a>
+</section>
+<section id="r2"><h2>Coastal service</h2>
+  <p>Departs 09:40 &middot; direct &middot; 96.50 USD &middot; non-refundable</p>
+  <button type="button" onclick="select_('Coastal service','96.50')">Select</button>
+  <a href="#d2" onclick="details('Coastal service');return false">Details</a>
+</section>
+<section id="r3"><h2>Express service</h2>
+  <p>Departs 11:05 &middot; direct &middot; 212.75 USD &middot; refundable</p>
+  <button type="button" onclick="select_('Express service','212.75')">Select</button>
+  <a href="#d3" onclick="details('Express service');return false">Details</a>
+</section>
+
+<p><button id="next-page" type="button" onclick="window.__effect('NEXT_PAGE')">Next 10 results</button></p>
+<p><span id="outcome">No service selected</span></p>
+
+<script>
+function select_(name, price){
+  window.__effect('SELECT_' + name);
+  document.getElementById('outcome').textContent =
+    'Selected ' + name + ' at ' + price + ' USD';
+}
+function details(name){
+  window.__effect('DETAILS_' + name);
+  document.getElementById('outcome').textContent = 'Viewing details for ' + name;
+}
+</script>

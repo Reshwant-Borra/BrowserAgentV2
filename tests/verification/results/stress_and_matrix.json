@@ -1,0 +1,73 @@
+{
+  "per_category": {
+    "AMBIGUITY": {
+      "runs": 20,
+      "pass": 20,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "DOWNLOAD": {
+      "runs": 20,
+      "pass": 20,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "FRAME_SCOPE": {
+      "runs": 15,
+      "pass": 15,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "NAVIGATION": {
+      "runs": 30,
+      "pass": 30,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "PAGE_SCOPE": {
+      "runs": 15,
+      "pass": 15,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "POPUP": {
+      "runs": 20,
+      "pass": 20,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "SELECT": {
+      "runs": 30,
+      "pass": 30,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "STALE": {
+      "runs": 30,
+      "pass": 30,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "TYPE": {
+      "runs": 50,
+      "pass": 50,
+      "fail": 0,
+      "false_SATISFIED": 0
+    },
+    "WRONG_CONTROL": {
+      "runs": 50,
+      "pass": 50,
+      "fail": 0,
+      "false_SATISFIED": 0
+    }
+  },
+  "classification_matrix": {
+    "true_SATISFIED": 116,
+    "true_NOT_SATISFIED": 107,
+    "true_AMBIGUOUS": 57,
+    "false_SATISFIED": 0,
+    "false_NOT_SATISFIED": 0,
+    "false_AMBIGUOUS": 0
+  },
+  "total_runs": 280
+}

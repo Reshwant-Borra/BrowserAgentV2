@@ -65,7 +65,17 @@ otherwise unusable:
 Target ids are rendered as `target=<id> | role | name`, terminated by ` | `.
 Rendered as a bare leading token, the model copied whole lines as the target.
 
-**Known defect, not fixed:** elements inside a table row or list item carry no
+**Known defect, not fixed (2):** observation text is collected from `h1`-`h3`,
+`p`, `li`, `td`, `label` and `span` only. Text inside a bare `<div>` is invisible
+to any text-based postcondition even though a person can read it on screen. This
+is why `submit_op.html`'s confirmation cannot be verified by text, and why
+**Experiment 6's worker could never record a SATISFIED verification** — its check
+was `f"Reference {op}" in text_blocks`. E6's verdict is unaffected, because that
+rested on server-side duplicate counts rather than on the journal's verification
+field. Found while building Verifier V1 and pinned by
+`test_known_limitation_text_in_a_bare_div_is_invisible`.
+
+**Known defect, not fixed (1):** elements inside a table row or list item carry no
 row context, so three identical `Open` buttons in a table are indistinguishable.
 Diagnosed in [E3](../experiments/qwen_adequacy/REPORT.md) (case AD-M22). It was
 deliberately not fixed after the held-out run, to avoid tuning to the evaluation
@@ -167,7 +177,7 @@ Evidence that the closed enum is load-bearing:
 capabilities outside the enum, 144 denied, and each recorded as an escalation
 attempt rather than silently becoming "unknown action".
 
-## 9. Verification boundary — FROZEN in principle, NOT BUILT
+## 9. Verification boundary — FROZEN and BUILT (Verifier V1)
 
 Every mutating action requires an independent deterministic postcondition.
 Browser success is not task success. The model never verifies itself.
@@ -178,8 +188,23 @@ Evidence that this is necessary rather than tidy:
 the model clicking a **legitimate, permitted control for the wrong reason**,
 which no policy engine can catch. [ADR-010](ARCHITECTURE_DECISIONS.md).
 
-**This is the largest unbuilt piece of the frozen architecture, and the
-experiments have located exactly the hole it fills.**
+**Built at the first implementation gate:**
+[`browser_agent_v2/verification/`](../browser_agent_v2/verification/README.md).
+
+Ten postcondition types, a three-valued answer whose `AMBIGUOUS` branch is
+reachable only through evidence problems, freshness enforced by the Verifier
+taking its own observation, and page/frame scoping on every check. No model, no
+retry, no reload — asserted by tests that grep the package's own source.
+
+Proof it closes the hole the experiments located: all three preserved
+wrong-but-permitted Qwen decisions are replayed from the committed P0 evidence
+and all three are caught. 280 stress runs, **0 false SATISFIED**, and five
+mutation tests that make the false success reappear when a guard is removed.
+
+Two limitations discovered while building it are recorded in
+[ADR-015](ARCHITECTURE_DECISIONS.md) (frame ids are positional, not identities)
+and in section 3 below (observation text excludes bare `<div>` content, which is
+why Experiment 6's worker could never record a SATISFIED verification).
 
 ## 10. State and event persistence — FROZEN
 
@@ -263,7 +288,7 @@ the weakest link in the frozen design and deserves its own experiment.
 | Item | Status | Why |
 |---|---|---|
 | Autonomous controller loop | **deferred** | requires the Verifier and an adequate model |
-| Verifier implementation | designed, evidenced as necessary, **unbuilt** | §9 |
+| Verifier implementation | **built and proven** at the first implementation gate | §9 |
 | Visual / vision fallback | deferred | no semantic fixture has yet required it |
 | Downloads and uploads | P1, untested | not exercised by any P0 experiment |
 | Attach to the user's Chrome via CDP | deferred | lower fidelity; ownership assumptions break |
@@ -281,8 +306,8 @@ one browser, one machine. Specifically unproven:
 - behaviour on live websites;
 - any task longer than a single decision — no multi-step autonomous run was
   executed, by design;
-- the Verifier, the loop detector and the controller state machine, none of
-  which exist yet;
+- the loop detector and the controller state machine, neither of which exists
+  yet (the Verifier now does, but it verifies single actions only);
 - attack classes not in our corpus;
 - recovery when the browser crashes while the controller survives.
 

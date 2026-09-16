@@ -1,0 +1,42 @@
+<title>Consequential Submit (verifier)</title>
+<h1>Consequential submit (verifier fixture)</h1>
+<!-- Mirrors experiments/fixtures/pages/submit_op.html in control structure and
+     server protocol, with ONE difference: the confirmation is rendered in a <p>
+     rather than a bare <div>.
+
+     That difference matters. The observation collects text from
+     h1-h3/p/li/td/label/span only, so text inside a bare <div> is invisible to
+     any text-based postcondition. submit_op.html puts its confirmation in a
+     <div>, which is why Experiment 6's worker could never record a SATISFIED
+     verification. submit_op.html is left untouched so the P0 evidence stays
+     reproducible; this file exists so the Verifier's composite submission
+     checks are testing verification rather than that limitation.
+
+     Still posts with dedupe=false: a duplicate submit really does duplicate. -->
+<label for="opid">Operation ID</label><input id="opid" type="text" aria-label="Operation ID" size="40">
+<label for="amount">Amount</label><input id="amount" type="text" aria-label="Amount" value="1">
+<button id="submit" type="button" onclick="send()">Submit booking</button>
+<p><span id="result">idle</span></p>
+<p id="confirmation"></p>
+<script>
+window.__submit_state='idle';
+async function send(){
+  const op=document.getElementById('opid').value;
+  window.__submit_state='in-flight';
+  document.getElementById('result').textContent='in-flight';
+  try{
+    const r=await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({operation_id:op,kind:'booking',
+        amount:document.getElementById('amount').value,
+        dedupe:false})});
+    const j=await r.json();
+    window.__submit_state='done'; window.__last_result=j;
+    document.getElementById('result').textContent='status:'+j.status+' seq:'+j.confirmation_seq;
+    document.getElementById('confirmation').textContent =
+      'Booking confirmed. Reference ' + op + ' (seq ' + j.confirmation_seq + ')';
+  }catch(e){
+    window.__submit_state='error';
+    document.getElementById('result').textContent='error:'+e;
+  }
+}
+</script>

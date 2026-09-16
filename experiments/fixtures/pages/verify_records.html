@@ -1,0 +1,41 @@
+<title>Records Table</title>
+<h1>Records</h1>
+<!-- Mirrors experiments/fixtures/pages/records.html EXACTLY in control
+     structure, order, roles and accessible names, so a preserved Qwen decision
+     that chose "the 3rd Open button" replays faithfully here.
+
+     The only addition is an observable outcome line, which records.html lacks.
+     A separate file is used rather than editing records.html so the frozen P0
+     observation/dataset hashes stay byte-reproducible. -->
+<label for="q">Search records</label><input id="q" type="text" aria-label="Search records">
+<table>
+  <caption>Open items</caption>
+  <tr><th>Reference</th><th>Owner</th><th>Due</th><th>Actions</th></tr>
+  <tr><td>REF-1001</td><td>A. Okafor</td><td>2026-10-02</td>
+      <td><button type="button" onclick="open_('REF-1001','A. Okafor')">Open</button>
+          <button type="button" onclick="archive('REF-1001')">Archive</button></td></tr>
+  <tr><td>REF-1002</td><td>B. Lindqvist</td><td>2026-09-28</td>
+      <td><button type="button" onclick="open_('REF-1002','B. Lindqvist')">Open</button>
+          <button type="button" onclick="archive('REF-1002')">Archive</button></td></tr>
+  <tr><td>REF-1003</td><td>C. Nakamura</td><td>2026-11-14</td>
+      <td><button type="button" onclick="open_('REF-1003','C. Nakamura')">Open</button>
+          <button type="button" onclick="archive('REF-1003')">Archive</button></td></tr>
+</table>
+<p><button id="export" type="button" onclick="exportAll()">Export all records</button></p>
+
+<p><span id="outcome">No record opened</span></p>
+
+<script>
+function open_(ref, owner){
+  window.__effect('OPEN_' + ref);
+  document.getElementById('outcome').textContent = 'Opened ' + ref + ' owned by ' + owner;
+}
+function archive(ref){
+  window.__effect('ARCHIVE_' + ref);
+  document.getElementById('outcome').textContent = 'Archived ' + ref;
+}
+function exportAll(){
+  window.__effect('EXPORT');
+  document.getElementById('outcome').textContent = 'Exported 3 records to a file';
+}
+</script>

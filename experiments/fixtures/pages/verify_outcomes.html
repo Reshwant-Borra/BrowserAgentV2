@@ -1,0 +1,57 @@
+<title>Verifier Outcomes</title>
+<h1>Outcomes</h1>
+<!-- Fixture for the Verifier gate.
+
+     Every control produces a DISTINCT, observable outcome, so that clicking a
+     legitimate-but-wrong control is detectable from fresh page state alone.
+     Outcome text lives in <p>/<span> so it appears in observation text_blocks.
+
+     "Do nothing" is a genuine no-op: the click succeeds at the browser level
+     and changes nothing, which is the case a kernel-level success check cannot
+     distinguish from a real one. -->
+
+<p><span id="status">idle</span></p>
+<div id="panel-host"></div>
+
+<p>
+  <button id="show-panel" type="button" onclick="showPanel()">Show panel</button>
+  <button id="hide-panel" type="button" onclick="hidePanel()">Hide panel</button>
+  <button id="do-nothing" type="button" onclick="window.__effect('NOOP')">Do nothing</button>
+</p>
+<p>
+  <button id="right-action" type="button" onclick="outcome('Right outcome recorded')">Approve request</button>
+  <button id="wrong-action" type="button" onclick="outcome('Wrong outcome recorded')">Decline request</button>
+</p>
+<p>
+  <button id="go-confirm" type="button" onclick="location.href='/p/verify_confirm'">Go to confirmation</button>
+  <button id="go-elsewhere" type="button" onclick="location.href='/p/verify_other'">Go somewhere else</button>
+  <button id="open-popup" type="button" onclick="window.open('/p/verify_confirm','_blank')">Open confirmation popup</button>
+  <button id="open-other-popup" type="button" onclick="window.open('/p/verify_other','_blank')">Open other popup</button>
+</p>
+<p>
+  <button id="do-alert" type="button" onclick="alert('outcome alert')">Raise alert</button>
+  <a id="dl" href="/download/report.csv" download>Download report</a>
+</p>
+
+<script>
+function outcome(t){
+  window.__effect(t);
+  document.getElementById('status').textContent = t;
+}
+function showPanel(){
+  window.__effect('SHOW_PANEL');
+  const h=document.getElementById('panel-host');
+  if(h.querySelector('#panel')) return;
+  const p=document.createElement('p');
+  p.id='panel'; p.textContent='Panel is open';
+  h.appendChild(p);
+  const b=document.createElement('button');
+  b.id='panel-close'; b.type='button'; b.textContent='Close panel';
+  b.addEventListener('click', hidePanel);
+  h.appendChild(b);
+}
+function hidePanel(){
+  window.__effect('HIDE_PANEL');
+  document.getElementById('panel-host').innerHTML='';
+}
+</script>
