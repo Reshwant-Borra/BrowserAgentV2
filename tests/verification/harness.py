@@ -299,6 +299,29 @@ class VerifierHarness:
         )
         return (verifier or self.verifier).verify(request)
 
+    def act_expecting_page(self, observation_before, action) -> ActedStep:
+        """Run an action that opens a page, waiting on the page event.
+
+        A fixed sleep is not a bound on when the browser delivers a new page;
+        `expect_page` is the synchronisation the API actually provides.
+        """
+        before = {p.page_id for p in self.kernel.list_pages() if not p.closed}
+        status, err = "OK", None
+        try:
+            with self.kernel.context.expect_page(timeout=10_000):
+                action()
+        except Exception as exc:
+            status = "KERNEL_ERROR"
+            code = getattr(exc, "code", None)
+            err = getattr(code, "value", None) or type(exc).__name__
+        after = {p.page_id for p in self.kernel.list_pages() if not p.closed}
+        return ActedStep(
+            observation_before=observation_before,
+            execution_status=status,
+            kernel_error=err,
+            new_page_ids=sorted(after - before),
+        )
+
     def act_and_verify(self, observation_before, action, postcondition, *,
                        verifier: Optional[Verifier] = None):
         step = self.act(observation_before, action)

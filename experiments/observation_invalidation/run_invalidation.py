@@ -212,7 +212,7 @@ def scn_frame_reload(k, c):
     k.navigate(c.url("/p/frames"))
     time.sleep(0.6)
     obs = k.observe()
-    el = find(obs, name="Confirm", frame_not="f0")
+    el = find(obs, name="Confirm", frame_not=obs.main_frame_id)
     if el is None:
         return HARNESS, "no child-frame target"
     k.click(find(obs, contains="Reload same-origin").target)
@@ -230,7 +230,7 @@ def scn_frame_replacement(k, c):
     k.navigate(c.url("/p/frames"))
     time.sleep(0.6)
     obs = k.observe()
-    el = find(obs, name="Confirm", frame_not="f0")
+    el = find(obs, name="Confirm", frame_not=obs.main_frame_id)
     if el is None:
         return HARNESS, "no child-frame target"
     k.click(find(obs, contains="Detach same-origin").target)

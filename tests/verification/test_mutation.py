@@ -14,6 +14,7 @@ from __future__ import annotations
 import pytest
 
 from browser_agent_v2.verification import (
+    MAIN_FRAME,
     ElementPresence,
     FieldValueEquals,
     OperationRecorded,
@@ -60,56 +61,39 @@ def test_disabling_the_freshness_guard_produces_a_false_success(fresh, monkeypat
     )
 
 
-def test_disabling_frame_pinning_produces_a_wrong_frame_false_success(fresh, monkeypatch):
-    """Without the frame-identity refusal, a renumbered frame satisfies."""
-    obs = fresh.goto("/p/frames")
+def test_disabling_frame_scoping_produces_a_wrong_frame_false_success(fresh, monkeypatch):
+    """Frame scoping is load-bearing, not decorative.
+
+    Replaces the earlier mutation of the section-pin workaround, which existed
+    only because frame ids were positional. With minted ids the guard being
+    tested is the scoping itself: if the Verifier stops honouring the requested
+    frame, an identically-named control in another frame answers for it.
+    """
     import time
 
+    obs = fresh.goto("/p/frames")
     time.sleep(0.6)
     obs = fresh.observe()
-    detach = fresh.find(obs, contains="Detach same-origin")
-    step = fresh.act(obs, lambda: fresh.kernel.click(detach.target))
-    time.sleep(0.4)
-
-    unpinned = ElementPresence(
-        page_id=obs.page_id, role="button", name="Confirm", frame_id="f1"
+    # Delete the top frame's Confirm; the child frames keep theirs.
+    fresh.kernel.page_object().evaluate(
+        "() => document.getElementById('top-action').remove()"
     )
-    guarded = fresh.verify(step, unpinned)
-    assert guarded.status is AMB, "control: an unpinned frame index must be refused"
+    obs2 = fresh.observe()
+    pc = ElementPresence(page_id=obs2.page_id, role="button", name="Confirm",
+                         frame_id=MAIN_FRAME)
 
-    # Mutation: trust the positional index, which is what the original bug did.
-    original = verifier_module.Verifier._verify_element
+    guarded = fresh.verify(fresh.act(obs2, lambda: None), pc)
+    assert guarded.status is NOT, "control: a child frame must not answer for the main"
+
+    # Mutation: ignore the requested frame and search every frame.
     monkeypatch.setattr(
-        verifier_module.Verifier, "_verify_element",
-        lambda self, pc, request: _trust_index(original, self, pc, request),
+        verifier_module, "_resolve_frame", lambda obs, frame_id: None
     )
-    mutated = fresh.verify(step, unpinned)
+    mutated = fresh.verify(fresh.act(obs2, lambda: None), pc)
     assert mutated.status is SAT, (
         "mutation produced no false success; the frame test was not exercising "
-        "the frame-identity guard"
+        "frame scoping"
     )
-
-
-def _trust_index(original, self, pc, request):
-    """Re-create the pre-fix behaviour: resolve strictly by positional index."""
-    from browser_agent_v2.verification.contracts import Check, satisfied, not_satisfied, Reason
-    from browser_agent_v2.verification.evidence import EvidenceUnavailable
-
-    try:
-        obs = self._fresh(pc.page_id, request)
-    except EvidenceUnavailable as exc:
-        return self._unavailable("ElementPresence", exc)
-    matches = [
-        e for e in obs.elements
-        if e.frame_id == pc.frame_id and e.role == pc.role
-        and e.name.strip() == pc.name.strip()
-    ]
-    present = len(matches) > 0
-    check = Check("element_presence", present == pc.expect_present)
-    if present == pc.expect_present:
-        return satisfied("ElementPresence", [check], **self._prov(obs))
-    return not_satisfied("ElementPresence", Reason.ELEMENT_MISSING, [check],
-                         **self._prov(obs))
 
 
 def test_disabling_value_comparison_produces_a_false_success(fresh, monkeypatch):

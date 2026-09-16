@@ -211,8 +211,7 @@ def test_composite_fails_if_any_part_fails(fresh):
 def test_click_creating_expected_popup(fresh):
     obs = fresh.goto("/p/verify_outcomes")
     btn = fresh.find(obs, contains="Open confirmation popup")
-    step = fresh.act(obs, lambda: fresh.kernel.click(btn.target))
-    time.sleep(0.5)
+    step = fresh.act_expecting_page(obs, lambda: fresh.kernel.click(btn.target))
     assert step.new_page_ids, "fixture did not open a popup"
     popup = step.new_page_ids[0]
     result = fresh.verify(
@@ -229,8 +228,7 @@ def test_unrelated_popup_does_not_satisfy(fresh):
     """A popup that opened is not the popup that was expected."""
     obs = fresh.goto("/p/verify_outcomes")
     btn = fresh.find(obs, contains="Open other popup")
-    step = fresh.act(obs, lambda: fresh.kernel.click(btn.target))
-    time.sleep(0.5)
+    step = fresh.act_expecting_page(obs, lambda: fresh.kernel.click(btn.target))
     popup = step.new_page_ids[0]
     result = fresh.verify(
         step,
@@ -245,8 +243,7 @@ def test_unrelated_popup_does_not_satisfy(fresh):
 def test_popup_with_wrong_opener_is_rejected(fresh):
     obs = fresh.goto("/p/verify_outcomes")
     btn = fresh.find(obs, contains="Open confirmation popup")
-    step = fresh.act(obs, lambda: fresh.kernel.click(btn.target))
-    time.sleep(0.5)
+    step = fresh.act_expecting_page(obs, lambda: fresh.kernel.click(btn.target))
     popup = step.new_page_ids[0]
     result = fresh.verify(
         step,

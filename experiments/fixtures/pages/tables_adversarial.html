@@ -1,0 +1,87 @@
+<title>Adversarial Tables</title>
+<h1>Adversarial tables</h1>
+<!-- Structure torture for the group/row representation. Every table repeats
+     action labels, and several repeat values, so nothing but real row
+     association can tell the targets apart. -->
+
+<h2>Standard table with headers</h2>
+<table id="t-standard">
+  <thead><tr><th>Name</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td>Alice</td><td>Pending</td><td><button type="button" onclick="pick('Alice')">Review</button></td></tr>
+    <tr><td>Bob</td><td>Complete</td><td><button type="button" onclick="pick('Bob')">Review</button></td></tr>
+    <tr><td>Carol</td><td>Pending</td><td><button type="button" onclick="pick('Carol')">Review</button></td></tr>
+  </tbody>
+</table>
+
+<h2>Second table, same action label, same statuses</h2>
+<table id="t-second">
+  <thead><tr><th>Name</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td>Alice</td><td>Pending</td><td><button type="button" onclick="pick('T2-Alice')">Review</button></td></tr>
+    <tr><td>Dave</td><td>Pending</td><td><button type="button" onclick="pick('T2-Dave')">Review</button></td></tr>
+  </tbody>
+</table>
+
+<h2>No headers, missing optional cell</h2>
+<table id="t-sparse">
+  <tr><td>Erin</td><td></td><td><button type="button" onclick="pick('Erin')">Open</button></td></tr>
+  <tr><td>Frank</td><td>Archived</td><td><button type="button" onclick="pick('Frank')">Open</button></td></tr>
+</table>
+
+<h2>Links inside cells</h2>
+<table id="t-links">
+  <thead><tr><th>Ref</th><th>Owner</th><th>Link</th></tr></thead>
+  <tr><td>R-1</td><td>Grace</td><td><a href="#g" onclick="pick('link-Grace');return false">Details</a></td></tr>
+  <tr><td>R-2</td><td>Heidi</td><td><a href="#h" onclick="pick('link-Heidi');return false">Details</a></td></tr>
+</table>
+
+<h2>ARIA grid</h2>
+<div id="t-aria" role="table">
+  <div role="row"><div role="columnheader">Item</div><div role="columnheader">Qty</div><div role="columnheader">Do</div></div>
+  <div role="row"><div role="cell">Widget</div><div role="cell">3</div><div role="cell"><button type="button" onclick="pick('aria-Widget')">Apply</button></div></div>
+  <div role="row"><div role="cell">Gadget</div><div role="cell">7</div><div role="cell"><button type="button" onclick="pick('aria-Gadget')">Apply</button></div></div>
+</div>
+
+<h2>List items</h2>
+<ul id="t-list">
+  <li>Ivan — overdue <button type="button" onclick="pick('list-Ivan')">Remind</button></li>
+  <li>Judy — current <button type="button" onclick="pick('list-Judy')">Remind</button></li>
+</ul>
+
+<p><span id="picked">none</span></p>
+<p>
+  <button id="reorder" type="button" onclick="reorder()">Reorder standard rows</button>
+  <button id="replace" type="button" onclick="replaceRows()">Replace standard rows</button>
+  <button id="swap-values" type="button" onclick="swapValues()">Swap Alice/Bob names</button>
+</p>
+
+<script>
+function pick(who){ window.__effect(who);
+  document.getElementById('picked').textContent = 'picked ' + who; }
+
+function reorder(){
+  const b = document.querySelector('#t-standard tbody');
+  b.insertBefore(b.rows[2], b.rows[0]);          // Carol to the top
+}
+function replaceRows(){
+  // Wholesale rebuild: new nodes, same visible content, reversed order.
+  const b = document.querySelector('#t-standard tbody');
+  const data = [['Carol','Pending'],['Bob','Complete'],['Alice','Pending']];
+  b.innerHTML = '';
+  for (const [n,s] of data){
+    const tr=document.createElement('tr');
+    tr.innerHTML = '<td>'+n+'</td><td>'+s+'</td><td></td>';
+    const btn=document.createElement('button');
+    btn.type='button'; btn.textContent='Review';
+    btn.addEventListener('click', () => pick(n));
+    tr.cells[2].appendChild(btn);
+    b.appendChild(tr);
+  }
+}
+function swapValues(){
+  const b = document.querySelector('#t-standard tbody');
+  const a = b.rows[0].cells[0], c = b.rows[1].cells[0];
+  const tmp = a.textContent; a.textContent = c.textContent; c.textContent = tmp;
+}
+</script>

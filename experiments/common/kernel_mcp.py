@@ -21,6 +21,7 @@ from typing import Optional
 
 from .contracts import (
     KernelError,
+    ObservedText,
     KernelErrorCode,
     Observation,
     ObservedElement,
@@ -359,6 +360,10 @@ class MCPKernel(BrowserKernel):
             document_token="",
             document_generation=0,
             frame_tree_version=len(frame_ids),
+            # MCP has no frame-attach event, so its ids stay snapshot-local.
+            # "f0" is its top frame; recorded so the shared case suite can ask
+            # which frame is the main one without special-casing the runtime.
+            main_frame_id="f0",
             tabs=[
                 TabSummary(r.page_id, r.url, r.title, r.owner.value, r.page_id == pid)
                 for r in self.registry.values()
@@ -366,7 +371,8 @@ class MCPKernel(BrowserKernel):
             ],
             modal=None,
             elements=elements,
-            text_blocks=parse_text_blocks(txt),
+            text_blocks=[ObservedText(text=b, frame_id="f0")
+                         for b in parse_text_blocks(txt)],
         )
         obs.state_fingerprint = obs.compute_fingerprint()
         self._obs[obs_id] = {"map": mapping, "obs": obs}

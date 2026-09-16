@@ -1,0 +1,14 @@
+<title>Frame Leaf</title>
+<!-- Every instance is byte-identical except for the slot reported from the
+     query string, which exists only so tests can tell which frame answered.
+     The accessible name of the control is deliberately the same everywhere. -->
+<h2 id="who">leaf</h2>
+<button id="leaf-confirm" type="button" onclick="window.__effect('LEAF_'+slot())">Confirm</button>
+<input id="leaf-input" type="text" aria-label="Search">
+<script>
+function slot(){
+  const m = location.search.match(/slot=([^&]*)/);
+  return m ? m[1] : '?';
+}
+document.getElementById('who').textContent = 'leaf ' + slot();
+</script>

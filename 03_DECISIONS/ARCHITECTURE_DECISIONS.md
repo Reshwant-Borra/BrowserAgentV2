@@ -244,6 +244,52 @@ identity minted at frame-attach time. The Verifier's `section` pin is a correct
 but defensive workaround, and it is the reason frame-scoped verification is more
 awkward than page-scoped verification.
 
+> **Superseded by [ADR-016](#adr-016--observation-contract-v1).** Frame ids are
+> now minted at the attach event, so the `section` pin is no longer required for
+> identity and the Verifier's refusal has been removed. The analysis above
+> remains the record of why positional ids were unsafe.
+
+## ADR-016 — Observation Contract V1
+
+**Decision:** ACCEPTED. Frozen at
+[`OBSERVATION_CONTRACT_V1.md`](OBSERVATION_CONTRACT_V1.md).
+
+Three defects that had been documented and deliberately left open are corrected
+at the BrowserKernel, and the observation is versioned so that a model
+evaluation can no longer prompt a quiet change to it.
+
+**Frame identity — supersedes the workaround in [ADR-015](#adr-015--a-frame-id-is-a-positional-index-not-an-identity).**
+Frame ids are now minted at the `frameattached` event and never reused. ADR-015
+correctly said the proper fix was owed to the BrowserKernel; this is that fix,
+and the Verifier's `section`-pin requirement is removed as a result. `section`
+survives as an ordinary disambiguator for duplicate control names.
+
+Measured against Playwright rather than assumed: a Frame object is stable across
+reload and in-frame navigation, disappears on detach, and is never recycled for
+a later frame. Evidence: 120 adversarial transitions on a fixture whose two
+child frames share a `src` and a `name` — **0 identity transfers**.
+
+**Table/group semantics.** An element inside a `tr`/`li`/ARIA row now carries a
+`group_id` resolving to an `ObservedGroup` with header-keyed `cells`. This is
+AD-M22's root cause, fixed generically: nothing in the implementation refers to
+that case, and the evidence spans standard tables, a second table with identical
+rows, headerless tables, ARIA grids, list items, row reorder and wholesale row
+replacement. 130 row associations verified by deterministic code, with no model
+involved.
+
+**Text extraction.** Each element contributes its own direct text nodes rather
+than a tag whitelist over `textContent`. The old rule captured 5 of 16 marked
+lines on the investigation fixture and missed the three most task-relevant lines
+on a realistic page, so it was a genuine defect. Cost: +169.5% characters across
+the measurement fixtures, and a *net reduction* on table-heavy pages where the
+old rule double-counted.
+
+**Explicitly not done here:** no Qwen prompt, model, parameter or threshold
+changed; no dataset was regenerated; no adequacy evaluation was run. Asserted by
+[`tests/observation/test_contract_invariants.py`](../tests/observation/test_contract_invariants.py),
+which diffs the prompt blocks, the model adapter, the thresholds and all four
+frozen datasets against `213779b`.
+
 ## Rejected approaches for the MVP
 
 - giant one-shot prompt that plans and executes a full web task;

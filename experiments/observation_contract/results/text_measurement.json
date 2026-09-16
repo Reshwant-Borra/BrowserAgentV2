@@ -1,0 +1,175 @@
+{
+  "/p/text_variants": {
+    "page": "/p/text_variants",
+    "old": {
+      "blocks": 6,
+      "chars": 110,
+      "approx_tokens": 27,
+      "signal": 5,
+      "noise_markers": 0,
+      "duplicate_blocks": 0
+    },
+    "new": {
+      "blocks": 16,
+      "chars": 350,
+      "approx_tokens": 87,
+      "signal": 15,
+      "noise_markers": 0,
+      "duplicate_blocks": 0
+    },
+    "old_blocks": [
+      "Text variants",
+      "SIGNAL div heading",
+      "SIGNAL paragraph text",
+      "SIGNAL span text",
+      "SIGNAL list item text",
+      "SIGNAL cell text"
+    ],
+    "new_blocks": [
+      "Text variants",
+      "SIGNAL bare div text",
+      "SIGNAL nested div text",
+      "SIGNAL div heading",
+      "SIGNAL text beside a heading",
+      "SIGNAL text next to a control",
+      "SIGNAL duplicated line",
+      "SIGNAL status message",
+      "SIGNAL alert message",
+      "SIGNAL Account balance: $42",
+      "SIGNAL initial dynamic text",
+      "SIGNAL paragraph text",
+      "SIGNAL span text",
+      "SIGNAL list item text",
+      "SIGNAL caption",
+      "SIGNAL cell text"
+    ]
+  },
+  "/p/text_noise": {
+    "page": "/p/text_noise",
+    "old": {
+      "blocks": 9,
+      "chars": 97,
+      "approx_tokens": 24,
+      "signal": 2,
+      "noise_markers": 0,
+      "duplicate_blocks": 0
+    },
+    "new": {
+      "blocks": 35,
+      "chars": 613,
+      "approx_tokens": 153,
+      "signal": 5,
+      "noise_markers": 0,
+      "duplicate_blocks": 0
+    },
+    "old_blocks": [
+      "Order 88213",
+      "Items",
+      "SIGNAL Widget A",
+      "120.00",
+      "SIGNAL Widget B",
+      "172.90",
+      "Payment",
+      "Card number",
+      "Security code"
+    ],
+    "new_blocks": [
+      "Home",
+      "Products",
+      "Pricing",
+      "Docs",
+      "Support",
+      "About us",
+      "Careers",
+      "Blog",
+      "Order 88213",
+      "SIGNAL Order status: awaiting payment",
+      "SIGNAL Amount due: 412.90 USD",
+      "SIGNAL Payment due by 2026-10-04",
+      "Items",
+      "Item",
+      "Qty",
+      "Price",
+      "SIGNAL Widget A",
+      "120.00",
+      "SIGNAL Widget B",
+      "172.90",
+      "Payment",
+      "Recommended for you",
+      "Widget C \u2014 49.00",
+      "Free shipping over 100",
+      "Widget D \u2014 59.00",
+      "Widget E \u2014 69.00",
+      "Widget F \u2014 79.00",
+      "Terms of service",
+      "Privacy policy",
+      "Cookie preferences",
+      "Accessibility statement",
+      "Modern slavery statement",
+      "\u00a9 2026 Example Corporation. All rights reserved.",
+      "Registered in England and Wales, company number 00000000.",
+      "This site uses cookies to improve your experience."
+    ]
+  },
+  "/p/verify_records": {
+    "page": "/p/verify_records",
+    "old": {
+      "blocks": 17,
+      "chars": 209,
+      "approx_tokens": 52,
+      "signal": 0,
+      "noise_markers": 0,
+      "duplicate_blocks": 3
+    },
+    "new": {
+      "blocks": 16,
+      "chars": 158,
+      "approx_tokens": 39,
+      "signal": 0,
+      "noise_markers": 0,
+      "duplicate_blocks": 0
+    },
+    "old_blocks": [
+      "Records",
+      "Search records",
+      "REF-1001",
+      "A. Okafor",
+      "2026-10-02",
+      "Open Archive",
+      "REF-1002",
+      "B. Lindqvist",
+      "2026-09-28",
+      "Open Archive",
+      "REF-1003",
+      "C. Nakamura",
+      "2026-11-14",
+      "Open Archive",
+      "Export all records",
+      "No record opened",
+      "No record opened"
+    ],
+    "new_blocks": [
+      "Records",
+      "Open items",
+      "Reference",
+      "Owner",
+      "Due",
+      "Actions",
+      "REF-1001",
+      "A. Okafor",
+      "2026-10-02",
+      "REF-1002",
+      "B. Lindqvist",
+      "2026-09-28",
+      "REF-1003",
+      "C. Nakamura",
+      "2026-11-14",
+      "No record opened"
+    ]
+  },
+  "_totals": {
+    "old_chars": 416,
+    "new_chars": 1121,
+    "delta_pct": 169.5
+  }
+}

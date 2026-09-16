@@ -1,0 +1,1149 @@
+{
+  "experiment": "E6_ambiguous_side_effect_recovery",
+  "question": "Can the agent survive a crash around a state-changing operation without performing it twice?",
+  "invariant": "zero duplicate side effects caused by blind retry",
+  "server_mode": "dedupe=false (worst-case app; duplicates really happen)",
+  "environment": {
+    "captured_at": "2026-09-16T12:58:54-0400",
+    "os": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "system": "Windows",
+      "release": "11",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel"
+    },
+    "python": "3.13.2",
+    "cpu_count": 28,
+    "git": {
+      "commit": "213779b6109a1ffcfd81059c3ce8331e827cf6a3",
+      "branch": "implementation/observation-contract-v1",
+      "dirty": true
+    },
+    "gpu": "NVIDIA GeForce RTX 4070, 12282 MiB, 610.60",
+    "node": "v24.15.0",
+    "npm": "11.13.0",
+    "playwright": "unknown",
+    "chromium_version": "151.0.7922.34",
+    "chromium_path": "C:\\Users\\reshw\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+    "playwright_mcp": "0.0.81",
+    "ollama_version": "ollama version is 0.34.0",
+    "ollama_models": "NAME                 ID              SIZE      MODIFIED     \nqwen3:8b             500a1f067a9f    5.2 GB    3 weeks ago     \nqwen2.5-coder:14b    9ec8897f747e    9.0 GB    3 months ago    \ngemma3:4b            a2af6cc3eb7f    3.3 GB    4 months ago    \nqwen2.5-coder:7b     dae161e27b0e    4.7 GB    4 months ago    \nqwen2.5:14b          7cdf5a0187d5    9.0 GB    4 months ago",
+    "experiment": "E6_ambiguous_side_effect_recovery"
+  },
+  "crash_points": [
+    "before_intent_commit",
+    "after_intent_commit_before_execute",
+    "during_execute",
+    "after_server_committed_before_result",
+    "after_result_before_result_commit",
+    "after_result_commit_before_verification",
+    "during_reconciliation"
+  ],
+  "reps": 2,
+  "summary": {
+    "blind_replay": {
+      "trials": 14,
+      "crashes_injected": 14,
+      "duplicate_side_effects": 10,
+      "duplicate_crash_points": [
+        "after_result_before_result_commit",
+        "after_result_commit_before_verification",
+        "after_server_committed_before_result",
+        "during_execute",
+        "during_reconciliation"
+      ],
+      "final_effect_distribution": {
+        "0": 2,
+        "1": 2,
+        "2": 10
+      },
+      "recovery_actions": {
+        "NOTHING_TO_REPLAY": 2,
+        "REPLAY": 12
+      },
+      "states": {
+        "IGNORED": 14
+      },
+      "by_crash_point": {
+        "after_intent_commit_before_execute": {
+          "n": 2,
+          "actions": {
+            "REPLAY": 2
+          },
+          "states": {
+            "IGNORED": 2
+          },
+          "effects": {
+            "1": 2
+          },
+          "duplicates": 0
+        },
+        "after_result_before_result_commit": {
+          "n": 2,
+          "actions": {
+            "REPLAY": 2
+          },
+          "states": {
+            "IGNORED": 2
+          },
+          "effects": {
+            "2": 2
+          },
+          "duplicates": 2
+        },
+        "after_result_commit_before_verification": {
+          "n": 2,
+          "actions": {
+            "REPLAY": 2
+          },
+          "states": {
+            "IGNORED": 2
+          },
+          "effects": {
+            "2": 2
+          },
+          "duplicates": 2
+        },
+        "after_server_committed_before_result": {
+          "n": 2,
+          "actions": {
+            "REPLAY": 2
+          },
+          "states": {
+            "IGNORED": 2
+          },
+          "effects": {
+            "2": 2
+          },
+          "duplicates": 2
+        },
+        "before_intent_commit": {
+          "n": 2,
+          "actions": {
+            "NOTHING_TO_REPLAY": 2
+          },
+          "states": {
+            "IGNORED": 2
+          },
+          "effects": {
+            "0": 2
+          },
+          "duplicates": 0
+        },
+        "during_execute": {
+          "n": 2,
+          "actions": {
+            "REPLAY": 2
+          },
+          "states": {
+            "IGNORED": 2
+          },
+          "effects": {
+            "2": 2
+          },
+          "duplicates": 2
+        },
+        "during_reconciliation": {
+          "n": 2,
+          "actions": {
+            "REPLAY": 2
+          },
+          "states": {
+            "IGNORED": 2
+          },
+          "effects": {
+            "2": 2
+          },
+          "duplicates": 2
+        }
+      }
+    },
+    "reconcile": {
+      "trials": 16,
+      "crashes_injected": 16,
+      "duplicate_side_effects": 0,
+      "duplicate_crash_points": [],
+      "final_effect_distribution": {
+        "0": 2,
+        "1": 14
+      },
+      "recovery_actions": {
+        "ESCALATE_TO_USER_WAITING_FOR_CONFIRMATION": 2,
+        "RECORD_AS_DONE_NO_REPLAY": 10,
+        "SAFE_TO_EXECUTE": 4
+      },
+      "states": {
+        "AMBIGUOUS": 2,
+        "DEFINITELY_EXECUTED": 10,
+        "DEFINITELY_NOT_EXECUTED": 4
+      },
+      "by_crash_point": {
+        "after_intent_commit_before_execute": {
+          "n": 2,
+          "actions": {
+            "SAFE_TO_EXECUTE": 2
+          },
+          "states": {
+            "DEFINITELY_NOT_EXECUTED": 2
+          },
+          "effects": {
+            "1": 2
+          },
+          "duplicates": 0
+        },
+        "after_result_before_result_commit": {
+          "n": 2,
+          "actions": {
+            "RECORD_AS_DONE_NO_REPLAY": 2
+          },
+          "states": {
+            "DEFINITELY_EXECUTED": 2
+          },
+          "effects": {
+            "1": 2
+          },
+          "duplicates": 0
+        },
+        "after_result_commit_before_verification": {
+          "n": 2,
+          "actions": {
+            "RECORD_AS_DONE_NO_REPLAY": 2
+          },
+          "states": {
+            "DEFINITELY_EXECUTED": 2
+          },
+          "effects": {
+            "1": 2
+          },
+          "duplicates": 0
+        },
+        "after_server_committed_before_result": {
+          "n": 4,
+          "actions": {
+            "ESCALATE_TO_USER_WAITING_FOR_CONFIRMATION": 2,
+            "RECORD_AS_DONE_NO_REPLAY": 2
+          },
+          "states": {
+            "AMBIGUOUS": 2,
+            "DEFINITELY_EXECUTED": 2
+          },
+          "effects": {
+            "1": 4
+          },
+          "duplicates": 0
+        },
+        "before_intent_commit": {
+          "n": 2,
+          "actions": {
+            "SAFE_TO_EXECUTE": 2
+          },
+          "states": {
+            "DEFINITELY_NOT_EXECUTED": 2
+          },
+          "effects": {
+            "0": 2
+          },
+          "duplicates": 0
+        },
+        "during_execute": {
+          "n": 2,
+          "actions": {
+            "RECORD_AS_DONE_NO_REPLAY": 2
+          },
+          "states": {
+            "DEFINITELY_EXECUTED": 2
+          },
+          "effects": {
+            "1": 2
+          },
+          "duplicates": 0
+        },
+        "during_reconciliation": {
+          "n": 2,
+          "actions": {
+            "RECORD_AS_DONE_NO_REPLAY": 2
+          },
+          "states": {
+            "DEFINITELY_EXECUTED": 2
+          },
+          "effects": {
+            "1": 2
+          },
+          "duplicates": 0
+        }
+      }
+    }
+  },
+  "raw": [
+    {
+      "crash_point": "before_intent_commit",
+      "policy": "reconcile",
+      "operation_id": "BK-before_intent_commit-reconcile-1-45244",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "SAFE_TO_EXECUTE",
+        "state": "DEFINITELY_NOT_EXECUTED",
+        "basis": "no open intent in the journal; nothing was ever dispatched"
+      },
+      "replayed": false,
+      "final_effect_count": 0,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_intent_commit_before_execute",
+      "policy": "reconcile",
+      "operation_id": "BK-after_intent_commit_before_execute-reconcile-1-46550",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "SAFE_TO_EXECUTE",
+        "state": "DEFINITELY_NOT_EXECUTED",
+        "basis": "intent is PREPARED and was never DISPATCHED; the ordering rule guarantees the browser was not touched"
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "RECONCILED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "during_execute",
+      "policy": "reconcile",
+      "operation_id": "BK-during_execute-reconcile-1-50488",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-during_execute-reconcile-1-50488 (seq 2)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_server_committed_before_result",
+      "policy": "reconcile",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-1-52899",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-1-52899 (seq 3)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_result_before_result_commit",
+      "policy": "reconcile",
+      "operation_id": "BK-after_result_before_result_commit-reconcile-1-55261",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-1-55261 (seq 4)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_result_commit_before_verification",
+      "policy": "reconcile",
+      "operation_id": "BK-after_result_commit_before_verification-reconcile-1-57889",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-1-57889"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "during_reconciliation",
+      "policy": "reconcile",
+      "operation_id": "BK-during_reconciliation-reconcile-1-60735",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "reconciliation_crash_rc": 70,
+      "reconciliation_crashed": true,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-1-60735 (seq 6)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_server_committed_before_result",
+      "policy": "reconcile",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-1-63516",
+      "evidence": "unavailable",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "ESCALATE_TO_USER_WAITING_FOR_CONFIRMATION",
+        "state": "AMBIGUOUS",
+        "basis": "intent was DISPATCHED and no durable evidence channel is available; escalating to the user rather than replaying"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "HANDOFF_REQUIRED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "before_intent_commit",
+      "policy": "reconcile",
+      "operation_id": "BK-before_intent_commit-reconcile-2-65927",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "SAFE_TO_EXECUTE",
+        "state": "DEFINITELY_NOT_EXECUTED",
+        "basis": "no open intent in the journal; nothing was ever dispatched"
+      },
+      "replayed": false,
+      "final_effect_count": 0,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_intent_commit_before_execute",
+      "policy": "reconcile",
+      "operation_id": "BK-after_intent_commit_before_execute-reconcile-2-67332",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "SAFE_TO_EXECUTE",
+        "state": "DEFINITELY_NOT_EXECUTED",
+        "basis": "intent is PREPARED and was never DISPATCHED; the ordering rule guarantees the browser was not touched"
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "RECONCILED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "during_execute",
+      "policy": "reconcile",
+      "operation_id": "BK-during_execute-reconcile-2-71231",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-during_execute-reconcile-2-71231 (seq 9)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_server_committed_before_result",
+      "policy": "reconcile",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-2-73017",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-2-73017 (seq 10)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_result_before_result_commit",
+      "policy": "reconcile",
+      "operation_id": "BK-after_result_before_result_commit-reconcile-2-75443",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-2-75443 (seq 11)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_result_commit_before_verification",
+      "policy": "reconcile",
+      "operation_id": "BK-after_result_commit_before_verification-reconcile-2-77958",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-2-77958"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "during_reconciliation",
+      "policy": "reconcile",
+      "operation_id": "BK-during_reconciliation-reconcile-2-79901",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "reconciliation_crash_rc": 70,
+      "reconciliation_crashed": true,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "RECORD_AS_DONE_NO_REPLAY",
+        "state": "DEFINITELY_EXECUTED",
+        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-2-79901 (seq 13)"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_server_committed_before_result",
+      "policy": "reconcile",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-2-82799",
+      "evidence": "unavailable",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "reconcile",
+        "action": "ESCALATE_TO_USER_WAITING_FOR_CONFIRMATION",
+        "state": "AMBIGUOUS",
+        "basis": "intent was DISPATCHED and no durable evidence channel is available; escalating to the user rather than replaying"
+      },
+      "replayed": false,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "RECONCILED",
+        "HANDOFF_REQUIRED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "before_intent_commit",
+      "policy": "blind_replay",
+      "operation_id": "BK-before_intent_commit-blind_replay-1-85064",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "NOTHING_TO_REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replayed": false,
+      "final_effect_count": 0,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_intent_commit_before_execute",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-1-86771",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "during_execute",
+      "policy": "blind_replay",
+      "operation_id": "BK-during_execute-blind_replay-1-90300",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_server_committed_before_result",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_server_committed_before_result-blind_replay-1-94226",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_result_before_result_commit",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_result_before_result_commit-blind_replay-1-98356",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "after_result_commit_before_verification",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_result_commit_before_verification-blind_replay-1-2501",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "during_reconciliation",
+      "policy": "blind_replay",
+      "operation_id": "BK-during_reconciliation-blind_replay-1-6095",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 1
+    },
+    {
+      "crash_point": "before_intent_commit",
+      "policy": "blind_replay",
+      "operation_id": "BK-before_intent_commit-blind_replay-2-10236",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "NOTHING_TO_REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replayed": false,
+      "final_effect_count": 0,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_intent_commit_before_execute",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-2-11872",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 0,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 1,
+      "duplicate_side_effect": false,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "during_execute",
+      "policy": "blind_replay",
+      "operation_id": "BK-during_execute-blind_replay-2-14913",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_server_committed_before_result",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_server_committed_before_result-blind_replay-2-18351",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_result_before_result_commit",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_result_before_result_commit-blind_replay-2-22397",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "after_result_commit_before_verification",
+      "policy": "blind_replay",
+      "operation_id": "BK-after_result_commit_before_verification-blind_replay-2-26257",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    },
+    {
+      "crash_point": "during_reconciliation",
+      "policy": "blind_replay",
+      "operation_id": "BK-during_reconciliation-blind_replay-2-30495",
+      "evidence": "available",
+      "worker_rc": 70,
+      "worker_crashed": true,
+      "effects_after_crash": 1,
+      "recovery_rc": 0,
+      "recovery": {
+        "policy": "blind_replay",
+        "action": "REPLAY",
+        "state": "IGNORED",
+        "basis": null
+      },
+      "replay_rc": 0,
+      "replayed": true,
+      "final_effect_count": 2,
+      "duplicate_side_effect": true,
+      "journal_events": [
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "OBSERVED",
+        "INTENT_PREPARED",
+        "INTENT_DISPATCHED",
+        "ACTION_RESULT",
+        "VERIFICATION",
+        "INTENT_COMPLETED"
+      ],
+      "rep": 2
+    }
+  ]
+}

@@ -46,6 +46,7 @@ from .evidence import (
     PageView,
 )
 from .postconditions import (
+    MAIN_FRAME,
     AllOf,
     DialogState,
     DownloadPresent,
@@ -231,10 +232,11 @@ class Verifier:
         if name is None:
             return "", "no name available for relocation", Reason.FIELD_AMBIGUOUS
 
+        frame_id = _resolve_frame(obs, pc.frame_id)
         matches = [
             e
             for e in obs.elements
-            if e.frame_id == pc.frame_id
+            if (frame_id is None or e.frame_id == frame_id)
             and e.role == pc.role
             and e.name.strip() == name.strip()
         ]
@@ -244,7 +246,7 @@ class Verifier:
             return (
                 "",
                 f"{len(matches)} controls match role={pc.role!r} name={name!r} in "
-                f"frame {pc.frame_id}; cannot attribute a value to one of them",
+                f"frame {frame_id}; cannot attribute a value to one of them",
                 Reason.FIELD_AMBIGUOUS,
             )
         try:
@@ -295,37 +297,23 @@ class Verifier:
         self, pc: ElementPresence, request: VerificationRequest
     ) -> VerificationResult:
         vt = "ElementPresence"
-        non_main_frame = pc.frame_id not in (None, "f0")
-        if non_main_frame and pc.section is None:
-            # A positional frame index is not an identity: detaching a frame
-            # renumbers the rest, so `f1` can quietly come to mean a different
-            # document that happens to hold an identically named control.
-            # Refuse rather than resolve against a label that may have moved.
-            return ambiguous(
-                vt,
-                Reason.EVIDENCE_UNAVAILABLE,
-                [Check("frame_scope", None,
-                       detail=f"frame_id={pc.frame_id!r} is positional; pin the frame "
-                              "with `section` to scope outside the main frame")],
-                cause="FRAME_ID_NOT_A_STABLE_IDENTITY",
-                frame_id=pc.frame_id,
-            )
         try:
             obs = self._fresh(pc.page_id, request)
         except EvidenceUnavailable as exc:
             return self._unavailable(vt, exc)
 
+        # Observation Contract V1: frame ids are minted identities, so they are
+        # trusted directly. A detached frame simply has no elements, which makes
+        # the postcondition false rather than answerable by another frame.
+        frame_id = _resolve_frame(obs, pc.frame_id)
         matches = _find_elements(
             obs,
             role=pc.role,
             name=pc.name,
-            # Outside the main frame the index is advisory; `section` carries the
-            # identity. Requiring "some non-main frame" keeps the scope honest
-            # without trusting a number that shifts.
-            frame_id=None if non_main_frame else pc.frame_id,
-            exclude_main_frame=non_main_frame,
+            frame_id=frame_id,
             section=pc.section,
             require_visible=pc.require_visible,
+            group_cells=pc.group_cells,
         )
         present = len(matches) > 0
         ok = present == pc.expect_present
@@ -339,9 +327,11 @@ class Verifier:
         prov = self._prov(
             obs,
             matches=[m.target for m in matches[:5]],
-            frame_id=pc.frame_id,
+            frame_id=frame_id,
+            requested_frame=pc.frame_id,
             matched_frames=sorted({m.frame_id for m in matches}),
             section=pc.section,
+            group_cells=pc.group_cells,
         )
         if ok:
             return satisfied(vt, [check], **prov)
@@ -357,23 +347,18 @@ class Verifier:
         self, pc: TextPresence, request: VerificationRequest
     ) -> VerificationResult:
         vt = "TextPresence"
-        if pc.frame_id not in (None, "f0"):
-            # Observation text is collected for the main frame only. Rather than
-            # silently searching the wrong scope, refuse: a frame-scoped text
-            # assertion should use ElementPresence, which is frame-aware.
-            return ambiguous(
-                vt,
-                Reason.EVIDENCE_UNAVAILABLE,
-                [Check("frame_scope", None, detail=f"no text evidence for frame {pc.frame_id}")],
-                cause="TEXT_NOT_COLLECTED_FOR_FRAME",
-                frame_id=pc.frame_id,
-            )
         try:
             obs = self._fresh(pc.page_id, request)
         except EvidenceUnavailable as exc:
             return self._unavailable(vt, exc)
 
-        hay = list(obs.text_blocks)
+        # Observation Contract V1 carries text per frame, so a child frame's
+        # text is directly assertable instead of being refused.
+        frame_id = _resolve_frame(obs, pc.frame_id)
+        hay = [
+            b.text for b in obs.text_blocks
+            if frame_id is None or b.frame_id == frame_id
+        ]
         present = any(_text_matches(block, pc.text, pc.match) for block in hay)
         ok = present == pc.expect_present
         check = Check(
@@ -382,7 +367,8 @@ class Verifier:
             expected=f"{'present' if pc.expect_present else 'absent'}: {pc.text!r}",
             observed=f"{len(hay)} text blocks searched; present={present}",
         )
-        prov = self._prov(obs, blocks_searched=len(hay))
+        prov = self._prov(obs, blocks_searched=len(hay), frame_id=frame_id,
+                          requested_frame=pc.frame_id)
         if ok:
             return satisfied(vt, [check], **prov)
         reason = (
@@ -687,6 +673,43 @@ def _text_matches(haystack: str, needle: str, mode: TextMatch) -> bool:
     raise ValueError(f"unknown match mode {mode!r}")
 
 
+def _resolve_frame(obs: ObservationView, frame_id: Optional[str]) -> Optional[str]:
+    """Translate MAIN_FRAME into this page's minted main-frame id.
+
+    `None` means "any frame on this page" and is passed through.
+    """
+    if frame_id == MAIN_FRAME:
+        return getattr(obs, "main_frame_id", "") or None
+    return frame_id
+
+
+def _group_matches(obs: ObservationView, element: ElementView, wanted: dict) -> bool:
+    """Is this element inside a row whose cells match every wanted pair?
+
+    This is what lets a postcondition name "the Open button in B. Lindqvist's
+    row" rather than one of three identical Open buttons. Comparison is on the
+    structured cells, not on a rendered label string.
+    """
+    gid = getattr(element, "group_id", "")
+    if not gid:
+        return False
+    group = next((g for g in obs.groups if g.group_id == gid), None)
+    if group is None:
+        return False
+    cells = dict(group.cells)
+    for key, value in wanted.items():
+        found = cells.get(key)
+        if found is None:
+            # Allow matching on value alone when the caller does not know the
+            # header, e.g. an unheadered table.
+            if value not in cells.values():
+                return False
+            continue
+        if value not in found:
+            return False
+    return True
+
+
 def _find_elements(
     obs: ObservationView,
     *,
@@ -695,19 +718,19 @@ def _find_elements(
     frame_id: Optional[str],
     section: Optional[str],
     require_visible: bool,
-    exclude_main_frame: bool = False,
+    group_cells: Optional[dict] = None,
 ) -> list[ElementView]:
     out = []
     for e in obs.elements:
         if frame_id is not None and e.frame_id != frame_id:
-            continue
-        if exclude_main_frame and e.frame_id == "f0":
             continue
         if e.role != role or e.name.strip() != name.strip():
             continue
         if section is not None and (getattr(e, "section", "") or "").strip() != section:
             continue
         if require_visible and not getattr(e, "visible", True):
+            continue
+        if group_cells is not None and not _group_matches(obs, e, group_cells):
             continue
         out.append(e)
     return out

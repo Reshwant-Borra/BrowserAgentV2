@@ -130,7 +130,9 @@ def run(args):
 
         # ---- deterministic verification --------------------------------------
         obs3 = k.observe()
-        text = " ".join(obs3.text_blocks)
+        text = " ".join(
+            b.text if hasattr(b, "text") else str(b) for b in obs3.text_blocks
+        )
         satisfied = f"Reference {operation_id}" in text
         j.append(
             "VERIFICATION",

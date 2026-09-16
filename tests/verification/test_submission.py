@@ -204,18 +204,14 @@ def test_composite_definite_failure_outranks_ambiguity(fresh):
     assert result.reason is Reason.COMPOSITE_FAILED
 
 
-def test_known_limitation_text_in_a_bare_div_is_invisible(fresh):
-    """Pinning a real observation-layer limitation so it cannot hide.
+def test_bare_div_text_is_now_observable(fresh):
+    """Replaces the old "div text is invisible" limitation test.
 
-    `submit_op.html` renders its confirmation inside a bare <div>. The
-    observation collects text from h1-h3/p/li/td/label/span only, so that
-    confirmation never reaches `text_blocks` even though a person can read it
-    on screen. The Verifier faithfully reports what the observation contains,
-    which here means NOT_SATISFIED for text that is genuinely on the page.
-
-    This is an observation-format limitation, not a Verifier defect, and the
-    observation format is explicitly frozen for this gate. It is the reason
-    Experiment 6's worker could never record a SATISFIED verification.
+    `submit_op.html` renders its confirmation inside a bare <div>. Under the
+    pre-V1 tag whitelist that text never reached the observation, so a person
+    could read a confirmation the agent could not — the reason Experiment 6's
+    worker could never record a SATISFIED verification. Observation Contract V1
+    collects each element's own direct text nodes, so it is observable now.
     """
     op = f"BK-{uuid.uuid4().hex[:10]}"
     obs = fresh.goto("/p/submit_op")
@@ -232,11 +228,31 @@ def test_known_limitation_text_in_a_bare_div_is_invisible(fresh):
     text_result = fresh.verify(
         step, TextPresence(page_id=obs2.page_id, text=f"Reference {op}")
     )
-    assert text_result.status is NOT, "div text unexpectedly became observable"
+    assert text_result.status is SAT, (
+        "bare-div confirmation text is still invisible to the observation"
+    )
 
-    # The durable channel is unaffected, which is exactly why consequential
-    # verification is answered from durable evidence rather than page text.
+    # Durable evidence remains the authority for a consequential action; page
+    # text being readable does not change that.
     durable_result = fresh.verify(
         step, OperationRecorded(page_id=obs2.page_id, operation_id=op)
     )
     assert durable_result.status is SAT
+
+
+def test_e6_worker_verification_check_would_now_pass(fresh):
+    """The exact check Experiment 6's worker used, re-run against V1.
+
+    E6's verdict rested on server-side duplicate counts and is unaffected, but
+    its journal's verification field was never exercising a positive path. This
+    pins that the underlying cause is gone.
+    """
+    op = f"BK-{uuid.uuid4().hex[:10]}"
+    obs = fresh.goto("/p/submit_op")
+    fresh.kernel.type_text(fresh.find(obs, name="Operation ID").target, op)
+    obs2 = fresh.observe()
+    fresh.kernel.click(fresh.find(obs2, name="Submit booking").target)
+    time.sleep(0.5)
+    obs3 = fresh.observe()
+    text = " ".join(b.text for b in obs3.text_blocks)
+    assert f"Reference {op}" in text

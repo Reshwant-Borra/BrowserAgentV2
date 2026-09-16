@@ -1,0 +1,790 @@
+{
+  "experiment": "E1_browser_kernel_spike",
+  "question": "Which runtime should implement BrowserKernel: Playwright MCP or direct Playwright?",
+  "environment": {
+    "captured_at": "2026-09-16T13:00:33-0400",
+    "os": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "system": "Windows",
+      "release": "11",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel"
+    },
+    "python": "3.13.2",
+    "cpu_count": 28,
+    "git": {
+      "commit": "213779b6109a1ffcfd81059c3ce8331e827cf6a3",
+      "branch": "implementation/observation-contract-v1",
+      "dirty": true
+    },
+    "gpu": "NVIDIA GeForce RTX 4070, 12282 MiB, 610.60",
+    "node": "v24.15.0",
+    "npm": "11.13.0",
+    "playwright": "unknown",
+    "chromium_version": "151.0.7922.34",
+    "chromium_path": "C:\\Users\\reshw\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+    "playwright_mcp": "0.0.81",
+    "ollama_version": "ollama version is 0.34.0",
+    "ollama_models": "NAME                 ID              SIZE      MODIFIED     \nqwen3:8b             500a1f067a9f    5.2 GB    3 weeks ago     \nqwen2.5-coder:14b    9ec8897f747e    9.0 GB    3 months ago    \ngemma3:4b            a2af6cc3eb7f    3.3 GB    4 months ago    \nqwen2.5-coder:7b     dae161e27b0e    4.7 GB    4 months ago    \nqwen2.5:14b          7cdf5a0187d5    9.0 GB    4 months ago",
+    "experiment": "E1_browser_kernel_spike"
+  },
+  "passes": 1,
+  "mcp_unsafe_tools_present_on_server": [
+    "browser_evaluate",
+    "browser_file_upload",
+    "browser_network_request",
+    "browser_run_code_unsafe",
+    "browser_webmcp_call"
+  ],
+  "raw": [
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "NAV-01-open-url",
+      "status": "PASS",
+      "detail": "url=http://127.0.0.1:8799/p/basic els=3",
+      "duration_ms": 105.8
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "NAV-02-back",
+      "status": "PASS",
+      "detail": "url=http://127.0.0.1:8799/p/basic",
+      "duration_ms": 120.5
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "NAV-03-spa-route",
+      "status": "PASS",
+      "detail": "url=http://127.0.0.1:8799/p/spa#orders url_changed=True same_document=True",
+      "duration_ms": 125.7
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "NAV-04-redirect-chain",
+      "status": "PASS",
+      "detail": "title='Redirect End' url=http://127.0.0.1:8799/redirect?n=0",
+      "duration_ms": 78.1
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "NAV-05-non-2xx",
+      "status": "PASS",
+      "detail": "title='Not Found'",
+      "duration_ms": 55.8
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "NAV-06-nav-timeout",
+      "status": "PASS",
+      "detail": "NAVIGATION_TIMEOUT after 4.0s (bounded, typed)",
+      "duration_ms": 4010.3
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-01-basic-click",
+      "status": "PASS",
+      "detail": "effects=['GO']",
+      "duration_ms": 152.9
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-02-duplicate-names",
+      "status": "PASS",
+      "detail": "clicked exactly section B",
+      "duration_ms": 130.6
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-03-rerender-identical",
+      "status": "PASS",
+      "detail": "stale target failed closed: TARGET_STALE",
+      "duration_ms": 110.3
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-04-element-removed",
+      "status": "PASS",
+      "detail": "TARGET_STALE",
+      "duration_ms": 156.6
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-05-moving-element",
+      "status": "PASS",
+      "detail": "effects=['MOVER']",
+      "duration_ms": 171.4
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-06-disabled",
+      "status": "PASS",
+      "detail": "TARGET_DISABLED",
+      "duration_ms": 106.6
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-07-obscured",
+      "status": "PASS",
+      "detail": "refused covered element: TARGET_NOT_ACTIONABLE",
+      "duration_ms": 4090.8
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TGT-08-disabled-then-enabled",
+      "status": "PASS",
+      "detail": "effects=['LATER']",
+      "duration_ms": 770.2
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TXT-01-plain",
+      "status": "PASS",
+      "detail": "requested='machine learning' page_saw='machine learning' kernel_read='machine learning' delivered=True verifiable=True",
+      "delivered": true,
+      "verifiable": true,
+      "duration_ms": 104.2
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TXT-02-textarea",
+      "status": "PASS",
+      "detail": "requested='line one and line two' page_saw='line one and line two' kernel_read='line one and line two' delivered=True verifiable=True",
+      "delivered": true,
+      "verifiable": true,
+      "duration_ms": 116.8
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TXT-03-contenteditable",
+      "status": "PASS",
+      "detail": "requested='rich text value' page_saw='rich text value' kernel_read='rich text value' delivered=True verifiable=True",
+      "delivered": true,
+      "verifiable": true,
+      "duration_ms": 119.6
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TXT-04-controlled",
+      "status": "PASS",
+      "detail": "requested='controlled value' page_saw='controlled value' kernel_read='controlled value' delivered=True verifiable=True",
+      "delivered": true,
+      "verifiable": true,
+      "duration_ms": 99.0
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TXT-05-hydration-reset",
+      "status": "PASS",
+      "detail": "post-hydration kernel read='' (expected '')",
+      "duration_ms": 1014.7
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TXT-06-enter-submit",
+      "status": "PASS",
+      "detail": "page state contains submit marker: True",
+      "duration_ms": 335.4
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TXT-07-key-handler-field",
+      "status": "PASS",
+      "detail": "actual='abc123'",
+      "duration_ms": 253.7
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TAB-01-agent-tab",
+      "status": "PASS",
+      "detail": "page=page_2 owner=AGENT",
+      "duration_ms": 102.6
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TAB-02-target-blank-popup",
+      "status": "PASS",
+      "detail": "popup=page_2 owner=AGENT opener=page_1",
+      "duration_ms": 745.3
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TAB-03-window-open-popup",
+      "status": "PASS",
+      "detail": "popup=page_2 owner=AGENT",
+      "duration_ms": 725.3
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TAB-04-identical-twin-tabs",
+      "status": "PASS",
+      "detail": "twins=[('page_1', 'http://127.0.0.1:8799/p/tabs'), ('page_2', 'http://127.0.0.1:8799/p/tabs')]",
+      "duration_ms": 742.5
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TAB-05-close-agent-only",
+      "status": "PASS",
+      "detail": "refused_user_close=True agent_closed=True user_alive=True",
+      "duration_ms": 109.9
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "TAB-06-self-closing-tab",
+      "status": "PASS",
+      "detail": "popup page_2 registry closed=True",
+      "duration_ms": 1503.9
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "FRM-01-same-origin-frame",
+      "status": "PASS",
+      "detail": "frame-scoped click hit ['CHILD']",
+      "duration_ms": 1014.5
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "FRM-02-cross-origin-frame",
+      "status": "PASS",
+      "detail": "observable frames=['fr_1', 'fr_2', 'fr_3', 'fr_4', 'fr_5'] (top + same-origin + cross-origin + grandchild)",
+      "duration_ms": 1273.9
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "FRM-03-frame-detach",
+      "status": "PASS",
+      "detail": "FRAME_DETACHED",
+      "duration_ms": 1402.0
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "DLG-01-alert-is-state",
+      "status": "PASS",
+      "detail": "blocked=True state_visible=True",
+      "duration_ms": 4105.9
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "DLG-02-confirm",
+      "status": "PASS",
+      "detail": "effects=['confirm:true']",
+      "duration_ms": 4395.2
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "DLG-03-prompt",
+      "status": "PASS",
+      "detail": "effects=['prompt:typed-answer']",
+      "duration_ms": 4405.0
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "DLG-04-unresolved-dialog-blocks",
+      "status": "PASS",
+      "detail": "blocked=True effects=[]",
+      "duration_ms": 4091.1
+    },
+    {
+      "candidate": "direct_playwright",
+      "pass": 1,
+      "case": "OBS-01-large-page",
+      "status": "PASS",
+      "detail": "600 elements in 0.8s; largest duplicate-name group=100; all targets unique=True",
+      "duration_ms": 801.4
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "NAV-01-open-url",
+      "status": "PASS",
+      "detail": "url=http://127.0.0.1:8799/p/basic els=6",
+      "duration_ms": 49.2
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "NAV-02-back",
+      "status": "PASS",
+      "detail": "url=http://127.0.0.1:8799/p/basic",
+      "duration_ms": 125.2
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "NAV-03-spa-route",
+      "status": "UNSUPPORTED",
+      "detail": "url=http://127.0.0.1:8799/p/spa#orders url_changed=True same_document=None (runtime exposes no document identity)",
+      "duration_ms": 701.5
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "NAV-04-redirect-chain",
+      "status": "PASS",
+      "detail": "title='Redirect End' url=http://127.0.0.1:8799/redirect?n=0",
+      "duration_ms": 62.9
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "NAV-05-non-2xx",
+      "status": "PASS",
+      "detail": "title='Not Found'",
+      "duration_ms": 64.8
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "NAV-06-nav-timeout",
+      "status": "FAIL_SAFE",
+      "detail": "waited 9.0s and succeeded: navigation timeout is not bounded through the kernel interface",
+      "duration_ms": 9038.1
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-01-basic-click",
+      "status": "PASS",
+      "detail": "effects=['GO']",
+      "duration_ms": 1253.6
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-02-duplicate-names",
+      "status": "PASS",
+      "detail": "clicked exactly section B",
+      "duration_ms": 1138.2
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-03-rerender-identical",
+      "status": "PASS",
+      "detail": "stale target failed closed: TARGET_NOT_FOUND",
+      "duration_ms": 674.5
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-04-element-removed",
+      "status": "PASS",
+      "detail": "TARGET_NOT_FOUND",
+      "duration_ms": 600.1
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-05-moving-element",
+      "status": "PASS",
+      "detail": "effects=['MOVER']",
+      "duration_ms": 1791.1
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-06-disabled",
+      "status": "PASS",
+      "detail": "TIMEOUT",
+      "duration_ms": 5095.0
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-07-obscured",
+      "status": "PASS",
+      "detail": "refused covered element: TIMEOUT",
+      "duration_ms": 5088.0
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TGT-08-disabled-then-enabled",
+      "status": "PASS",
+      "detail": "effects=['LATER']",
+      "duration_ms": 2282.5
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TXT-01-plain",
+      "status": "PASS",
+      "detail": "requested='machine learning' page_saw='machine learning' kernel_read='machine learning' delivered=True verifiable=True",
+      "delivered": true,
+      "verifiable": true,
+      "duration_ms": 82.0
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TXT-02-textarea",
+      "status": "PASS",
+      "detail": "requested='line one and line two' page_saw='line one and line two' kernel_read='line one and line two' delivered=True verifiable=True",
+      "delivered": true,
+      "verifiable": true,
+      "duration_ms": 85.1
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TXT-03-contenteditable",
+      "status": "FAIL_SAFE",
+      "detail": "requested='rich text value' page_saw='rich text value' kernel_read='' delivered=True verifiable=False | text landed but the runtime cannot verify field values",
+      "delivered": true,
+      "verifiable": false,
+      "duration_ms": 103.2
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TXT-04-controlled",
+      "status": "PASS",
+      "detail": "requested='controlled value' page_saw='controlled value' kernel_read='controlled value' delivered=True verifiable=True",
+      "delivered": true,
+      "verifiable": true,
+      "duration_ms": 131.5
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TXT-05-hydration-reset",
+      "status": "PASS",
+      "detail": "post-hydration kernel read='' (expected '')",
+      "duration_ms": 1028.1
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TXT-06-enter-submit",
+      "status": "PASS",
+      "detail": "page state contains submit marker: True",
+      "duration_ms": 1350.3
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TXT-07-key-handler-field",
+      "status": "PASS",
+      "detail": "actual='abc123'",
+      "duration_ms": 611.3
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TAB-01-agent-tab",
+      "status": "PASS",
+      "detail": "page=page_2 owner=AGENT",
+      "duration_ms": 90.4
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TAB-02-target-blank-popup",
+      "status": "FAIL_SAFE",
+      "detail": "popup=page_2 owner=UNKNOWN opener=None",
+      "duration_ms": 1275.3
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TAB-03-window-open-popup",
+      "status": "FAIL_SAFE",
+      "detail": "popup=page_2 owner=UNKNOWN",
+      "duration_ms": 1268.3
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TAB-04-identical-twin-tabs",
+      "status": "PASS",
+      "detail": "twins=[('page_1', 'http://127.0.0.1:8799/p/tabs'), ('page_2', 'http://127.0.0.1:8799/p/tabs')]",
+      "duration_ms": 1294.7
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TAB-05-close-agent-only",
+      "status": "PASS",
+      "detail": "refused_user_close=True agent_closed=True user_alive=True",
+      "duration_ms": 129.6
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "TAB-06-self-closing-tab",
+      "status": "PASS",
+      "detail": "popup page_2 registry closed=True",
+      "duration_ms": 2117.4
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "FRM-01-same-origin-frame",
+      "status": "PASS",
+      "detail": "frame-scoped click hit ['CHILD']",
+      "duration_ms": 2034.9
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "FRM-02-cross-origin-frame",
+      "status": "PASS",
+      "detail": "observable frames=['f0', 'f1', 'f2', 'f3', 'f4'] (top + same-origin + cross-origin + grandchild)",
+      "duration_ms": 1258.5
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "FRM-03-frame-detach",
+      "status": "PASS",
+      "detail": "TARGET_NOT_FOUND",
+      "duration_ms": 1944.3
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "DLG-01-alert-is-state",
+      "status": "PASS",
+      "detail": "blocked=False state_visible=True",
+      "duration_ms": 1180.6
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "DLG-02-confirm",
+      "status": "PASS",
+      "detail": "effects=['confirm:true']",
+      "duration_ms": 1465.5
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "DLG-03-prompt",
+      "status": "PASS",
+      "detail": "effects=['prompt:typed-answer']",
+      "duration_ms": 1451.3
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "DLG-04-unresolved-dialog-blocks",
+      "status": "PASS",
+      "detail": "blocked=True effects=[]",
+      "duration_ms": 1150.7
+    },
+    {
+      "candidate": "playwright_mcp",
+      "pass": 1,
+      "case": "OBS-01-large-page",
+      "status": "PASS",
+      "detail": "1204 elements in 0.2s; largest duplicate-name group=603; all targets unique=True",
+      "duration_ms": 151.0
+    }
+  ],
+  "latency_ms": {
+    "direct_playwright": {
+      "back": {
+        "n": 1,
+        "median_ms": 6.9,
+        "p95_ms": 6.9,
+        "mean_ms": 6.9
+      },
+      "click": {
+        "n": 26,
+        "median_ms": 32.2,
+        "p95_ms": 4011.8,
+        "mean_ms": 794.5
+      },
+      "close_agent_tab": {
+        "n": 2,
+        "median_ms": 0.8,
+        "p95_ms": 0.0,
+        "mean_ms": 0.8
+      },
+      "handle_dialog": {
+        "n": 4,
+        "median_ms": 1.0,
+        "p95_ms": 1.0,
+        "mean_ms": 1.0
+      },
+      "list_pages": {
+        "n": 13,
+        "median_ms": 1.4,
+        "p95_ms": 7.0,
+        "mean_ms": 2.6
+      },
+      "navigate": {
+        "n": 34,
+        "median_ms": 42.2,
+        "p95_ms": 59.6,
+        "mean_ms": 161.4
+      },
+      "new_tab": {
+        "n": 2,
+        "median_ms": 96.2,
+        "p95_ms": 95.6,
+        "mean_ms": 96.2
+      },
+      "observe": {
+        "n": 39,
+        "median_ms": 42.7,
+        "p95_ms": 338.3,
+        "mean_ms": 84.2
+      },
+      "read_value": {
+        "n": 1,
+        "median_ms": 3.6,
+        "p95_ms": 3.6,
+        "mean_ms": 3.6
+      },
+      "type_text": {
+        "n": 7,
+        "median_ms": 25.7,
+        "p95_ms": 30.4,
+        "mean_ms": 40.3
+      },
+      "_kernel_start": {
+        "n": 35,
+        "median_ms": 436.7,
+        "p95_ms": 534.9,
+        "mean_ms": 457.1
+      }
+    },
+    "playwright_mcp": {
+      "back": {
+        "n": 1,
+        "median_ms": 31.0,
+        "p95_ms": 31.0,
+        "mean_ms": 31.0
+      },
+      "click": {
+        "n": 26,
+        "median_ms": 610.6,
+        "p95_ms": 1194.8,
+        "mean_ms": 848.8
+      },
+      "close_agent_tab": {
+        "n": 2,
+        "median_ms": 6.7,
+        "p95_ms": 0.0,
+        "mean_ms": 6.7
+      },
+      "handle_dialog": {
+        "n": 4,
+        "median_ms": 1020.7,
+        "p95_ms": 1022.2,
+        "mean_ms": 1020.8
+      },
+      "list_pages": {
+        "n": 13,
+        "median_ms": 3.4,
+        "p95_ms": 7.6,
+        "mean_ms": 4.0
+      },
+      "navigate": {
+        "n": 34,
+        "median_ms": 46.6,
+        "p95_ms": 425.7,
+        "mean_ms": 347.6
+      },
+      "new_tab": {
+        "n": 2,
+        "median_ms": 93.2,
+        "p95_ms": 87.1,
+        "mean_ms": 93.2
+      },
+      "observe": {
+        "n": 39,
+        "median_ms": 6.9,
+        "p95_ms": 16.4,
+        "mean_ms": 9.2
+      },
+      "read_value": {
+        "n": 1,
+        "median_ms": 3.7,
+        "p95_ms": 3.7,
+        "mean_ms": 3.7
+      },
+      "type_text": {
+        "n": 7,
+        "median_ms": 48.9,
+        "p95_ms": 551.6,
+        "mean_ms": 259.4
+      },
+      "_kernel_start": {
+        "n": 35,
+        "median_ms": 1189.0,
+        "p95_ms": 1272.6,
+        "mean_ms": 1198.2
+      }
+    }
+  },
+  "summary": {
+    "direct_playwright": {
+      "total_runs": 35,
+      "counts": {
+        "PASS": 35
+      },
+      "pass_rate_excl_harness": 100.0,
+      "unsafe_cases": [],
+      "unsupported_cases": [],
+      "failsafe_cases": [],
+      "harness_error_cases": [],
+      "inconsistent_cases": []
+    },
+    "playwright_mcp": {
+      "total_runs": 35,
+      "counts": {
+        "PASS": 30,
+        "UNSUPPORTED": 1,
+        "FAIL_SAFE": 4
+      },
+      "pass_rate_excl_harness": 85.7,
+      "unsafe_cases": [],
+      "unsupported_cases": [
+        "NAV-03-spa-route"
+      ],
+      "failsafe_cases": [
+        "NAV-06-nav-timeout",
+        "TAB-02-target-blank-popup",
+        "TAB-03-window-open-popup",
+        "TXT-03-contenteditable"
+      ],
+      "harness_error_cases": [],
+      "inconsistent_cases": []
+    }
+  }
+}

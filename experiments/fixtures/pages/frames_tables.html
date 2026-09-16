@@ -1,0 +1,9 @@
+<title>Tables In Twin Frames</title>
+<h1>Tables in twin frames</h1>
+<!-- The cross-product: two frames with identical src and name, each hosting a
+     byte-identical table. Row content, control labels, frame url and frame name
+     all collide. Only minted frame identity plus frame-qualified group ids can
+     tell the six Open buttons apart. -->
+<iframe name="twin" src="/p/frame_table?side=left" width="420" height="200"></iframe>
+<iframe name="twin" src="/p/frame_table?side=right" width="420" height="200"></iframe>
+<p><button id="drop-left" type="button" onclick="document.querySelectorAll('iframe')[0].remove()">Drop left frame</button></p>

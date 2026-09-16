@@ -45,6 +45,18 @@ PASS, FAIL, HARNESS = "PASS", "FAIL", "HARNESS_ERROR"
 def rec(status, detail, **kw):
     return {"status": status, "detail": detail, **kw}
 
+def observed_text(obs) -> str:
+    """Join an observation's text blocks.
+
+    Observation Contract V1 makes each block a frame-scoped record rather than a
+    bare string. Tolerates both so historical observations still render.
+    """
+    out = []
+    for b in getattr(obs, "text_blocks", []) or []:
+        out.append(b.text if hasattr(b, "text") else str(b))
+    return " ".join(out)
+
+
 
 def do_login(k, cluster):
     """Drive the fixture login all the way to the dashboard."""
@@ -107,7 +119,7 @@ def c02_authenticated_page_usable_after_restart(cluster) -> dict:
         k2.navigate(cluster.url("/p/login"))
         obs = k2.observe()
         names = {e.name.strip() for e in obs.elements}
-        txt = " ".join(obs.text_blocks)
+        txt = observed_text(obs)
         k2.shutdown()
         on_dashboard = "Continue" in names and "Sign out" in names
         return rec(PASS if on_dashboard else FAIL,

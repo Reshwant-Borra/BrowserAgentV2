@@ -47,6 +47,7 @@ class ElementView(Protocol):
     enabled: bool
     visible: bool
     section: str
+    group_id: str
 
 
 @runtime_checkable
@@ -59,14 +60,32 @@ class TabView(Protocol):
 
 
 @runtime_checkable
+class TextBlockView(Protocol):
+    text: str
+    frame_id: str
+
+
+@runtime_checkable
+class GroupView(Protocol):
+    group_id: str
+    kind: str
+    frame_id: str
+    label: str
+    cells: Mapping[str, str]
+
+
+@runtime_checkable
 class ObservationView(Protocol):
     observation_id: str
     page_id: str
     url: str
     title: str
     document_token: str
+    #: Minted id of this page's main frame (Observation Contract V1).
+    main_frame_id: str
     elements: Sequence[ElementView]
-    text_blocks: Sequence[str]
+    groups: Sequence[GroupView]
+    text_blocks: Sequence[TextBlockView]
     tabs: Sequence[TabView]
 
 

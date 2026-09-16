@@ -1,0 +1,1684 @@
+{
+  "experiment": "E4_observation_invalidation",
+  "question": "Can the kernel prevent actions against stale browser state?",
+  "invariant": "zero wrong-target executions; stale targets may fail, never retarget",
+  "environment": {
+    "captured_at": "2026-09-16T12:57:10-0400",
+    "os": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "system": "Windows",
+      "release": "11",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel"
+    },
+    "python": "3.13.2",
+    "cpu_count": 28,
+    "git": {
+      "commit": "213779b6109a1ffcfd81059c3ce8331e827cf6a3",
+      "branch": "implementation/observation-contract-v1",
+      "dirty": true
+    },
+    "gpu": "NVIDIA GeForce RTX 4070, 12282 MiB, 610.60",
+    "node": "v24.15.0",
+    "npm": "11.13.0",
+    "playwright": "unknown",
+    "chromium_version": "151.0.7922.34",
+    "chromium_path": "C:\\Users\\reshw\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+    "playwright_mcp": "0.0.81",
+    "ollama_version": "ollama version is 0.34.0",
+    "ollama_models": "NAME                 ID              SIZE      MODIFIED     \nqwen3:8b             500a1f067a9f    5.2 GB    3 weeks ago     \nqwen2.5-coder:14b    9ec8897f747e    9.0 GB    3 months ago    \ngemma3:4b            a2af6cc3eb7f    3.3 GB    4 months ago    \nqwen2.5-coder:7b     dae161e27b0e    4.7 GB    4 months ago    \nqwen2.5:14b          7cdf5a0187d5    9.0 GB    4 months ago",
+    "experiment": "E4_observation_invalidation"
+  },
+  "reps": 4,
+  "scenarios": [
+    "full-navigation-same-url",
+    "reload-same-url",
+    "innerhtml-rerender",
+    "identical-node-replacement",
+    "element-removed",
+    "sibling-reorder-node-intact",
+    "spa-route-change",
+    "manual-human-interaction",
+    "frame-reload",
+    "frame-replacement",
+    "popup-opened-page-unchanged",
+    "owning-tab-closed",
+    "active-tab-switched",
+    "kernel-restart-reconnect"
+  ],
+  "summary": {
+    "NODE_IDENTITY": {
+      "runs": 56,
+      "counts": {
+        "REFUSED_TYPED": 44,
+        "EXECUTED_CORRECT_NODE": 12
+      },
+      "wrong_target_executions": 0,
+      "wrong_target_scenarios": [],
+      "harness_errors": [],
+      "over_invalidated_scenarios": []
+    },
+    "STRICT_SUPERSEDE": {
+      "runs": 56,
+      "counts": {
+        "REFUSED_TYPED": 48,
+        "HARNESS_ERROR": 4,
+        "EXECUTED_CORRECT_NODE": 4
+      },
+      "wrong_target_executions": 0,
+      "wrong_target_scenarios": [],
+      "harness_errors": [
+        "frame-replacement"
+      ],
+      "over_invalidated_scenarios": [
+        "popup-opened-page-unchanged",
+        "sibling-reorder-node-intact"
+      ]
+    },
+    "UNSAFE_NAME_RESOLVE": {
+      "runs": 56,
+      "counts": {
+        "WRONG_TARGET_EXECUTED": 28,
+        "REFUSED_TYPED": 16,
+        "EXECUTED_CORRECT_NODE": 12
+      },
+      "wrong_target_executions": 28,
+      "wrong_target_scenarios": [
+        "frame-reload",
+        "full-navigation-same-url",
+        "identical-node-replacement",
+        "innerhtml-rerender",
+        "manual-human-interaction",
+        "reload-same-url",
+        "spa-route-change"
+      ],
+      "harness_errors": [],
+      "over_invalidated_scenarios": []
+    },
+    "UNSAFE_URL_ONLY": {
+      "runs": 56,
+      "counts": {
+        "REFUSED_TYPED": 44,
+        "EXECUTED_CORRECT_NODE": 12
+      },
+      "wrong_target_executions": 0,
+      "wrong_target_scenarios": [],
+      "harness_errors": [],
+      "over_invalidated_scenarios": []
+    }
+  },
+  "raw": [
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "frame-replacement",
+      "status": "HARNESS_ERROR",
+      "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 913, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 862, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (page was not mutated; this is over-invalidation)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 1,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "frame-replacement",
+      "status": "HARNESS_ERROR",
+      "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 913, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 862, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (page was not mutated; this is over-invalidation)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 2,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "frame-replacement",
+      "status": "HARNESS_ERROR",
+      "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 913, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 862, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (page was not mutated; this is over-invalidation)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 3,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "frame-replacement",
+      "status": "HARNESS_ERROR",
+      "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 913, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 862, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "REFUSED_TYPED",
+      "detail": "OBSERVATION_SUPERSEDED (page was not mutated; this is over-invalidation)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "STRICT_SUPERSEDE",
+      "rep": 4,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 1,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 2,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 3,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "NODE_IDENTITY",
+      "rep": 4,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 1,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 2,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 3,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "full-navigation-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "reload-same-url",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "innerhtml-rerender",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "identical-node-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "spa-route-change",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_STALE (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "manual-human-interaction",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "frame-reload",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "INTERNAL (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_URL_ONLY",
+      "rep": 4,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "full-navigation-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "reload-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "innerhtml-rerender",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "identical-node-replacement",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "spa-route-change",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['Orders'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "manual-human-interaction",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "frame-reload",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['CHILD'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 1,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "full-navigation-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "reload-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "innerhtml-rerender",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "identical-node-replacement",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "spa-route-change",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['Orders'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "manual-human-interaction",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "frame-reload",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['CHILD'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 2,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "full-navigation-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "reload-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "innerhtml-rerender",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "identical-node-replacement",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "spa-route-change",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['Orders'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "manual-human-interaction",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "frame-reload",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['CHILD'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 3,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "full-navigation-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "reload-same-url",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['ORIGINAL'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "innerhtml-rerender",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "identical-node-replacement",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "element-removed",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "sibling-reorder-node-intact",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "fired ['ORIGINAL']"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "spa-route-change",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['Orders'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "manual-human-interaction",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['REPLACEMENT'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "frame-reload",
+      "status": "WRONG_TARGET_EXECUTED",
+      "detail": "fired ['CHILD'] (error=None)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "frame-replacement",
+      "status": "REFUSED_TYPED",
+      "detail": "FRAME_DETACHED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "popup-opened-page-unchanged",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "old target still worked on an unmutated page; url=http://127.0.0.1:8810/p/basic2"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "owning-tab-closed",
+      "status": "REFUSED_TYPED",
+      "detail": "PAGE_CLOSED (no effect)"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "active-tab-switched",
+      "status": "EXECUTED_CORRECT_NODE",
+      "detail": "target resolved on its own page despite the active tab change"
+    },
+    {
+      "policy": "UNSAFE_NAME_RESOLVE",
+      "rep": 4,
+      "scenario": "kernel-restart-reconnect",
+      "status": "REFUSED_TYPED",
+      "detail": "TARGET_NOT_FOUND (no effect)"
+    }
+  ]
+}

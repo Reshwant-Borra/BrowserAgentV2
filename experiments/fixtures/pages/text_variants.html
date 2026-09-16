@@ -1,0 +1,45 @@
+<title>Text Variants</title>
+<h1>Text variants</h1>
+<!-- Every documented case from the bare-div investigation, each carrying a
+     unique marker so a test can assert recall exactly. -->
+
+<div id="plain-div">SIGNAL bare div text</div>
+
+<div id="outer-wrap">
+  <div id="inner-div">SIGNAL nested div text</div>
+</div>
+
+<div id="div-with-heading">
+  <h2>SIGNAL div heading</h2>
+  <div>SIGNAL text beside a heading</div>
+</div>
+
+<div id="div-with-button">
+  SIGNAL text next to a control
+  <button type="button" onclick="window.__effect('X')">Unique Control Label</button>
+</div>
+
+<div id="hidden-div" style="display:none">NOISE visually hidden div</div>
+<div id="aria-hidden-div" aria-hidden="true">NOISE aria hidden div</div>
+
+<div id="dup-a">SIGNAL duplicated line</div>
+<div id="dup-b">SIGNAL duplicated line</div>
+
+<div id="status-div" role="status">SIGNAL status message</div>
+<div id="alert-div" role="alert">SIGNAL alert message</div>
+
+<div id="labelled-div" aria-label="Balance region">SIGNAL Account balance: $42</div>
+
+<div id="dynamic">SIGNAL initial dynamic text</div>
+<button id="update" type="button" onclick="document.getElementById('dynamic').textContent='SIGNAL updated dynamic text'">Update dynamic</button>
+
+<p>SIGNAL paragraph text</p>
+<span>SIGNAL span text</span>
+<ul><li>SIGNAL list item text</li></ul>
+<table><caption>SIGNAL caption</caption><tr><td>SIGNAL cell text</td></tr></table>
+
+<script>
+  // Text that must never be observed.
+  var ignored = "NOISE script string";
+</script>
+<noscript>NOISE noscript text</noscript>

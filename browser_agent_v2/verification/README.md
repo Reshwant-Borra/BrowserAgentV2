@@ -134,17 +134,22 @@ the page-creation event (Experiment 5) — never a title, URL or tab index.
 `PageState` can additionally assert a URL and an opener, but identity is always
 the id.
 
-Frames are the subtle one. **A kernel `frame_id` is a positional index, not an
-identity.** On the frames fixture, detaching the same-origin child renumbers the
-rest so that `f1` means "Child (primary)" before and "Child (secondary)" after,
-while the frame count stays at 3 — and both contain a control named "Confirm".
-Trusting the index therefore produces a wrong-frame false success. So:
+Frames are minted identities under Observation Contract V1, issued at the
+frame's attach event and never reused, so a `frame_id` is trusted directly:
 
-* `frame_id="f0"` (main frame) is stable and needs nothing more.
-* Any other frame must be pinned with `section` — the nearest heading inside
-  that frame's own document, which does not shift when siblings come and go.
-* A non-main frame with no `section` is answered `AMBIGUOUS`
-  (`FRAME_ID_NOT_A_STABLE_IDENTITY`), never guessed.
+* `frame_id=MAIN_FRAME` — this page's main frame, whatever its minted id.
+* `frame_id="fr_7"` — exactly that frame. If it has detached the element is
+  reported missing; another frame can never answer for it.
+* `frame_id=None` — any frame on the page.
+
+Before V1 the kernel numbered frames positionally, so detaching a frame
+renumbered the rest and an id could transfer between frames. The Verifier
+defended against that by refusing any unpinned non-main frame scope; that
+workaround is gone because the defect is gone.
+
+`ElementPresence.group_cells` scopes to a table row — "the Open button in
+B. Lindqvist's row" — by matching the row's structured cells rather than a
+rendered label.
 
 ## Field identity after a rerender
 
@@ -175,26 +180,19 @@ arrival count is unchanged.
 
 ## Known limitations
 
-These are real and deliberately not worked around.
+Three earlier limitations were removed by
+[Observation Contract V1](../../03_DECISIONS/OBSERVATION_CONTRACT_V1.md): bare
+`<div>` text is now observable, `TextPresence` is frame-scoped, and frame ids
+are minted identities so the `section`-pin workaround is gone. What remains:
 
-1. **Observation text excludes bare `<div>` content.** The observation collects
-   `h1`–`h3`, `p`, `li`, `td`, `label`, `span`. Text in a `<div>` is invisible to
-   `TextPresence` even though a person can read it. This is why
-   `submit_op.html`'s confirmation is unverifiable by text, and why
-   **Experiment 6's worker could never record a SATISFIED verification** — its
-   check was `f"Reference {op}" in text_blocks`. Pinned by
-   `test_known_limitation_text_in_a_bare_div_is_invisible`. Fixing it means
-   changing the observation format, which is frozen for this gate.
-2. **`TextPresence` is main-frame only.** Observation text is collected for `f0`
-   alone, so a frame-scoped text assertion returns `AMBIGUOUS`. Use
-   `ElementPresence`, which is frame-aware.
-3. **Frame identity is not stable in the kernel.** The Verifier works around it
-   by requiring a `section` pin. The proper fix — minting a stable frame id at
-   frame-attach time — belongs to the BrowserKernel, not here.
-4. **No ArtifactStore exists in production.** `DownloadPresent` is tested
+1. **No ArtifactStore exists in production.** `DownloadPresent` is tested
    against a harness implementation of the `ArtifactStore` protocol. Downloads
    remain P1 and untested end to end per the architecture freeze.
-5. **Scope.** This verifies single actions against controlled localhost
+2. **Frame ids do not survive a controller restart.** They are per kernel
+   instance; a restart re-mints them.
+3. **Groups cover rows and list items only.** Card grids and other implicit
+   groupings are not represented, so `group_cells` cannot scope to them.
+4. **Scope.** This verifies single actions against controlled localhost
    fixtures. It says nothing about multi-step task correctness, live websites,
    or whether an autonomous agent would work — none of which exist yet.
 

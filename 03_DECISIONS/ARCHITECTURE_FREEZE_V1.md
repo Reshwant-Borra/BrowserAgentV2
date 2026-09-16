@@ -45,7 +45,13 @@ Because we launch the browser, its initial page is ours. `initial_pages_owner`
 is an explicit parameter, so the deferred attach mode cannot inherit that
 assumption by accident.
 
-## 3. Observation format — FROZEN in principle
+## 3. Observation format — SUPERSEDED BY OBSERVATION CONTRACT V1
+
+> The three defects recorded below were corrected at the first contract gate.
+> The authoritative definition is now
+> [`OBSERVATION_CONTRACT_V1.md`](OBSERVATION_CONTRACT_V1.md); where it and this
+> section disagree, the contract wins. This text is kept as the record of what
+> was wrong and why it was left open at the time.
 
 Accessibility-first semantic snapshot. Per element: target id, role, accessible
 name, value, enabled, visible, frame id, **nearest preceding heading**, and
@@ -65,7 +71,7 @@ otherwise unusable:
 Target ids are rendered as `target=<id> | role | name`, terminated by ` | `.
 Rendered as a bare leading token, the model copied whole lines as the target.
 
-**Known defect, not fixed (2):** observation text is collected from `h1`-`h3`,
+**Known defect (2) — FIXED in Observation Contract V1.** Observation text was collected from `h1`-`h3`,
 `p`, `li`, `td`, `label` and `span` only. Text inside a bare `<div>` is invisible
 to any text-based postcondition even though a person can read it on screen. This
 is why `submit_op.html`'s confirmation cannot be verified by text, and why
@@ -75,11 +81,12 @@ rested on server-side duplicate counts rather than on the journal's verification
 field. Found while building Verifier V1 and pinned by
 `test_known_limitation_text_in_a_bare_div_is_invisible`.
 
-**Known defect, not fixed (1):** elements inside a table row or list item carry no
+**Known defect (1) — FIXED in Observation Contract V1.** Elements inside a table row or list item carried no
 row context, so three identical `Open` buttons in a table are indistinguishable.
 Diagnosed in [E3](../experiments/qwen_adequacy/REPORT.md) (case AD-M22). It was
 deliberately not fixed after the held-out run, to avoid tuning to the evaluation
-set. **This is the first thing to fix in the next iteration.**
+set. It was preregistered as in-scope for the contract gate and fixed there,
+generically: see [ADR-016](ARCHITECTURE_DECISIONS.md).
 
 ## 4. Target identity and freshness — FROZEN
 
@@ -142,8 +149,10 @@ Qwen3:8B may be the first decision SOURCE behind the deterministic boundary.
 It may NOT be run as an autonomous policy.
 ```
 
-Three mandatory pre-conditions before autonomy, in order: build the Verifier;
-fix the table-row representation defect; re-measure against the same threshold.
+Three mandatory pre-conditions before autonomy, in order: ~~build the
+Verifier~~ (done, §9); ~~fix the table-row representation defect~~ (done,
+[Observation Contract V1](OBSERVATION_CONTRACT_V1.md)); re-measure against the
+same threshold — **still outstanding**.
 
 ## 7. Decision interface — FROZEN
 

@@ -48,6 +48,18 @@ PASS, FAIL, FATAL, HARNESS = "PASS", "FAIL", "FATAL_STALE_TRUSTED", "HARNESS_ERR
 def rec(status, detail, **kw):
     return {"status": status, "detail": detail, **kw}
 
+def observed_text(obs) -> str:
+    """Join an observation's text blocks.
+
+    Observation Contract V1 makes each block a frame-scoped record rather than a
+    bare string. Tolerates both so historical observations still render.
+    """
+    out = []
+    for b in getattr(obs, "text_blocks", []) or []:
+        out.append(b.text if hasattr(b, "text") else str(b))
+    return " ".join(out)
+
+
 
 def find(obs, **kw):
     for e in obs.elements:
@@ -221,7 +233,7 @@ def h06_human_switches_account(k, c, j):
     if not all_stale:
         return rec(FATAL, f"targets survived an account switch: {survived[:4]}")
     obs2 = k.observe()
-    txt = " ".join(obs2.text_blocks)
+    txt = observed_text(obs2)
     saw_work = "account=work" in txt
     return rec(PASS if saw_work else FAIL,
                f"fresh observation reports the account the human actually chose: "
@@ -312,7 +324,7 @@ def restart_during_handoff(cluster) -> dict:
         resume(k2, Journal(jpath), subgoal)
         all_stale, survived = assert_all_stale(k2, pre)
         obs2 = k2.observe()
-        txt = " ".join(obs2.text_blocks)
+        txt = observed_text(obs2)
         session_alive = "account=school" in txt
         k2.shutdown()
         if not all_stale:

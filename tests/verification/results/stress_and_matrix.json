@@ -63,8 +63,8 @@
   },
   "classification_matrix": {
     "true_SATISFIED": 116,
-    "true_NOT_SATISFIED": 107,
-    "true_AMBIGUOUS": 57,
+    "true_NOT_SATISFIED": 114,
+    "true_AMBIGUOUS": 50,
     "false_SATISFIED": 0,
     "false_NOT_SATISFIED": 0,
     "false_AMBIGUOUS": 0

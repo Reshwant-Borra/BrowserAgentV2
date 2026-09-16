@@ -58,19 +58,88 @@ class PageRecord:
 # --------------------------------------------------------------------------
 
 
+#: Reserved frame id meaning "the main frame of this page". A page's main frame
+#: cannot be swapped for a different frame, so this is a genuine stable identity
+#: and callers do not need to know the minted id.
+MAIN_FRAME = "main"
+
+
+@dataclass
+class FrameRecord:
+    """Identity of a frame, minted at its `frameattached` event.
+
+    NEVER derived from index, DOM order, URL or name. Playwright reuses one
+    Frame object for the life of a frame — across reloads and across in-frame
+    navigations — and never recycles it for a different frame, so the object is
+    the identity and this record is its name. (Verified empirically; see
+    OBSERVATION_CONTRACT_V1.)
+    """
+
+    frame_id: str
+    page_id: str
+    parent_frame_id: Optional[str]
+    created_event_id: int
+    is_main: bool = False
+    url: str = ""
+    name: str = ""
+    detached: bool = False
+
+    def to_json(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
+class ObservedGroup:
+    """A row / list item / labelled group that contains actionable elements.
+
+    Exists so that `row -> cells -> actionable target` survives into the
+    observation. Without it, three identical "Open" buttons in a table are
+    indistinguishable (the AD-M22 defect).
+
+    Stored once per group rather than repeated on every element, so a ten-button
+    row costs one entry, not ten.
+    """
+
+    group_id: str
+    kind: str  # "row" | "listitem" | "group"
+    frame_id: str
+    #: Compact one-line summary, e.g. "Reference=REF-1002 | Owner=B. Lindqvist".
+    label: str = ""
+    #: Header-to-value mapping when headers exist, else positional cell text
+    #: keyed "1", "2", ... Machine-checkable without parsing `label`.
+    cells: dict[str, str] = field(default_factory=dict)
+
+    def to_json(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
+class ObservedText:
+    """One block of visible page text, scoped to the frame it came from."""
+
+    text: str
+    frame_id: str
+
+    def to_json(self) -> dict:
+        return asdict(self)
+
+
 @dataclass
 class ObservedElement:
     target: str  # "<observation_id>:<frame_id>:e<N>"
     role: str
     name: str
     value: str = ""
-    frame_id: str = "f0"
+    frame_id: str = ""
     enabled: bool = True
     visible: bool = True
     tag: str = ""
     # Nearest preceding heading. Without it, three identical "Submit" buttons are
     # indistinguishable in the observation and the model can only guess.
     section: str = ""
+    # Enclosing row / list item, when there is one. Resolves against
+    # Observation.groups. Empty for elements not inside a group.
+    group_id: str = ""
     # Selectable values for a combobox; empty for every other role.
     options: list[dict] = field(default_factory=list)
     attrs: dict[str, str] = field(default_factory=dict)
@@ -100,12 +169,37 @@ class Observation:
     document_token: str
     document_generation: int
     frame_tree_version: int
+    #: Minted id of this page's main frame. Callers use MAIN_FRAME rather than
+    #: hard-coding it.
+    main_frame_id: str = ""
+    #: Every frame observed, with its minted identity.
+    frames: list[FrameRecord] = field(default_factory=list)
     tabs: list[TabSummary] = field(default_factory=list)
     modal: Optional[dict] = None
     elements: list[ObservedElement] = field(default_factory=list)
-    text_blocks: list[str] = field(default_factory=list)
+    groups: list[ObservedGroup] = field(default_factory=list)
+    text_blocks: list[ObservedText] = field(default_factory=list)
     change_summary: list[str] = field(default_factory=list)
     state_fingerprint: str = ""
+
+    def group(self, group_id: str) -> Optional[ObservedGroup]:
+        for g in self.groups:
+            if g.group_id == group_id:
+                return g
+        return None
+
+    def group_of(self, target: str) -> Optional[ObservedGroup]:
+        """The row/list-item an element belongs to, if any."""
+        el = self.element(target)
+        if el is None or not el.group_id:
+            return None
+        return self.group(el.group_id)
+
+    def resolve_frame_id(self, frame_id: Optional[str]) -> Optional[str]:
+        """Translate the MAIN_FRAME sentinel into this page's minted id."""
+        if frame_id == MAIN_FRAME:
+            return self.main_frame_id
+        return frame_id
 
     def target_ids(self) -> list[str]:
         return [e.target for e in self.elements]
@@ -138,10 +232,13 @@ class Observation:
             "document_token": self.document_token,
             "document_generation": self.document_generation,
             "frame_tree_version": self.frame_tree_version,
+            "main_frame_id": self.main_frame_id,
+            "frames": [f.to_json() for f in self.frames],
             "tabs": [asdict(t) for t in self.tabs],
             "modal": self.modal,
             "elements": [e.to_json() for e in self.elements],
-            "text_blocks": self.text_blocks,
+            "groups": [g.to_json() for g in self.groups],
+            "text_blocks": [b.to_json() for b in self.text_blocks],
             "change_summary": self.change_summary,
             "state_fingerprint": self.state_fingerprint,
         }

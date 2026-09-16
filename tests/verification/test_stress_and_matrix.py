@@ -23,6 +23,7 @@ from pathlib import Path
 import pytest
 
 from browser_agent_v2.verification import (
+    MAIN_FRAME,
     DownloadPresent,
     ElementPresence,
     FieldValueEquals,
@@ -189,16 +190,26 @@ def test_stress_page_and_frame_scoping(fresh):
                 pass
 
     for i in range(15):
-        unpinned = i % 2 == 1
         obs = fresh.goto("/p/frames")
         time.sleep(0.45)
         obs = fresh.observe()
+        children = sorted({e.frame_id for e in obs.elements
+                           if e.frame_id != obs.main_frame_id})
+        assert children, "fixture must expose child frames"
+        # Alternate a correctly scoped child-frame check against a deliberately
+        # wrong scope: a control that exists only in a child frame, asserted
+        # against the main frame.
+        wrong_scope = i % 2 == 1
+        fresh.kernel.page_object().evaluate(
+            "() => { const b = document.getElementById('top-action'); if (b) b.remove(); }"
+        )
+        obs = fresh.observe()
         pc = ElementPresence(
-            page_id=obs.page_id, role="button", name="Confirm", frame_id="f1",
-            section=None if unpinned else "Child (primary)",
+            page_id=obs.page_id, role="button", name="Confirm",
+            frame_id=MAIN_FRAME if wrong_scope else children[0],
         )
         result = fresh.verify(fresh.act(obs, lambda: None), pc)
-        assert record("FRAME_SCOPE", AMB if unpinned else SAT, result.status), i
+        assert record("FRAME_SCOPE", NOT if wrong_scope else SAT, result.status), i
 
     assert TALLY["PAGE_SCOPE:runs"] + TALLY["FRAME_SCOPE:runs"] == 30
     assert TALLY["PAGE_SCOPE:fail"] == 0
@@ -239,8 +250,7 @@ def test_stress_popup_verification(fresh):
         obs = fresh.goto("/p/verify_outcomes")
         name = "Open other popup" if wrong else "Open confirmation popup"
         btn = fresh.find(obs, contains=name)
-        step = fresh.act(obs, lambda t=btn.target: fresh.kernel.click(t))
-        time.sleep(0.35)
+        step = fresh.act_expecting_page(obs, lambda t=btn.target: fresh.kernel.click(t))
         assert step.new_page_ids, f"run {i}: no popup"
         popup = step.new_page_ids[0]
         result = fresh.verify(
@@ -289,24 +299,38 @@ def test_stress_ambiguity_classification(fresh):
     """20 runs over the distinct routes to AMBIGUOUS."""
     obs = fresh.goto("/p/verify_outcomes")
     broken = Verifier(BrokenEvidenceSource("DISCONNECTED"))
+    stale = Verifier(FrozenEvidenceSource(obs, fresh.kernel))
     cases = [
         (broken, TextPresence(page_id=obs.page_id, text="x")),
         (broken, ElementPresence(page_id=obs.page_id, role="button", name="x")),
         (broken, UrlIs(page_id=obs.page_id, expected="x")),
         (broken, PageState(page_id=obs.page_id)),
+        (broken, FieldValueEquals(page_id=obs.page_id, target="t", expected="x")),
+        # no durable channel configured, for a consequential action
         (Verifier(fresh.source),
          OperationRecorded(page_id=obs.page_id, operation_id="never")),
-        (fresh.verifier,
-         ElementPresence(page_id=obs.page_id, role="button", name="Confirm",
-                         frame_id="f1")),
-        (fresh.verifier,
-         TextPresence(page_id=obs.page_id, text="x", frame_id="f2")),
+        # no artifact store configured
+        (Verifier(fresh.source),
+         DownloadPresent(page_id=obs.page_id, filename="nothing.csv")),
     ]
     for i in range(20):
-        verifier, pc = cases[i % len(cases)]
-        result = verifier.verify(VerificationRequest(postcondition=pc))
+        if i % 7 == 6:
+            # stale evidence: a pre-action snapshot replayed after an action
+            step = fresh.act(
+                obs, lambda: fresh.kernel.click(
+                    fresh.find(obs, name="Show panel").target)
+            )
+            result = fresh.verify(
+                step,
+                ElementPresence(page_id=obs.page_id, role="button",
+                                name="Close panel", expect_present=False),
+                verifier=stale,
+            )
+        else:
+            verifier, pc = cases[i % len(cases)]
+            result = verifier.verify(VerificationRequest(postcondition=pc))
         assert record("AMBIGUITY", AMB, result.status), (
-            f"run {i}: {pc} -> {result.to_json()}"
+            f"run {i}: -> {result.to_json()}"
         )
         assert result.reason.value in {
             "EVIDENCE_UNAVAILABLE", "STALE_EVIDENCE",

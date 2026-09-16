@@ -22,10 +22,14 @@ from playwright.sync_api import (
 )
 
 from .contracts import (
+    MAIN_FRAME,
+    FrameRecord,
     KernelError,
     KernelErrorCode,
     Observation,
     ObservedElement,
+    ObservedGroup,
+    ObservedText,
     Owner,
     PageRecord,
     TabSummary,
@@ -140,8 +144,81 @@ COLLECT_JS = """
       value: o.value, label: (o.textContent || '').trim()
     }));
   };
+  // ---- groups: row / list-item structure --------------------------------
+  // An actionable control inside a table row means nothing on its own: three
+  // identical "Open" buttons are indistinguishable unless the row travels with
+  // them. This reconstructs `row -> cells -> target` from ordinary HTML and
+  // ARIA semantics. No site knowledge, no selectors for any particular page.
+  const cellText = (c) => (c.textContent || '').replace(/\\s+/g, ' ').trim().slice(0, 80);
+
+  const headersFor = (row) => {
+    // Column headers from the owning table: an explicit header row, else the
+    // first row's <th>/[role=columnheader] cells.
+    const table = row.closest('table, [role=table], [role=grid]');
+    if (!table) return [];
+    let headerRow = table.querySelector('thead tr');
+    if (!headerRow) {
+      const rows = [...table.querySelectorAll('tr, [role=row]')];
+      headerRow = rows.find(r => r.querySelector('th, [role=columnheader]'));
+    }
+    if (!headerRow || headerRow === row) return [];
+    return [...headerRow.querySelectorAll('th, td, [role=columnheader]')].map(cellText);
+  };
+
+  const groupIndex = new Map();   // element -> group object
+  const groups = [];
+  const groupContainer = (e) =>
+    e.closest('tr, [role=row], li, [role=listitem], [role=treeitem], [role=option]');
+
+  for (const e of els) {
+    const container = groupContainer(e);
+    if (!container) continue;
+    let g = groupIndex.get(container);
+    if (!g) {
+      const isRow = container.matches('tr, [role=row]');
+      const cellNodes = isRow
+        ? [...container.querySelectorAll('td, th, [role=gridcell], [role=cell], [role=rowheader]')]
+        : [];
+      const headers = isRow ? headersFor(container) : [];
+      const cells = {};
+      if (isRow && cellNodes.length) {
+        cellNodes.forEach((c, i) => {
+          // A cell whose content is the row's controls adds nothing: those
+          // controls are already listed as elements, with targets. Keeping it
+          // would put "Actions=Open Archive" on every row for no information.
+          if (c.querySelector(sel)) return;
+          const txt = cellText(c);
+          if (!txt) return;
+          const key = (headers[i] && headers[i].length) ? headers[i] : String(i + 1);
+          if (!(key in cells)) cells[key] = txt;
+        });
+      } else {
+        // A list item has no columns; keep its own direct text as one cell so
+        // the group is still machine-checkable.
+        const own = [...container.childNodes]
+          .filter(n => n.nodeType === 3)
+          .map(n => n.textContent.replace(/\\s+/g, ' ').trim())
+          .filter(Boolean).join(' ').slice(0, 120);
+        if (own) cells['1'] = own;
+      }
+      const label = Object.entries(cells)
+        .map(([k, v]) => (/^\\d+$/.test(k) ? v : k + '=' + v))
+        .join(' | ').slice(0, 200);
+      g = {
+        index: groups.length,
+        kind: isRow ? 'row' : 'listitem',
+        label: label,
+        cells: cells,
+      };
+      groupIndex.set(container, g);
+      groups.push(g);
+    }
+    e.__bav2_group = g.index;
+  }
+
   const meta = els.map(e => ({
     section: section(e),
+    group: (typeof e.__bav2_group === 'number') ? e.__bav2_group : -1,
     options: options(e),
     role: role(e), name: accName(e), value: value(e),
     enabled: !e.disabled && e.getAttribute('aria-disabled') !== 'true',
@@ -149,14 +226,51 @@ COLLECT_JS = """
     attrs: {id: e.id || '', type: (e.getAttribute('type') || ''),
             href: (e.getAttribute('href') || '').slice(0,120)}
   }));
-  // Only text a person could actually read. Hidden nodes (an inactive wizard
-  // step, a validation message that is not currently shown) would otherwise
-  // describe a page state that does not exist.
-  const text = [...document.querySelectorAll('h1,h2,h3,p,li,td,label,span')]
-      .filter(visible)
-      .map(n => (n.textContent || '').replace(/\\s+/g,' ').trim())
-      .filter(t => t.length > 1 && t.length < 400).slice(0, 120);
-  return { meta, els, text, doc: window.__bav2_doc || 'unknown' };
+  for (const e of els) { try { delete e.__bav2_group; } catch (err) {} }
+
+  // ---- text: where text actually lives, not a tag whitelist --------------
+  // Previously a fixed tag list (h1-h3,p,li,td,label,span) which (a) missed
+  // ordinary <div> text and (b) double-counted, because textContent on a
+  // container repeats every descendant's text.
+  //
+  // Instead: take each element's OWN direct text nodes. A wrapper <div> has no
+  // direct text and contributes nothing; a <div>Account balance: $42</div>
+  // contributes exactly once. This raises recall and lowers duplication at the
+  // same time.
+  const BLOCKED = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'TITLE']);
+  // Two reductions, both "do not state the same thing twice" rather than any
+  // judgement about which content matters:
+  //   1. a line identical to a control's accessible name is already in the
+  //      element list, with more information attached;
+  //   2. identical lines collapse to their first occurrence.
+  // No relevance filtering: guessing that nav or footer text is unimportant
+  // would be exactly the site-shaped heuristic this project refuses.
+  const controlNames = new Set(meta.map(m => m.name).filter(Boolean));
+  const seenText = new Set();
+  const text = [];
+  const walker = document.createTreeWalker(document.body || document, NodeFilter.SHOW_ELEMENT);
+  let node = document.body;
+  const consider = (el) => {
+    if (!el || BLOCKED.has(el.tagName)) return;
+    if (el.closest('[aria-hidden="true"]')) return;
+    if (!visible(el)) return;
+    const own = [...el.childNodes]
+      .filter(n => n.nodeType === 3)
+      .map(n => n.textContent.replace(/\\s+/g, ' ').trim())
+      .filter(Boolean)
+      .join(' ');
+    if (own.length <= 1 || own.length >= 400) return;
+    if (controlNames.has(own)) return;
+    if (seenText.has(own)) return;
+    seenText.add(own);
+    text.push(own);
+  };
+  consider(document.body);
+  while ((node = walker.nextNode())) {
+    if (text.length >= 160) break;
+    consider(node);
+  }
+  return { meta, els, text, groups, doc: window.__bav2_doc || 'unknown' };
 }
 """
 
@@ -206,6 +320,14 @@ class DirectPlaywrightKernel(BrowserKernel):
         self.registry: dict[str, PageRecord] = {}
         self._page_ids: dict[int, str] = {}  # id(Page) -> page_id
         self._obs: dict[str, _ObsRecord] = {}
+        # Frame identity, minted at the frameattached event and never derived
+        # from index, DOM order, url or name. The Frame object is kept alive in
+        # `_frames` so that its id() cannot be recycled by the garbage
+        # collector onto a different object.
+        self.frame_registry: dict[str, FrameRecord] = {}
+        self._frames: dict[str, object] = {}        # frame_id -> Frame (strong ref)
+        self._frame_ids: dict[int, str] = {}        # id(Frame) -> frame_id
+        self._frame_seq = itertools.count(1)
         self._active_page_id: Optional[str] = None
         self._pending_dialog: Optional[dict] = None
         self._dialog_obj = None
@@ -327,8 +449,69 @@ class DirectPlaywrightKernel(BrowserKernel):
             "framenavigated",
             lambda fr, _p=page, _pid=pid: self._on_navigated(_pid, _p, fr),
         )
+        page.on("frameattached", lambda fr, _pid=pid: self._register_frame(fr, _pid))
+        page.on("framedetached", lambda fr: self._on_frame_detached(fr))
+        # The main frame has no attach event; it exists with the page.
+        main = _safe(lambda: page.main_frame, None)
+        if main is not None:
+            self._register_frame(main, pid, is_main=True)
+        for fr in _safe(lambda: list(page.frames), []):
+            self._register_frame(fr, pid)
         self._log("page_created", page_id=pid, owner=owner.value, opener=opener)
         return pid
+
+    # ------------------------------------------------------- frame registry
+
+    def _register_frame(self, frame, page_id: str, is_main: bool = False) -> str:
+        """Mint an identity for a frame, once, at the moment it appears.
+
+        Playwright reuses one Frame object for the whole life of a frame
+        (verified: stable across reload and across in-frame navigation) and
+        never recycles it for a different frame. So the object is the identity;
+        this only gives it a name and holds a reference so the name stays
+        attached to that object.
+        """
+        key = id(frame)
+        existing = self._frame_ids.get(key)
+        if existing is not None:
+            return existing
+        fid = f"fr_{next(self._frame_seq)}"
+        parent = None
+        try:
+            pf = frame.parent_frame
+            if pf is not None:
+                parent = self._frame_ids.get(id(pf))
+        except Exception:
+            pass
+        self._frame_ids[key] = fid
+        self._frames[fid] = frame          # strong ref: id() cannot be recycled
+        self.frame_registry[fid] = FrameRecord(
+            frame_id=fid,
+            page_id=page_id,
+            parent_frame_id=parent,
+            created_event_id=next(self._event_seq),
+            is_main=is_main or parent is None,
+            url=_safe(lambda: frame.url, ""),
+            name=_safe(lambda: frame.name, ""),
+        )
+        self._log("frame_attached", frame_id=fid, page_id=page_id,
+                  parent=parent, is_main=is_main)
+        return fid
+
+    def _on_frame_detached(self, frame) -> None:
+        fid = self._frame_ids.get(id(frame))
+        if fid is None:
+            return
+        rec = self.frame_registry.get(fid)
+        if rec:
+            rec.detached = True
+        # Keep the strong reference: dropping it would let the address be
+        # recycled onto a future frame, which is exactly the identity transfer
+        # this registry exists to prevent.
+        self._log("frame_detached", frame_id=fid)
+
+    def frame_id_of(self, frame) -> Optional[str]:
+        return self._frame_ids.get(id(frame))
 
     def _on_close(self, page_id: str):
         if page_id in self.registry:
@@ -473,25 +656,64 @@ class DirectPlaywrightKernel(BrowserKernel):
         frames = {}
         handles: dict[str, ObservedElement] = {}
         elements: list[ObservedElement] = []
-        text_blocks: list[str] = []
+        groups: list[ObservedGroup] = []
+        text_blocks: list[ObservedText] = []
+        frame_records: list[FrameRecord] = []
         doc_token = ""
+        main_fid = ""
 
         frame_list = _safe(lambda: list(p.frames), [])
-        for fi, frame in enumerate(frame_list):
-            fid = f"f{fi}"
+        main_frame = _safe(lambda: p.main_frame, None)
+        for frame in frame_list:
             try:
                 if frame.is_detached():
                     continue
+            except PWError:
+                continue
+            is_main = main_frame is not None and frame == main_frame
+            # Minted at attach; this only resolves (or back-fills a frame that
+            # existed before we attached a listener).
+            fid = self._frame_ids.get(id(frame)) or self._register_frame(
+                frame, pid, is_main=is_main
+            )
+            try:
                 h = frame.evaluate_handle(COLLECT_JS, INTERACTIVE_SELECTOR)
             except PWError:
-                continue  # frame died mid-observation; simply absent from this observation
+                continue  # frame died mid-observation; absent from this observation
             try:
                 meta = h.get_property("meta").json_value()
                 els_handle = h.get_property("els")
-                if fi == 0:
+                frame_groups = h.get_property("groups").json_value() or []
+                frame_text = h.get_property("text").json_value() or []
+                if is_main:
                     doc_token = h.get_property("doc").json_value() or ""
-                    text_blocks = h.get_property("text").json_value() or []
+                    main_fid = fid
                 frames[fid] = frame
+
+                rec = self.frame_registry.get(fid)
+                if rec is not None:
+                    rec.url = _safe(lambda: frame.url, rec.url)
+                    rec.name = _safe(lambda: frame.name, rec.name)
+                    frame_records.append(rec)
+
+                # Group ids are observation-scoped and frame-qualified, so a row
+                # index in one frame can never collide with one in another.
+                gid_of: dict[int, str] = {}
+                for gi, g in enumerate(frame_groups):
+                    gid = f"{fid}:g{gi}"
+                    gid_of[gi] = gid
+                    groups.append(
+                        ObservedGroup(
+                            group_id=gid,
+                            kind=g.get("kind", "group"),
+                            frame_id=fid,
+                            label=g.get("label", ""),
+                            cells=g.get("cells") or {},
+                        )
+                    )
+                for block in frame_text:
+                    text_blocks.append(ObservedText(text=block, frame_id=fid))
+
                 for i, m in enumerate(meta):
                     target = f"{obs_id}:{fid}:e{i}"
                     eh = els_handle.get_property(str(i)).as_element()
@@ -507,6 +729,7 @@ class DirectPlaywrightKernel(BrowserKernel):
                         visible=m["visible"],
                         tag=m["tag"],
                         section=m.get("section", ""),
+                        group_id=gid_of.get(m.get("group", -1), ""),
                         options=m.get("options") or [],
                         attrs=m["attrs"],
                     )
@@ -527,6 +750,8 @@ class DirectPlaywrightKernel(BrowserKernel):
             document_token=doc_token,
             document_generation=rec.document_generation,
             frame_tree_version=len(frames),
+            main_frame_id=main_fid,
+            frames=frame_records,
             tabs=[
                 TabSummary(r.page_id, r.url, r.title, r.owner.value, r.page_id == self._active_page_id)
                 for r in self.list_pages()
@@ -534,6 +759,7 @@ class DirectPlaywrightKernel(BrowserKernel):
             ],
             modal=self._pending_dialog,
             elements=elements,
+            groups=groups,
             text_blocks=text_blocks,
         )
         obs.state_fingerprint = obs.compute_fingerprint()

@@ -14,6 +14,7 @@ import time
 import pytest
 
 from browser_agent_v2.verification import (
+    MAIN_FRAME,
     ElementPresence,
     PageState,
     Reason,
@@ -171,6 +172,18 @@ def test_observing_a_closed_page_is_ambiguous_not_satisfied(fresh):
 # ------------------------------------------------------------ frame scoping
 
 
+def _child_frames(obs):
+    return sorted({e.frame_id for e in obs.elements if e.frame_id != obs.main_frame_id})
+
+
+def _frame_showing(fresh, obs, needle):
+    """The minted id of the frame whose own heading contains `needle`."""
+    for fid in _child_frames(obs):
+        if any(needle in b.text for b in obs.text_blocks if b.frame_id == fid):
+            return fid
+    raise LookupError(f"no frame showing {needle!r}")
+
+
 def test_control_in_another_frame_does_not_satisfy(fresh):
     """'Confirm' exists in the top frame and in two child frames."""
     obs = fresh.goto("/p/frames")
@@ -188,70 +201,76 @@ def test_control_in_another_frame_does_not_satisfy(fresh):
     result = fresh.verify(
         fresh.act(obs2, lambda: None),
         ElementPresence(page_id=obs2.page_id, role="button", name="Confirm",
-                        frame_id="f0"),
+                        frame_id=MAIN_FRAME),
     )
     assert result.status is NOT, "a child frame's Confirm satisfied a top-frame check"
     assert result.reason is Reason.ELEMENT_MISSING
 
+    # Under Observation Contract V1 a minted frame id needs no content pin.
+    child = _child_frames(obs2)[0]
     ok = fresh.verify(
         fresh.act(obs2, lambda: None),
         ElementPresence(page_id=obs2.page_id, role="button", name="Confirm",
-                        frame_id="f1", section="Child (primary)"),
+                        frame_id=child),
     )
     assert ok.status is SAT, "the control really does still exist in a child frame"
-    assert "f0" not in ok.evidence["matched_frames"]
+    assert ok.evidence["matched_frames"] == [child]
 
 
-def test_unpinned_child_frame_scope_is_refused(fresh):
-    """Regression: a positional frame index is not a frame identity.
+def test_minted_frame_id_needs_no_content_pin(fresh):
+    """Replaces the old "unpinned child frame is refused" workaround test.
 
-    On this fixture, detaching the same-origin frame renumbers the rest so that
-    `f1` comes to mean the CROSS-ORIGIN child — which also has a "Confirm" —
-    while the frame count stays at 3. An index-trusting verifier reports a
-    wrong-frame false success. The Verifier must refuse an unpinned index.
+    That refusal existed because frame ids were positional. They are now minted
+    identities, so an unpinned child-frame scope is answerable — and answering
+    it correctly is strictly stronger than declining to answer.
     """
     obs = fresh.goto("/p/frames")
     time.sleep(0.6)
     obs = fresh.observe()
+    child = _child_frames(obs)[0]
     result = fresh.verify(
         fresh.act(obs, lambda: None),
         ElementPresence(page_id=obs.page_id, role="button", name="Confirm",
-                        frame_id="f1"),
+                        frame_id=child),
     )
-    assert result.status is AMB
-    assert result.evidence["cause"] == "FRAME_ID_NOT_A_STABLE_IDENTITY"
+    assert result.status is SAT
+    assert result.reason is Reason.OK
+    assert result.evidence["requested_frame"] == child
 
 
-def test_frame_renumbering_cannot_produce_a_false_success(fresh):
-    """The exact renumbering scenario, with the frame properly pinned.
+def test_frame_detach_cannot_produce_a_false_success(fresh):
+    """The pre-V1 defect, retested against minted identity.
 
-    Before the detach, f1 == "Child (primary)". After it, f1 == "Child
-    (secondary)". Pinned by section, the vanished frame is correctly reported
-    as gone rather than silently satisfied by its replacement.
+    Detaching the same-origin child used to renumber the rest so that the old
+    id came to mean the cross-origin child — which also has a "Confirm". With a
+    minted id the detached frame simply has no elements, and no other frame can
+    answer for it.
     """
     obs = fresh.goto("/p/frames")
     time.sleep(0.6)
     obs = fresh.observe()
-    before = {e.frame_id: e.section for e in obs.elements
-              if e.name.strip() == "Confirm"}
-    assert before.get("f1") == "Child (primary)"
+    same_origin = _frame_showing(fresh, obs, "Child (primary)")
+    cross_origin = _frame_showing(fresh, obs, "Child (secondary)")
+    assert same_origin != cross_origin
 
     detach = fresh.find(obs, contains="Detach same-origin")
     step = fresh.act(obs, lambda: fresh.kernel.click(detach.target))
     time.sleep(0.4)
 
-    after = {e.frame_id: e.section for e in fresh.observe().elements
-             if e.name.strip() == "Confirm"}
-    assert after.get("f1") == "Child (secondary)", (
-        f"fixture no longer renumbers frames; got {after}"
+    after = fresh.observe()
+    assert same_origin not in {e.frame_id for e in after.elements}, (
+        "the detached frame still contributes elements"
+    )
+    assert cross_origin in {e.frame_id for e in after.elements}, (
+        "the surviving frame lost its identity"
     )
 
     result = fresh.verify(
         step,
         ElementPresence(page_id=obs.page_id, role="button", name="Confirm",
-                        frame_id="f1", section="Child (primary)"),
+                        frame_id=same_origin),
     )
-    assert result.status is NOT, "the replacement frame satisfied the detached one"
+    assert result.status is NOT, "another frame answered for the detached one"
     assert result.reason is Reason.ELEMENT_MISSING
 
 
@@ -259,30 +278,41 @@ def test_frame_scoped_check_names_the_frame_in_evidence(fresh):
     obs = fresh.goto("/p/frames")
     time.sleep(0.6)
     obs = fresh.observe()
+    child = _child_frames(obs)[0]
     result = fresh.verify(
         fresh.act(obs, lambda: None),
         ElementPresence(page_id=obs.page_id, role="button", name="Confirm",
-                        frame_id="f1", section="Child (primary)"),
+                        frame_id=child),
     )
-    assert result.evidence["frame_id"] == "f1"
-    assert result.evidence["section"] == "Child (primary)"
+    assert result.evidence["frame_id"] == child
+    assert result.evidence["matched_frames"] == [child]
 
 
-def test_text_assertion_in_a_child_frame_is_refused_not_guessed(fresh):
-    """Observation text is main-frame only; the Verifier must say so.
+def test_child_frame_text_is_assertable_and_scoped(fresh):
+    """Replaces the old "child-frame text is refused" test.
 
-    Silently searching the top frame for a child-frame assertion would be the
-    wrong-frame false positive this suite exists to prevent.
+    Text is frame-scoped under V1, so a child frame's text can be asserted
+    directly, and text that lives only in a child frame must not satisfy a
+    main-frame assertion.
     """
     obs = fresh.goto("/p/frames")
     time.sleep(0.6)
     obs = fresh.observe()
-    result = fresh.verify(
+    child = _frame_showing(fresh, obs, "Child (primary)")
+
+    ok = fresh.verify(
         fresh.act(obs, lambda: None),
-        TextPresence(page_id=obs.page_id, text="Child", frame_id="f1"),
+        TextPresence(page_id=obs.page_id, text="Child (primary)", frame_id=child),
     )
-    assert result.status is AMB
-    assert result.evidence["cause"] == "TEXT_NOT_COLLECTED_FOR_FRAME"
+    assert ok.status is SAT
+
+    wrong_scope = fresh.verify(
+        fresh.act(obs, lambda: None),
+        TextPresence(page_id=obs.page_id, text="Child (primary)",
+                     frame_id=MAIN_FRAME),
+    )
+    assert wrong_scope.status is NOT, "child-frame text satisfied a main-frame check"
+    assert wrong_scope.reason is Reason.TEXT_MISSING
 
 
 def test_section_anchor_distinguishes_duplicate_control_names(fresh):

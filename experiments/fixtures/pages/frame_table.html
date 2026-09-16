@@ -1,0 +1,19 @@
+<title>Frame Table</title>
+<!-- Identical in both frames except the side reported from the query string,
+     which exists only so a test can tell which frame answered. -->
+<h2 id="who">table</h2>
+<table>
+  <thead><tr><th>Ref</th><th>Owner</th><th>Action</th></tr></thead>
+  <tr><td>REF-1001</td><td>A. Okafor</td><td><button type="button" onclick="pick('REF-1001')">Open</button></td></tr>
+  <tr><td>REF-1002</td><td>B. Lindqvist</td><td><button type="button" onclick="pick('REF-1002')">Open</button></td></tr>
+  <tr><td>REF-1003</td><td>C. Nakamura</td><td><button type="button" onclick="pick('REF-1003')">Open</button></td></tr>
+</table>
+<p><span id="picked">none</span></p>
+<script>
+function side(){ const m = location.search.match(/side=([^&]*)/); return m ? m[1] : '?'; }
+document.getElementById('who').textContent = 'table ' + side();
+function pick(ref){
+  window.__effect(side() + ':' + ref);
+  document.getElementById('picked').textContent = 'picked ' + side() + ':' + ref;
+}
+</script>

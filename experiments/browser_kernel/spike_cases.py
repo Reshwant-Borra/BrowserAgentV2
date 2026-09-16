@@ -81,6 +81,18 @@ class Ctx:
 def result(status, detail="", **kw):
     return {"status": status, "detail": detail, **kw}
 
+def observed_text(obs) -> str:
+    """Join an observation's text blocks.
+
+    Observation Contract V1 makes each block a frame-scoped record rather than a
+    bare string. Tolerates both so historical observations still render.
+    """
+    out = []
+    for b in getattr(obs, "text_blocks", []) or []:
+        out.append(b.text if hasattr(b, "text") else str(b))
+    return " ".join(out)
+
+
 
 # ==========================================================================
 # NAVIGATION
@@ -124,7 +136,7 @@ def nav_03_spa_route(ctx: Ctx):
 def nav_04_redirect_chain(ctx: Ctx):
     ctx.k.navigate(ctx.c.url("/redirect?n=4"))
     obs = ctx.k.observe()
-    return result(PASS if "redirect end" in " ".join(obs.text_blocks).lower()
+    return result(PASS if "redirect end" in observed_text(obs).lower()
                   or obs.title.lower().startswith("redirect end") else FAIL_SAFE,
                   f"title={obs.title!r} url={obs.url}")
 
@@ -352,7 +364,7 @@ def txt_06_enter_submit(ctx: Ctx):
     ctx.k.type_text(el.target, "quarterly report", submit=True)
     time.sleep(0.2)
     obs2 = ctx.k.observe()
-    txt = " ".join(obs2.text_blocks) + " " + " ".join(e.name for e in obs2.elements)
+    txt = observed_text(obs2) + " " + " ".join(e.name for e in obs2.elements)
     return result(PASS if "submitted:quarterly report" in txt else FAIL_SAFE,
                   f"page state contains submit marker: {'submitted:quarterly report' in txt}")
 
@@ -494,7 +506,7 @@ def frm_01_same_origin_frame(ctx: Ctx):
     if len(frames) < 2:
         return result(FAIL_UNSAFE,
                       f"{len(confirms)} Confirm controls but all in frame {frames}: targets are not frame-scoped")
-    child = [e for e in confirms if e.frame_id != "f0"][0]
+    child = [e for e in confirms if e.frame_id != obs.main_frame_id][0]
     ctx.fx_reset()
     ctx.k.click(child.target)
     fx = ctx.fx()
@@ -518,7 +530,8 @@ def frm_03_frame_detach(ctx: Ctx):
     obs = ctx.goto("/p/frames")
     time.sleep(0.5)
     obs = ctx.k.observe()
-    child = [e for e in obs.elements if e.name.strip() == "Confirm" and e.frame_id != "f0"]
+    child = [e for e in obs.elements
+             if e.name.strip() == "Confirm" and e.frame_id != obs.main_frame_id]
     if not child:
         return result(UNSUPPORTED, "no frame-scoped target to invalidate")
     detach = ctx.find(obs, contains="Detach same-origin")

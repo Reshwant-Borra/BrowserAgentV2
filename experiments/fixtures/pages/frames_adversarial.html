@@ -1,0 +1,60 @@
+<title>Adversarial Frames</title>
+<h1>Adversarial frames</h1>
+<!-- Frame-identity torture fixture.
+
+     Both child frames use the SAME src and the SAME name, so nothing about
+     url, name, index or DOM order distinguishes them. Only a real identity
+     minted at attach time can. Each child announces which slot it is in via a
+     query parameter that the page itself never uses for identity. -->
+
+<button id="top-confirm" type="button" onclick="window.__effect('TOP')">Confirm</button>
+<p id="log">none</p>
+
+<div id="slotA">
+  <iframe name="twin" src="/p/frame_leaf?slot=A" width="360" height="90"></iframe>
+</div>
+<div id="slotB">
+  <iframe name="twin" src="/p/frame_leaf?slot=B" width="360" height="90"></iframe>
+</div>
+
+<p>
+  <button id="detach-a" type="button" onclick="detach('slotA')">Detach A</button>
+  <button id="detach-b" type="button" onclick="detach('slotB')">Detach B</button>
+  <button id="reinsert-a" type="button" onclick="reinsert('slotA','A')">Reinsert A</button>
+  <button id="reinsert-b" type="button" onclick="reinsert('slotB','B')">Reinsert B</button>
+  <button id="reload-a" type="button" onclick="reloadFrame('slotA')">Reload A</button>
+  <button id="navigate-a" type="button" onclick="navFrame('slotA','A2')">Navigate A</button>
+  <button id="replace-a-dom" type="button" onclick="replaceDom('slotA','A')">Replace A iframe element</button>
+  <button id="prepend-new" type="button" onclick="prependNew()">Insert new frame first</button>
+</p>
+
+<script>
+function detach(slot){ const h=document.getElementById(slot); h.innerHTML=''; }
+function reinsert(slot, tag){
+  const h=document.getElementById(slot);
+  if(h.querySelector('iframe')) return;
+  const f=document.createElement('iframe');
+  f.name='twin'; f.src='/p/frame_leaf?slot='+tag; f.width='360'; f.height='90';
+  h.appendChild(f);
+}
+function reloadFrame(slot){
+  document.getElementById(slot).querySelector('iframe').contentWindow.location.reload();
+}
+function navFrame(slot, tag){
+  document.getElementById(slot).querySelector('iframe').src='/p/frame_leaf?slot='+tag;
+}
+function replaceDom(slot, tag){
+  // Remove the iframe ELEMENT and insert an identical one in the same position.
+  const h=document.getElementById(slot);
+  h.innerHTML='';
+  const f=document.createElement('iframe');
+  f.name='twin'; f.src='/p/frame_leaf?slot='+tag; f.width='360'; f.height='90';
+  h.appendChild(f);
+}
+function prependNew(){
+  // A brand new frame taking the FIRST child-frame position.
+  const f=document.createElement('iframe');
+  f.name='twin'; f.src='/p/frame_leaf?slot=NEW'; f.width='360'; f.height='90';
+  document.body.insertBefore(f, document.getElementById('slotA'));
+}
+</script>

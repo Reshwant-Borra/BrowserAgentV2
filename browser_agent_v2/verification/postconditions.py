@@ -17,6 +17,11 @@ import enum
 from dataclasses import dataclass
 from typing import Optional, Sequence
 
+#: Re-exported so callers scope to "this page's main frame" without knowing the
+#: minted id. Defined in the kernel contracts; mirrored here to keep production
+#: verification free of experiment imports.
+MAIN_FRAME = "main"
+
 
 class TextMatch(str, enum.Enum):
     EXACT = "EXACT"
@@ -53,7 +58,7 @@ class FieldValueEquals(Postcondition):
     expected: str
     role: str = "textbox"
     name: Optional[str] = None
-    frame_id: str = "f0"
+    frame_id: str = MAIN_FRAME
     match: ValueMatch = ValueMatch.EXACT
 
 
@@ -69,7 +74,7 @@ class SelectValueEquals(Postcondition):
     target: str
     expected_value: str
     name: Optional[str] = None
-    frame_id: str = "f0"
+    frame_id: str = MAIN_FRAME
 
 
 @dataclass(frozen=True)
@@ -87,45 +92,53 @@ class UrlIs(Postcondition):
 class ElementPresence(Postcondition):
     """An element with this role and accessible name is (or is not) present.
 
-    Frame scoping, and why it is not simply `frame_id`
-    --------------------------------------------------
-    A kernel `frame_id` is a *positional index* over the frame list, not an
-    identity. Detaching a frame renumbers the rest: on the frames fixture, `f1`
-    means the same-origin child before a detach and the cross-origin child
-    after it, while the frame count stays the same. Both contain a control
-    named "Confirm", so trusting the index produces a wrong-frame false
-    success. This is the same defect class as identifying a tab by its index,
-    which Experiment 5 ruled out for pages.
+    Frame scoping
+    -------------
+    Under Observation Contract V1 a `frame_id` is a minted identity, issued at
+    the frame's attach event and never reused for a different frame. It can be
+    trusted directly, so no content pin is required.
 
-    So:
+    * ``frame_id=MAIN_FRAME`` — this page's main frame, whatever its minted id.
+    * ``frame_id="fr_7"`` — exactly that frame. If it has detached, the element
+      is reported missing; another frame can never answer for it.
+    * ``frame_id=None`` — any frame on the page.
 
-    * ``frame_id="f0"`` (the main frame) is a stable identity and needs nothing
-      more.
-    * Any other frame must be pinned by ``section`` — the nearest heading
-      inside that frame's own document — which is content-derived and does not
-      shift when sibling frames come and go. The index is then advisory only.
-    * A non-main frame with no ``section`` cannot be scoped safely, and the
-      Verifier answers AMBIGUOUS rather than guessing.
+    Before V1 the kernel numbered frames positionally, so detaching a frame
+    renumbered the rest and an id could transfer between frames. The Verifier
+    defended against that by refusing any unpinned non-main frame scope. That
+    workaround is gone because the defect is gone; see ADR-016.
+
+    ``section`` remains available as an ordinary disambiguator for duplicate
+    control names within a frame. It is no longer load-bearing for identity.
     """
 
     role: str
     name: str
     expect_present: bool = True
-    frame_id: Optional[str] = "f0"
-    #: Nearest-heading anchor. Disambiguates duplicate control names, and is
-    #: REQUIRED to scope to any frame other than the main one.
+    frame_id: Optional[str] = MAIN_FRAME
+    #: Nearest-heading anchor. Disambiguates duplicate control names.
     section: Optional[str] = None
     #: When True, a present-but-not-visible element does not count as present.
     require_visible: bool = True
+    #: Enclosing row / list item, matched against ObservedGroup.cells. Lets a
+    #: postcondition say "the Open button in B. Lindqvist's row" instead of
+    #: "one of three identical Open buttons".
+    group_cells: Optional[dict] = None
 
 
 @dataclass(frozen=True)
 class TextPresence(Postcondition):
-    """Page text contains (or does not contain) this string."""
+    """Page text contains (or does not contain) this string.
+
+    Text is frame-scoped under Observation Contract V1: every block carries the
+    minted id of the frame it came from, so a child frame's text can be
+    asserted directly. Before V1, text was collected for the main frame only
+    and any frame-scoped assertion had to be refused.
+    """
 
     text: str
     expect_present: bool = True
-    frame_id: Optional[str] = "f0"
+    frame_id: Optional[str] = MAIN_FRAME
     match: TextMatch = TextMatch.CONTAINS
 
 

@@ -108,6 +108,10 @@ def render_observation(obs: dict, max_elements: int = MAX_ELEMENTS) -> str:
 
     els = obs.get("elements") or []
     shown = els[:max_elements]
+    # Observation Contract V1: an element inside a table row or list item
+    # carries its row. Rendered inline so "the Open button in B. Lindqvist's
+    # row" is expressible, which three identical `button 'Open'` lines are not.
+    groups = {g["group_id"]: g for g in (obs.get("groups") or [])}
     lines.append(f"ELEMENTS ({len(shown)} of {len(els)}):")
     for e in shown:
         # The target id is written as `target=<id>` and terminated by " | ".
@@ -129,17 +133,29 @@ def render_observation(obs: dict, max_elements: int = MAX_ELEMENTS) -> str:
             bits.append("DISABLED")
         if not e.get("visible", True):
             bits.append("NOT VISIBLE")
-        if e.get("frame_id") and e["frame_id"] != "f0":
+        g = groups.get(e.get("group_id") or "")
+        if g and g.get("label"):
+            bits.append(f"{g.get('kind', 'group')} [{g['label']}]")
+        if e.get("frame_id") and e["frame_id"] != obs.get("main_frame_id"):
             bits.append(f"frame {e['frame_id']}")
         lines.append("  " + " | ".join(bits))
     if len(els) > len(shown):
         lines.append(f"  ... {len(els)-len(shown)} more elements not shown")
 
-    text = [t for t in (obs.get("text_blocks") or []) if t.strip()][:MAX_TEXT_BLOCKS]
+    # Text blocks are frame-scoped records under Observation Contract V1.
+    main_fid = obs.get("main_frame_id")
+    text = []
+    for b in obs.get("text_blocks") or []:
+        body = (b.get("text") or "").strip() if isinstance(b, dict) else str(b).strip()
+        if not body:
+            continue
+        fid = b.get("frame_id") if isinstance(b, dict) else None
+        text.append(body if (fid is None or fid == main_fid) else f"[{fid}] {body}")
+    text = text[:MAX_TEXT_BLOCKS]
     if text:
         lines.append("PAGE TEXT:")
-        for t in text:
-            lines.append(f"  - {t[:MAX_TEXT_CHARS]}")
+        for body in text:
+            lines.append(f"  - {body[:MAX_TEXT_CHARS]}")
     return "\n".join(lines)
 
 
