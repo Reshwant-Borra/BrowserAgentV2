@@ -4,7 +4,12 @@
 
 ## Current state
 
-Research is now **top-to-bottom at the design level but still pre-freeze**. The repository contains:
+The P0 experiment campaign is **complete** and the architecture is **frozen at
+[V1](03_DECISIONS/ARCHITECTURE_FREEZE_V1.md)**. Verdict:
+`P0_COMPLETE_WITH_PROVISIONAL_ITEMS` — see
+[`experiments/p0_summary/P0_CONSOLIDATION.md`](experiments/p0_summary/P0_CONSOLIDATION.md).
+
+The repository contains:
 
 - paper-backed feasibility evidence;
 - 2025–2026 research updates;
@@ -127,16 +132,41 @@ See:
 - `05_IMPLEMENTATION/TWO_DAY_EXECUTION_PLAN_V3.md`
 - `05_IMPLEMENTATION/TWO_DAY_BUILD_PLAN.md`
 
-## Remaining P0 empirical work
+## P0 empirical work — complete
 
-1. Run Playwright MCP vs direct Playwright BrowserKernel spike.
-2. Freeze exact runtime/browser/MCP versions after the spike.
-3. Build 100-300 frozen model-decision cases and compare Qwen interface modes.
-4. Determine whether zero-shot Qwen3:8B reaches action-selection threshold; if not, invoke the model-improvement path instead of adding retries.
-5. Measure exact observation invalidation rules under SPA churn, frames, tabs, dialogs and manual user action.
-6. Demonstrate ambiguous state-changing action reconciliation with crash injection and zero duplicate server-side operations.
-7. Repeatedly prove dedicated-profile persistence and page ownership.
-8. Run prompt-injection/cross-origin/capability security fixtures.
+All eight items below were executed on `experiment/p0-gate-campaign`. Index:
+[`experiments/P0_EXPERIMENT_INDEX.md`](experiments/P0_EXPERIMENT_INDEX.md).
+
+1. **MCP vs direct Playwright spike** — done. `ADOPT_DIRECT_PLAYWRIGHT`
+   (105/105 vs 90/105). MCP cannot express page ownership or document identity.
+2. **Versions pinned** — [`experiments/ENVIRONMENT.md`](experiments/ENVIRONMENT.md);
+   every result file embeds its own capture.
+3. **166 frozen decision cases, both interface modes** — done.
+   `ADOPT_STRICT_JSON`. Quality was a tie; determinism, schema validity and a
+   23x p95 latency difference decided it.
+4. **Qwen3:8B adequacy** — done, **negative**. `QWEN3_8B_INADEQUATE` against a
+   threshold registered before the run. The model-improvement path is now
+   ordered: Verifier, then the table-row representation fix, then re-measure —
+   not a bigger model.
+5. **Observation invalidation** — done. 0 wrong-target executions in 336
+   safe-policy runs; the name-resolving control produced 84.
+6. **Crash reconciliation** — done. 32 real process kills across seven
+   boundaries, 0 duplicate side effects; blind-replay control produced 20.
+7. **Profile persistence and page ownership** — done. 36/36 and 220/220,
+   0 user tabs closed.
+8. **Security fixtures** — done. 272 compromised-model probes, 0 bypasses,
+   0 false blocks on 25 benign probes.
+
+### What changed as a result
+
+- The load-bearing freshness mechanism is **node binding**, not the invalidation
+  rule — established by a control that was supposed to be unsafe and wasn't.
+- **Explicit invalidation must outrank the policy**; when a human types into a
+  field, nothing is detectable from the DOM.
+- The **Verifier is load-bearing**, not polish: it is the only layer that can
+  catch the model clicking a legitimate control for the wrong reason.
+- The architecture is frozen at
+  [V1](03_DECISIONS/ARCHITECTURE_FREEZE_V1.md); implementation has not started.
 
 ## Later planned capabilities already designed
 

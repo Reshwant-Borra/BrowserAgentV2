@@ -14,19 +14,47 @@ REJECTED       — do not implement without a new ADR backed by evidence
 
 ---
 
-# P0 — Must resolve before architecture freeze
+# P0 — resolved by the experiment campaign
 
-| Gate | Current status | Current strongest choice | Resolution evidence required |
+All nine P0 gates were resolved empirically on branch
+`experiment/p0-gate-campaign`. Index:
+[`../experiments/P0_EXPERIMENT_INDEX.md`](../experiments/P0_EXPERIMENT_INDEX.md).
+Environment: [`../experiments/ENVIRONMENT.md`](../experiments/ENVIRONMENT.md).
+
+| Gate | Status | Verdict | Evidence |
 |---|---|---|---|
-| Browser kernel: MCP vs direct Playwright | OPEN | Playwright MCP first candidate behind `BrowserKernel` | scripted spike covering refs, typing, tabs, frames, dialogs, profile persistence, handoff, errors, crash |
-| Qwen output interface | OPEN | strict single `Decision` JSON or native Hermes tool call | frozen 100-300 observation evaluation; schema validity, action+target accuracy, latency |
-| Qwen3:8B adequacy | OPEN | use as first local model only if measured | >= target action selection on easy/medium fixtures; if not, revise action space/model |
-| Browser profile strategy | PROVISIONAL | dedicated Playwright-managed persistent profile | restart/auth tests; CDP remains later optional due documented lower fidelity |
-| Observation invalidation | OPEN | invalidate after navigation/state-changing page events; reobserve after actions | stale-ref stress tests over SPA rerender/frame/tab/user changes |
-| Ambiguous side-effect protocol | OPEN | persist intent, reconcile, no blind replay | crash injection at each state-changing boundary with zero duplicates |
-| Tab ownership/page registry | PROVISIONAL | ownership at creation event; only AGENT tabs auto-close | repeated popup/manual-tab tests with zero user-tab closure |
-| Human handoff/resume | PROVISIONAL | checkpoint, pause, manual action, invalidate refs, rediscover | login/MFA fixture across restart |
-| Policy/security boundary | PROVISIONAL | deterministic PolicyEngine outside model | prompt-injection/cross-origin/capability fixture suite |
+| Browser kernel: MCP vs direct Playwright | **RESOLVED** | `ADOPT_DIRECT_PLAYWRIGHT` | [E1](../experiments/browser_kernel/REPORT.md) — 105/105 vs 90/105, 0 unsafe either side |
+| Observation invalidation | **RESOLVED** | `INVALIDATION_RESOLVED` | [E4](../experiments/observation_invalidation/REPORT.md) — 0 wrong-target in 336 safe-policy runs; unsafe control produced 84 |
+| Tab ownership / page registry | **RESOLVED** | `PAGE_REGISTRY_RESOLVED` | [E5](../experiments/page_registry/REPORT.md) — 220/220, 0 user tabs closed |
+| Ambiguous side-effect protocol | **RESOLVED** | `SIDE_EFFECT_RECOVERY_RESOLVED` | [E6](../experiments/side_effect_recovery/REPORT.md) — 32 crashes, 0 duplicates; blind-replay control produced 20 |
+| Human handoff / resume | **RESOLVED** | `HANDOFF_RESOLVED` | [E7](../experiments/human_handoff/REPORT.md) — 90/90, 0 stale targets trusted |
+| Browser profile strategy | **RESOLVED** | `DEDICATED_PROFILE_RESOLVED` | [Profile](../experiments/profile_strategy/REPORT.md) — 36/36 persistence and isolation |
+| Policy / security boundary | **RESOLVED** | `POLICY_BOUNDARY_RESOLVED` | [E8](../experiments/security_policy/REPORT.md) — 272 probes, 0 bypasses, 0 false blocks |
+| Qwen output interface | **RESOLVED** | `ADOPT_STRICT_JSON` | [E2](../experiments/qwen_decision_interface/REPORT.md) — quality tie; decided on 100% schema validity, 100% determinism, 5.4× latency |
+| Qwen3:8B adequacy | **RESOLVED (negative)** | `QWEN3_8B_INADEQUATE` | [E3](../experiments/qwen_adequacy/REPORT.md) — misses the pre-registered bar; see constraint below |
+
+## The one gate that resolved negatively
+
+`QWEN3_8B_INADEQUATE` is a resolved gate, not an open one: we know the answer.
+It does not block the architecture freeze, because
+[ADR-004](../03_DECISIONS/ARCHITECTURE_DECISIONS.md) already requires that the
+architecture not assume a particular model intelligence level. It does bind the
+implementation:
+
+```text
+Qwen3:8B is the first decision SOURCE, not an autonomous POLICY.
+```
+
+Mandatory before any autonomous run:
+
+1. The **Verifier** must exist. [E3's containment analysis](../experiments/qwen_adequacy/results/containment_analysis.json)
+   shows the PolicyEngine catches 8 of 14 forbidden decisions and that the 3
+   escapes are the model clicking a legitimate control for the wrong reason —
+   exactly the class deterministic postcondition checking is for.
+2. The **table-row context** representation defect must be fixed and the model
+   re-measured on a new held-out version.
+3. Re-run [`ADEQUACY_THRESHOLD.md`](../experiments/qwen_adequacy/ADEQUACY_THRESHOLD.md)
+   after both. Autonomy is licensed by `QWEN3_8B_ADEQUATE`, not by a demo.
 
 ---
 
@@ -202,3 +230,33 @@ PROVISIONAL with a test that occurs before dependent implementation
 ```
 
 No row may remain "we will figure it out inside Codex." That is exactly what this repository is intended to prevent.
+
+## Status: satisfied
+
+All nine P0 rows are `RESOLVED`. One resolved negatively (`QWEN3_8B_INADEQUATE`)
+and carries the three mandatory pre-conditions listed above rather than a
+"figure it out later".
+
+Frozen architecture:
+[`../03_DECISIONS/ARCHITECTURE_FREEZE_V1.md`](../03_DECISIONS/ARCHITECTURE_FREEZE_V1.md).
+Consolidated go/no-go:
+[`../experiments/p0_summary/P0_CONSOLIDATION.md`](../experiments/p0_summary/P0_CONSOLIDATION.md).
+
+## New findings that changed the design
+
+The campaign did not merely confirm the existing plan. Four things changed:
+
+1. **The load-bearing freshness mechanism is node binding, not the invalidation
+   rule.** [E4](../experiments/observation_invalidation/REPORT.md)'s
+   `UNSAFE_URL_ONLY` control was designed to be unsafe and was not, because it
+   still held an element handle. A policy that re-resolves by accessible name
+   produced 84 wrong-target executions.
+2. **Explicit invalidation must outrank the invalidation policy.**
+   [E7](../experiments/human_handoff/REPORT.md) found that when a human merely
+   types in a field, nothing is detectable from the DOM, so only an explicit
+   controller command can invalidate. This is now unconditional.
+3. **Playwright MCP cannot express page ownership.** It has no page-creation
+   event and no opener, so a popup can only ever be `UNKNOWN`. This disqualified
+   it under a rule written before the experiment.
+4. **The Verifier is load-bearing, not optional polish.** It is the only layer
+   that can catch the model's remaining failure class.

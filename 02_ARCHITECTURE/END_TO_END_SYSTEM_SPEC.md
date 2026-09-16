@@ -1,6 +1,11 @@
 # BrowserAgentV2 End-to-End System Specification
 
-**Status:** target architecture for implementation planning. Individual choices marked `GATE` still require an experiment before freeze.
+**Status:** the `GATE` items in this document have been resolved by the P0
+experiment campaign. Frozen decisions now live in
+[`../03_DECISIONS/ARCHITECTURE_FREEZE_V1.md`](../03_DECISIONS/ARCHITECTURE_FREEZE_V1.md);
+evidence is indexed in
+[`../experiments/P0_EXPERIMENT_INDEX.md`](../experiments/P0_EXPERIMENT_INDEX.md).
+Where this document and the freeze disagree, the freeze wins.
 
 ## 0. Product definition
 
@@ -298,7 +303,18 @@ shutdown()
 
 Methods return typed results/errors only.
 
-## 5.2 Candidate implementation: Playwright MCP (`GATE`)
+## 5.2 Playwright MCP — evaluated and NOT adopted (`GATE RESOLVED`)
+
+[Experiment 1](../experiments/browser_kernel/REPORT.md): direct Playwright
+105/105, MCP 90/105, zero unsafe outcomes on either side. MCP was disqualified
+because it exposes no page-creation event and no opener, so tab ownership cannot
+be established — disqualifying under MASTER_VALIDATION_PLAN section 2. It also
+exposes no document-identity token, which blocks the invalidation policy.
+
+The capability list below is accurate and remains useful if MCP is ever
+re-evaluated; it was measured at `0.0.81`.
+
+### Original candidate assessment
 
 Playwright MCP currently provides:
 - semantic accessibility snapshots with refs;
@@ -433,7 +449,20 @@ No raw event history is included. The model can request additional page/search i
 
 Initial model: Qwen3:8B via Ollama because it is already available locally.
 
-## Decision-interface gate
+## Decision-interface gate — RESOLVED
+
+[Experiment 2](../experiments/qwen_decision_interface/REPORT.md):
+`ADOPT_STRICT_JSON`. Quality was an exact tie (75.00% end-to-end usable
+decisions for both); the decision was made on 100% vs 90.74% schema validity,
+100% vs 98.15% determinism, 0 vs 2 multiple-action violations, and 5.4x median /
+23x p95 latency. Native tool calling additionally emits nothing at all unless
+thinking is enabled.
+
+[Experiment 3](../experiments/qwen_adequacy/REPORT.md): `QWEN3_8B_INADEQUATE`.
+Qwen3:8B is frozen as a decision *source* behind the deterministic boundary, not
+as an autonomous *policy*.
+
+### Original gate definition
 
 Evaluate two modes against the same frozen observation dataset:
 
@@ -707,19 +736,28 @@ Example: browser can inspect Canvas, while Calendar event creation can use a Cal
 
 ---
 
-# 20. Architecture freeze gates
+# 20. Architecture freeze gates — status
 
-This architecture is frozen only when:
+| # | Gate | Status |
+|---|---|---|
+| 1 | MCP vs direct Playwright spike | **done** — [E1](../experiments/browser_kernel/REPORT.md) |
+| 2 | dedicated persistent profile across restart | **done** — [Profile](../experiments/profile_strategy/REPORT.md) |
+| 3 | primitive stress suite | **done** — [E1](../experiments/browser_kernel/REPORT.md), 105/105 over 3 passes |
+| 4 | tab ownership invariant | **done** — [E5](../experiments/page_registry/REPORT.md), 220/220 |
+| 5 | stale refs fail safely | **done** — [E4](../experiments/observation_invalidation/REPORT.md), 0/336 |
+| 6 | Qwen interface meets threshold **or model plan revised** | **done via the second branch** — interface resolved; the model missed the bar, so the plan is revised: Verifier first, then representation fix, then re-measure |
+| 7 | crash / ambiguous-submit reconciliation | **done** — [E6](../experiments/side_effect_recovery/REPORT.md), 0 duplicates in 32 crashes |
+| 8 | auth handoff / resume | **done** — [E7](../experiments/human_handoff/REPORT.md), 90/90 |
+| 9 | prompt-injection / policy tests | **done** — [E8](../experiments/security_policy/REPORT.md), 0 bypasses |
+| 10 | controlled multi-step tasks | **NOT done — deliberately** |
 
-1. MCP vs direct Playwright spike is complete;
-2. dedicated persistent profile works across restart;
-3. primitive stress suite passes;
-4. tab ownership invariant passes;
-5. stale refs fail safely;
-6. Qwen interface evaluation meets threshold or model plan is revised;
-7. crash/ambiguous-submit reconciliation is demonstrated;
-8. auth handoff/resume passes;
-9. prompt-injection/policy tests pass;
-10. controlled multi-step tasks complete without architecture-specific patches.
+Gate 10 is the one that is open, and it is open on purpose: the brief for this
+campaign was to resolve decision gates, not to build the agent. No multi-step
+autonomous task has been run.
 
-Only then should Codex receive the full implementation sequence.
+Consequently the architecture is frozen at
+[V1](../03_DECISIONS/ARCHITECTURE_FREEZE_V1.md) but the **implementation
+sequence should not begin with the controller loop**. The evidence from
+[E3's containment analysis](../experiments/qwen_adequacy/results/containment_analysis.json)
+puts the Verifier first: it is the only layer that can catch the model's
+remaining failure class.

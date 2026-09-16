@@ -138,18 +138,40 @@ See:
 - `05_IMPLEMENTATION/` — entire phased roadmap plus concrete two-day MVP sequence
 - `06_OPEN_QUESTIONS/` — explicit unresolved experiments/decision gates
 
-## Current P0 gates
+## P0 gates — resolved
 
-Before a final implementation master prompt, we still need empirical resolution of:
+All nine P0 gates were resolved by the experiment campaign on
+`experiment/p0-gate-campaign`. Roughly 2,200 experiment runs and 1,000 local
+model calls; every raw row is committed under `experiments/*/results/`.
 
-- Playwright MCP vs direct Playwright for the first BrowserKernel;
-- Qwen native tool calling vs strict `Decision` JSON;
-- whether zero-shot Qwen3:8B reaches the required action-selection accuracy;
-- exact observation invalidation behavior;
-- ambiguous state-changing action reconciliation;
-- final confirmation of persistent-profile/tab-ownership/handoff/security invariants.
+| Gate | Verdict |
+|---|---|
+| Browser kernel | `ADOPT_DIRECT_PLAYWRIGHT` |
+| Decision interface | `ADOPT_STRICT_JSON` |
+| Qwen3:8B adequacy | **`QWEN3_8B_INADEQUATE`** |
+| Observation invalidation | `INVALIDATION_RESOLVED` |
+| Page registry / ownership | `PAGE_REGISTRY_RESOLVED` |
+| Side-effect recovery | `SIDE_EFFECT_RECOVERY_RESOLVED` |
+| Human handoff | `HANDOFF_RESOLVED` |
+| Policy / security boundary | `POLICY_BOUNDARY_RESOLVED` |
+| Browser profile | `DEDICATED_PROFILE_RESOLVED` |
 
-These are experiments, not architecture to be improvised inside Codex.
+Start here:
+
+- [`experiments/P0_EXPERIMENT_INDEX.md`](experiments/P0_EXPERIMENT_INDEX.md) — gate to evidence
+- [`experiments/p0_summary/P0_CONSOLIDATION.md`](experiments/p0_summary/P0_CONSOLIDATION.md) — go / no-go
+- [`03_DECISIONS/ARCHITECTURE_FREEZE_V1.md`](03_DECISIONS/ARCHITECTURE_FREEZE_V1.md) — what is frozen
+
+**The mechanics are proven; the decision layer is not.** Qwen3:8B has perfect
+schema validity and determinism, never invented a target, and obeyed none of 16
+hostile pages — but it misses the pre-registered adequacy bar on judgment
+(sequencing 33%, recognising no-valid-action 57%). It is frozen as a decision
+*source* behind the deterministic boundary, not as an autonomous *policy*.
+
+The single most important finding for sequencing: the PolicyEngine catches the
+model's dangerous mistakes, but not the class where it clicks a legitimate
+control for the wrong reason. Only the Verifier can, and the Verifier does not
+exist yet. **Build it before the controller loop.**
 
 ## Two-day goal
 

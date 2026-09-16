@@ -1,5 +1,17 @@
 # BrowserAgentV2 Two-Day Execution Plan V3
 
+> **Re-sequencing required after the P0 campaign (2026-09-15).**
+> This plan assumes a Day-2 autonomous loop. The evidence says otherwise:
+> [E3's containment analysis](../experiments/qwen_adequacy/results/containment_analysis.json)
+> shows the PolicyEngine catches the model's *dangerous* mistakes but not the
+> class where it clicks a legitimate control for the wrong reason, and
+> [E3](../experiments/qwen_adequacy/REPORT.md) returned `QWEN3_8B_INADEQUATE`.
+> Build the **Verifier** before the controller loop, and do not run autonomously
+> until the model clears the
+> [pre-registered bar](../experiments/qwen_adequacy/ADEQUACY_THRESHOLD.md).
+> See [`../experiments/p0_summary/P0_CONSOLIDATION.md`](../experiments/p0_summary/P0_CONSOLIDATION.md).
+
+
 **Purpose:** define what can realistically be built in two focused days without recreating the previous architecture failure pattern.
 
 **Important:** this is a two-day **architecture proof + working MVP**, not a promise to finish every phase in `FULL_PROJECT_ROADMAP.md`.
