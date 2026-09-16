@@ -3,7 +3,7 @@
   "question": "Can the agent pause for a human and resume without trusting stale state?",
   "invariant": "after human interaction, no pre-handoff target is trusted",
   "environment": {
-    "captured_at": "2026-09-15T18:47:07-0400",
+    "captured_at": "2026-09-15T22:31:42-0400",
     "os": {
       "platform": "Windows-11-10.0.26200-SP0",
       "system": "Windows",
@@ -14,7 +14,7 @@
     "python": "3.13.2",
     "cpu_count": 28,
     "git": {
-      "commit": "9024aedbe2bea31db2b03e4b21046a73917b4150",
+      "commit": "7da6f364345669da24c9d65933ef2bb5049cbf15",
       "branch": "experiment/p0-gate-campaign",
       "dirty": true
     },

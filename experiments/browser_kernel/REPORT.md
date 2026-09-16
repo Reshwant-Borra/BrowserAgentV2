@@ -55,23 +55,32 @@ exactly the right one of three byte-identical `Submit` buttons.
 
 | operation | direct | MCP |
 |---|---:|---:|
-| kernel start | 368 / 384 | 1022 / 1150 |
-| observe | 40 / 321 | 7 / 14 |
-| click | **43** / 4012 | **600** / 5021 |
-| navigate | 62 / 127 | 135 / 470 |
-| type | 20 / 130 | 30 / 1053 |
-| handle dialog | **1** / 2 | **1024** / 1027 |
-| back | 7 | 31 |
+| kernel start | 444 / 593 | 1156 / 1256 |
+| observe | 47 / 328 | **7** / 17 |
+| click | **46** / 4015 | **597** / 5025 |
+| navigate | 42 / 66 | 49 / 409 |
+| type | 26 / 151 | 35 / 1049 |
+| handle dialog | **1** / 2 | **1028** / 1033 |
+| back | 6 / 6 | 32 / 32 |
 
-MCP's `observe` is faster because the snapshot is produced in-process by the MCP
-server; our direct implementation pays a round trip per frame. Every *action*,
-though, costs roughly an order of magnitude more through MCP — a click is 600 ms
-versus 43 ms — because each one is a JSON-RPC call that also regenerates page
-state. Dialog handling is ~1 s versus ~1 ms.
+MCP's `observe` is genuinely faster — the snapshot is produced in-process by the
+MCP server, while our direct implementation pays a round trip per frame. Every
+*action*, though, costs roughly an order of magnitude more through MCP: a click
+is 597 ms versus 46 ms, because each one is a JSON-RPC call that also
+regenerates page state. Dialog handling is ~1 s versus ~1 ms.
 
 The p95 click figures (4.0 s / 5.0 s) are both dominated by the deliberately
 unactionable cases (disabled and overlay-covered controls), which run to the
 configured timeout by design.
+
+### Reproducibility
+
+This suite was run three times end to end during the campaign, the last time
+against the final code. Every run produced the identical outcome — 105/105 and
+90/105 with the same four fail-safe cases and the same unsupported case, and
+zero cases whose status varied across passes. Latency figures move by a few
+milliseconds between runs; the quoted numbers are from the committed evidence
+file.
 
 ## Where MCP falls short
 

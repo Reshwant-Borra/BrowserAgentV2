@@ -4,7 +4,7 @@
   "invariant": "zero duplicate side effects caused by blind retry",
   "server_mode": "dedupe=false (worst-case app; duplicates really happen)",
   "environment": {
-    "captured_at": "2026-09-15T18:47:09-0400",
+    "captured_at": "2026-09-15T22:31:53-0400",
     "os": {
       "platform": "Windows-11-10.0.26200-SP0",
       "system": "Windows",
@@ -15,7 +15,7 @@
     "python": "3.13.2",
     "cpu_count": 28,
     "git": {
-      "commit": "9024aedbe2bea31db2b03e4b21046a73917b4150",
+      "commit": "7da6f364345669da24c9d65933ef2bb5049cbf15",
       "branch": "experiment/p0-gate-campaign",
       "dirty": true
     },
@@ -278,7 +278,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "reconcile",
-      "operation_id": "BK-before_intent_commit-reconcile-1-75865",
+      "operation_id": "BK-before_intent_commit-reconcile-1-40024",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -301,7 +301,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "reconcile",
-      "operation_id": "BK-after_intent_commit_before_execute-reconcile-1-76965",
+      "operation_id": "BK-after_intent_commit_before_execute-reconcile-1-41562",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -333,7 +333,7 @@
     {
       "crash_point": "during_execute",
       "policy": "reconcile",
-      "operation_id": "BK-during_execute-reconcile-1-79732",
+      "operation_id": "BK-during_execute-reconcile-1-45020",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -343,7 +343,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_execute-reconcile-1-79732 (seq 2)"
+        "basis": "durable record exists for operation BK-during_execute-reconcile-1-45020 (seq 2)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -360,7 +360,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-1-81177",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-1-46783",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -370,7 +370,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-1-81177 (seq 3)"
+        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-1-46783 (seq 3)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -387,7 +387,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_before_result_commit-reconcile-1-82998",
+      "operation_id": "BK-after_result_before_result_commit-reconcile-1-49130",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -397,7 +397,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-1-82998 (seq 4)"
+        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-1-49130 (seq 4)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -414,7 +414,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_commit_before_verification-reconcile-1-85005",
+      "operation_id": "BK-after_result_commit_before_verification-reconcile-1-51248",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -424,7 +424,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-1-85005"
+        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-1-51248"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -442,7 +442,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "reconcile",
-      "operation_id": "BK-during_reconciliation-reconcile-1-86870",
+      "operation_id": "BK-during_reconciliation-reconcile-1-53609",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -454,7 +454,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-1-86870 (seq 6)"
+        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-1-53609 (seq 6)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -471,7 +471,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-1-89212",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-1-56739",
       "evidence": "unavailable",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -498,7 +498,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "reconcile",
-      "operation_id": "BK-before_intent_commit-reconcile-2-91280",
+      "operation_id": "BK-before_intent_commit-reconcile-2-59481",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -521,7 +521,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "reconcile",
-      "operation_id": "BK-after_intent_commit_before_execute-reconcile-2-92631",
+      "operation_id": "BK-after_intent_commit_before_execute-reconcile-2-60950",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -553,7 +553,7 @@
     {
       "crash_point": "during_execute",
       "policy": "reconcile",
-      "operation_id": "BK-during_execute-reconcile-2-98501",
+      "operation_id": "BK-during_execute-reconcile-2-64848",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -563,7 +563,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_execute-reconcile-2-98501 (seq 9)"
+        "basis": "durable record exists for operation BK-during_execute-reconcile-2-64848 (seq 9)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -580,7 +580,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-2-99932",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-2-67511",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -590,7 +590,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-2-99932 (seq 10)"
+        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-2-67511 (seq 10)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -607,7 +607,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_before_result_commit-reconcile-2-2153",
+      "operation_id": "BK-after_result_before_result_commit-reconcile-2-69896",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -617,7 +617,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-2-2153 (seq 11)"
+        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-2-69896 (seq 11)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -634,7 +634,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_commit_before_verification-reconcile-2-4217",
+      "operation_id": "BK-after_result_commit_before_verification-reconcile-2-72068",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -644,7 +644,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-2-4217"
+        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-2-72068"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -662,7 +662,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "reconcile",
-      "operation_id": "BK-during_reconciliation-reconcile-2-6045",
+      "operation_id": "BK-during_reconciliation-reconcile-2-74150",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -674,7 +674,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-2-6045 (seq 13)"
+        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-2-74150 (seq 13)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -691,7 +691,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-2-8444",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-2-76921",
       "evidence": "unavailable",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -718,7 +718,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "reconcile",
-      "operation_id": "BK-before_intent_commit-reconcile-3-10420",
+      "operation_id": "BK-before_intent_commit-reconcile-3-79321",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -741,7 +741,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "reconcile",
-      "operation_id": "BK-after_intent_commit_before_execute-reconcile-3-11922",
+      "operation_id": "BK-after_intent_commit_before_execute-reconcile-3-80966",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -773,7 +773,7 @@
     {
       "crash_point": "during_execute",
       "policy": "reconcile",
-      "operation_id": "BK-during_execute-reconcile-3-15188",
+      "operation_id": "BK-during_execute-reconcile-3-84582",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -783,7 +783,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_execute-reconcile-3-15188 (seq 16)"
+        "basis": "durable record exists for operation BK-during_execute-reconcile-3-84582 (seq 16)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -800,7 +800,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-3-16622",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-3-86699",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -810,7 +810,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-3-16622 (seq 17)"
+        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-3-86699 (seq 17)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -827,7 +827,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_before_result_commit-reconcile-3-18703",
+      "operation_id": "BK-after_result_before_result_commit-reconcile-3-89014",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -837,7 +837,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-3-18703 (seq 18)"
+        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-3-89014 (seq 18)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -854,7 +854,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_commit_before_verification-reconcile-3-20493",
+      "operation_id": "BK-after_result_commit_before_verification-reconcile-3-91257",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -864,7 +864,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-3-20493"
+        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-3-91257"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -882,7 +882,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "reconcile",
-      "operation_id": "BK-during_reconciliation-reconcile-3-22654",
+      "operation_id": "BK-during_reconciliation-reconcile-3-93051",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -894,7 +894,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-3-22654 (seq 20)"
+        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-3-93051 (seq 20)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -911,7 +911,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-3-25141",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-3-95463",
       "evidence": "unavailable",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -938,7 +938,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "reconcile",
-      "operation_id": "BK-before_intent_commit-reconcile-4-27061",
+      "operation_id": "BK-before_intent_commit-reconcile-4-97898",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -961,7 +961,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "reconcile",
-      "operation_id": "BK-after_intent_commit_before_execute-reconcile-4-28544",
+      "operation_id": "BK-after_intent_commit_before_execute-reconcile-4-99515",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -993,7 +993,7 @@
     {
       "crash_point": "during_execute",
       "policy": "reconcile",
-      "operation_id": "BK-during_execute-reconcile-4-31586",
+      "operation_id": "BK-during_execute-reconcile-4-3073",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1003,7 +1003,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_execute-reconcile-4-31586 (seq 23)"
+        "basis": "durable record exists for operation BK-during_execute-reconcile-4-3073 (seq 23)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -1020,7 +1020,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-4-33076",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-4-4993",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1030,7 +1030,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-4-33076 (seq 24)"
+        "basis": "durable record exists for operation BK-after_server_committed_before_result-reconcile-4-4993 (seq 24)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -1047,7 +1047,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_before_result_commit-reconcile-4-35218",
+      "operation_id": "BK-after_result_before_result_commit-reconcile-4-7317",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1057,7 +1057,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-4-35218 (seq 25)"
+        "basis": "durable record exists for operation BK-after_result_before_result_commit-reconcile-4-7317 (seq 25)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -1074,7 +1074,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "reconcile",
-      "operation_id": "BK-after_result_commit_before_verification-reconcile-4-36991",
+      "operation_id": "BK-after_result_commit_before_verification-reconcile-4-9451",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1084,7 +1084,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-4-36991"
+        "basis": "journal already holds an ActionResult for BK-after_result_commit_before_verification-reconcile-4-9451"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -1102,7 +1102,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "reconcile",
-      "operation_id": "BK-during_reconciliation-reconcile-4-38900",
+      "operation_id": "BK-during_reconciliation-reconcile-4-11572",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1114,7 +1114,7 @@
         "policy": "reconcile",
         "action": "RECORD_AS_DONE_NO_REPLAY",
         "state": "DEFINITELY_EXECUTED",
-        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-4-38900 (seq 27)"
+        "basis": "durable record exists for operation BK-during_reconciliation-reconcile-4-11572 (seq 27)"
       },
       "replayed": false,
       "final_effect_count": 1,
@@ -1131,7 +1131,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "reconcile",
-      "operation_id": "BK-after_server_committed_before_result-reconcile-4-41404",
+      "operation_id": "BK-after_server_committed_before_result-reconcile-4-14134",
       "evidence": "unavailable",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1158,7 +1158,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-before_intent_commit-blind_replay-1-43484",
+      "operation_id": "BK-before_intent_commit-blind_replay-1-16703",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1181,7 +1181,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-1-44831",
+      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-1-18187",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1212,7 +1212,7 @@
     {
       "crash_point": "during_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-during_execute-blind_replay-1-47911",
+      "operation_id": "BK-during_execute-blind_replay-1-22313",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1244,7 +1244,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "blind_replay",
-      "operation_id": "BK-after_server_committed_before_result-blind_replay-1-50947",
+      "operation_id": "BK-after_server_committed_before_result-blind_replay-1-25964",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1276,7 +1276,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_before_result_commit-blind_replay-1-54571",
+      "operation_id": "BK-after_result_before_result_commit-blind_replay-1-30096",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1308,7 +1308,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_commit_before_verification-blind_replay-1-58021",
+      "operation_id": "BK-after_result_commit_before_verification-blind_replay-1-34315",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1341,7 +1341,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "blind_replay",
-      "operation_id": "BK-during_reconciliation-blind_replay-1-61842",
+      "operation_id": "BK-during_reconciliation-blind_replay-1-38734",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1373,7 +1373,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-before_intent_commit-blind_replay-2-65786",
+      "operation_id": "BK-before_intent_commit-blind_replay-2-42872",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1396,7 +1396,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-2-67043",
+      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-2-44169",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1427,7 +1427,7 @@
     {
       "crash_point": "during_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-during_execute-blind_replay-2-70059",
+      "operation_id": "BK-during_execute-blind_replay-2-47246",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1459,7 +1459,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "blind_replay",
-      "operation_id": "BK-after_server_committed_before_result-blind_replay-2-73005",
+      "operation_id": "BK-after_server_committed_before_result-blind_replay-2-50399",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1491,7 +1491,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_before_result_commit-blind_replay-2-76599",
+      "operation_id": "BK-after_result_before_result_commit-blind_replay-2-54483",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1523,7 +1523,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_commit_before_verification-blind_replay-2-80012",
+      "operation_id": "BK-after_result_commit_before_verification-blind_replay-2-58322",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1556,7 +1556,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "blind_replay",
-      "operation_id": "BK-during_reconciliation-blind_replay-2-83621",
+      "operation_id": "BK-during_reconciliation-blind_replay-2-62182",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1588,7 +1588,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-before_intent_commit-blind_replay-3-87158",
+      "operation_id": "BK-before_intent_commit-blind_replay-3-66024",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1611,7 +1611,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-3-88394",
+      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-3-67472",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1642,7 +1642,7 @@
     {
       "crash_point": "during_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-during_execute-blind_replay-3-91063",
+      "operation_id": "BK-during_execute-blind_replay-3-70675",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1674,7 +1674,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "blind_replay",
-      "operation_id": "BK-after_server_committed_before_result-blind_replay-3-93698",
+      "operation_id": "BK-after_server_committed_before_result-blind_replay-3-74265",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1706,7 +1706,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_before_result_commit-blind_replay-3-97585",
+      "operation_id": "BK-after_result_before_result_commit-blind_replay-3-78294",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1738,7 +1738,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_commit_before_verification-blind_replay-3-1058",
+      "operation_id": "BK-after_result_commit_before_verification-blind_replay-3-82237",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1771,7 +1771,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "blind_replay",
-      "operation_id": "BK-during_reconciliation-blind_replay-3-4270",
+      "operation_id": "BK-during_reconciliation-blind_replay-3-85696",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1803,7 +1803,7 @@
     {
       "crash_point": "before_intent_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-before_intent_commit-blind_replay-4-7647",
+      "operation_id": "BK-before_intent_commit-blind_replay-4-89322",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1826,7 +1826,7 @@
     {
       "crash_point": "after_intent_commit_before_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-4-8839",
+      "operation_id": "BK-after_intent_commit_before_execute-blind_replay-4-90793",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1857,7 +1857,7 @@
     {
       "crash_point": "during_execute",
       "policy": "blind_replay",
-      "operation_id": "BK-during_execute-blind_replay-4-11859",
+      "operation_id": "BK-during_execute-blind_replay-4-94220",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1889,7 +1889,7 @@
     {
       "crash_point": "after_server_committed_before_result",
       "policy": "blind_replay",
-      "operation_id": "BK-after_server_committed_before_result-blind_replay-4-14847",
+      "operation_id": "BK-after_server_committed_before_result-blind_replay-4-97617",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1921,7 +1921,7 @@
     {
       "crash_point": "after_result_before_result_commit",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_before_result_commit-blind_replay-4-18299",
+      "operation_id": "BK-after_result_before_result_commit-blind_replay-4-1409",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1953,7 +1953,7 @@
     {
       "crash_point": "after_result_commit_before_verification",
       "policy": "blind_replay",
-      "operation_id": "BK-after_result_commit_before_verification-blind_replay-4-21517",
+      "operation_id": "BK-after_result_commit_before_verification-blind_replay-4-5152",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,
@@ -1986,7 +1986,7 @@
     {
       "crash_point": "during_reconciliation",
       "policy": "blind_replay",
-      "operation_id": "BK-during_reconciliation-blind_replay-4-24938",
+      "operation_id": "BK-during_reconciliation-blind_replay-4-8740",
       "evidence": "available",
       "worker_rc": 70,
       "worker_crashed": true,

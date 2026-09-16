@@ -3,7 +3,7 @@
   "question": "Can the kernel prevent actions against stale browser state?",
   "invariant": "zero wrong-target executions; stale targets may fail, never retarget",
   "environment": {
-    "captured_at": "2026-09-15T18:56:21-0400",
+    "captured_at": "2026-09-15T22:41:54-0400",
     "os": {
       "platform": "Windows-11-10.0.26200-SP0",
       "system": "Windows",
@@ -14,7 +14,7 @@
     "python": "3.13.2",
     "cpu_count": 28,
     "git": {
-      "commit": "9024aedbe2bea31db2b03e4b21046a73917b4150",
+      "commit": "7da6f364345669da24c9d65933ef2bb5049cbf15",
       "branch": "experiment/p0-gate-campaign",
       "dirty": true
     },
@@ -177,7 +177,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -276,7 +276,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -375,7 +375,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -474,7 +474,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -573,7 +573,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -672,7 +672,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -771,7 +771,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -870,7 +870,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -969,7 +969,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -1068,7 +1068,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -1167,7 +1167,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",
@@ -1266,7 +1266,7 @@
       "scenario": "frame-replacement",
       "status": "HARNESS_ERROR",
       "detail": "KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting",
-      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 671, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 620, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
+      "traceback": "ion.py\", line 390, in main\n    else fn(k, cluster)\n         ~~^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\observation_invalidation\\run_invalidation.py\", line 238, in scn_frame_replacement\n    k.click(find(obs, contains=\"Reattach identical\").target)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 687, in click\n    eh, oe, pid = self._resolve(target)\n                  ~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\reshw\\Desktop\\BrowserAgentV2\\experiments\\common\\kernel_direct.py\", line 636, in _resolve\n    raise KernelError(\n    ...<2 lines>...\n    )\nexperiments.common.contracts.KernelError: OBSERVATION_SUPERSEDED: observation obs_00001 superseded; re-observe before acting\n"
     },
     {
       "policy": "STRICT_SUPERSEDE",

@@ -34,7 +34,7 @@ errors, or pause/resume is disqualifying":
 - navigation timeout is not bounded through the interface;
 - `contenteditable` values cannot be read back, so writes cannot be verified.
 
-It is also ~14x slower per action (click 600 ms vs 43 ms median).
+It is also ~13x slower per action (click 597 ms vs 46 ms median).
 
 ADR-001 did its job: the candidate was swapped without touching anything above
 the `BrowserKernel` interface. MCP remains a legitimate future option if it
