@@ -6,7 +6,7 @@ failures are easy to distinguish from interference-measurement logic.
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import List, Optional
 
 from phase0.fixtures.mac_ax_fixture_app import BUTTON_TITLE
 
@@ -41,11 +41,23 @@ def get_fixture_window(pid: int):
 
 
 def get_text_field(window) -> "object":
+    """Returns the first AXTextField in the window (deterministic: the
+    fixture always adds `text_field` before `second_text_field`)."""
+    fields = get_text_fields(window)
+    if not fields:
+        raise ElementNotFoundError("no AXTextField found in fixture window")
+    return fields[0]
+
+
+def get_text_fields(window) -> List["object"]:
+    """Returns every AXTextField in the fixture window, in AXChildren
+    order. The fixture app deliberately gives both fields the same role
+    and no AXTitle, so this is used by the focus-switch positive control
+    (tests/phase0/integration/test_focus_switch_positive_control.py) to
+    move AX focus between two elements a bare (role, title) comparison
+    cannot tell apart."""
     children = _copy_attr(window, "AXChildren") or []
-    for child in children:
-        if _copy_attr(child, "AXRole") == "AXTextField":
-            return child
-    raise ElementNotFoundError("no AXTextField found in fixture window")
+    return [child for child in children if _copy_attr(child, "AXRole") == "AXTextField"]
 
 
 def get_press_button(window) -> "object":
@@ -76,3 +88,10 @@ def set_value(element, value: str) -> int:
 
 def perform_action(element, action: str) -> int:
     return AS.AXUIElementPerformAction(element, action)
+
+
+def set_focused(element) -> int:
+    """Moves AX keyboard focus to `element` via the public AXFocused
+    attribute - a semantic accessibility action, not synthetic
+    mouse/keyboard input, and does not touch the physical cursor."""
+    return AS.AXUIElementSetAttributeValue(element, "AXFocused", True)

@@ -2,7 +2,9 @@
 
 This is a tiny standalone Cocoa app (not a production component) whose
 only purpose is to give `phase0/experiments/macos_ax` a controlled
-AXUIElement tree to probe: one editable AXTextField, one AXButton that
+AXUIElement tree to probe: two editable, untitled AXTextFields (the
+second exists only for the focus-switch positive control - see
+`SECOND_TEXT_FIELD_INITIAL_VALUE` below) and one AXButton that
 increments an AXStaticText counter when pressed, and nothing else. It
 holds no user data and needs no save step, so it can be killed
 (SIGTERM/SIGKILL) at any time with no cleanup prompts.
@@ -41,6 +43,14 @@ from AppKit import (
 
 WINDOW_TITLE = "ComputerAgent Phase0 AX Fixture"
 TEXT_FIELD_INITIAL_VALUE = "phase0-initial-value"
+# A second, deliberately untitled AXTextField identical in role/title to
+# the first. It exists so a real-machine test can move AX focus between
+# two elements a naive (role, title) identity check cannot tell apart -
+# proving the hardened focus-interference detector does not produce a
+# false negative on this exact shape (see phase0/README.md and
+# observers_macos._element_identity_changed). Distinguishable only by
+# geometry (its frame position), same as many real untitled form fields.
+SECOND_TEXT_FIELD_INITIAL_VALUE = "phase0-second-field"
 COUNTER_LABEL_PREFIX = "pressed:"
 BUTTON_TITLE = "Press Me"
 
@@ -65,16 +75,25 @@ def build_and_run() -> None:
     app = NSApplication.sharedApplication()
     app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
 
-    rect = NSMakeRect(100, 100, 320, 160)
+    rect = NSMakeRect(100, 100, 320, 190)
     style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable
     window = NSWindow.alloc().initWithContentRect_styleMask_backing_defer_(
         rect, style, NSBackingStoreBuffered, False
     )
     window.setTitle_(WINDOW_TITLE)
 
-    text_field = NSTextField.alloc().initWithFrame_(NSMakeRect(20, 100, 280, 24))
+    text_field = NSTextField.alloc().initWithFrame_(NSMakeRect(20, 130, 280, 24))
     text_field.setStringValue_(TEXT_FIELD_INITIAL_VALUE)
     window.contentView().addSubview_(text_field)
+
+    # Second AXTextField: same role, no title, same as `text_field` in
+    # every (role, title) respect - only its frame position differs.
+    # Used exclusively by the focus-switch positive control; the
+    # read/set-value/invoke-action trials below only ever address
+    # `text_field` (the first one) by role, unaffected by its presence.
+    second_text_field = NSTextField.alloc().initWithFrame_(NSMakeRect(20, 90, 280, 24))
+    second_text_field.setStringValue_(SECOND_TEXT_FIELD_INITIAL_VALUE)
+    window.contentView().addSubview_(second_text_field)
 
     counter_label = NSTextField.alloc().initWithFrame_(NSMakeRect(20, 60, 280, 24))
     counter_label.setStringValue_(f"{COUNTER_LABEL_PREFIX}0")
@@ -99,6 +118,9 @@ def build_and_run() -> None:
     window.contentView().addSubview_(button)
 
     window.makeKeyAndOrderFront_(None)
+    # Deterministic starting focus for the focus-switch positive control:
+    # without this, initial first-responder assignment is unspecified.
+    window.makeFirstResponder_(text_field)
 
     print(json.dumps({"ready": True, "pid": os.getpid()}), flush=True)
 

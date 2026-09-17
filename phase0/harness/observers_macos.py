@@ -82,6 +82,41 @@ def _bounded_value_fields(value_str: Optional[str]) -> dict:
     }
 
 
+def _decode_ax_point(ax_value) -> Optional[dict]:
+    """Decodes an AXValueRef of type CGPoint (e.g. AXPosition). Returns
+    None if the attribute was absent or could not be decoded - never a
+    fabricated coordinate."""
+    if ax_value is None or not _PYOBJC_AVAILABLE:
+        return None
+    try:
+        ok, point = AS.AXValueGetValue(ax_value, AS.kAXValueCGPointType, None)
+    except Exception:
+        return None
+    if not ok or point is None:
+        return None
+    try:
+        return {"x": round(float(point.x), 1), "y": round(float(point.y), 1)}
+    except (AttributeError, TypeError, ValueError):
+        return None
+
+
+def _decode_ax_size(ax_value) -> Optional[dict]:
+    """Decodes an AXValueRef of type CGSize (e.g. AXSize). Returns None if
+    the attribute was absent or could not be decoded."""
+    if ax_value is None or not _PYOBJC_AVAILABLE:
+        return None
+    try:
+        ok, size = AS.AXValueGetValue(ax_value, AS.kAXValueCGSizeType, None)
+    except Exception:
+        return None
+    if not ok or size is None:
+        return None
+    try:
+        return {"width": round(float(size.width), 1), "height": round(float(size.height), 1)}
+    except (AttributeError, TypeError, ValueError):
+        return None
+
+
 @dataclass(frozen=True)
 class SystemSnapshot:
     """A point-in-time bundle of everything the runner needs to compare
@@ -178,19 +213,40 @@ class MacObserver:
         err, elem = AS.AXUIElementCopyAttributeValue(ax_app, "AXFocusedUIElement", None)
         if err != 0 or elem is None:
             return Measurement.unavailable(f"AX error {err} reading AXFocusedUIElement")
-        role_err, role = AS.AXUIElementCopyAttributeValue(elem, "AXRole", None)
-        value_err, value = AS.AXUIElementCopyAttributeValue(elem, "AXValue", None)
-        title_err, title = AS.AXUIElementCopyAttributeValue(elem, "AXTitle", None)
-        value_str = str(value) if value_err == 0 and value is not None else None
+
+        def _attr(attribute: str):
+            a_err, a_val = AS.AXUIElementCopyAttributeValue(elem, attribute, None)
+            return a_val if a_err == 0 else None
+
+        def _str_attr(attribute: str) -> Optional[str]:
+            val = _attr(attribute)
+            return str(val) if val is not None else None
+
+        value = _attr("AXValue")
+        value_str = str(value) if value is not None else None
+
         return Measurement.of(
             {
-                "role": str(role) if role_err == 0 and role is not None else None,
-                "title": str(title) if title_err == 0 and title is not None else None,
+                "role": _str_attr("AXRole"),
+                # Identity signals beyond (role, title): a fixed pair of
+                # role+title is not unique (e.g. two untitled
+                # AXTextFields), so additional stable, public AX metadata
+                # is captured to disambiguate distinct elements that would
+                # otherwise look identical. See
+                # `_element_identity_changed` for how these combine into
+                # a conservative same/different/unknown verdict.
+                "subrole": _str_attr("AXSubrole"),
+                "identifier": _str_attr("AXIdentifier"),
+                "title": _str_attr("AXTitle"),
+                "description": _str_attr("AXDescription"),
+                "help": _str_attr("AXHelp"),
+                "position": _decode_ax_point(_attr("AXPosition")),
+                "size": _decode_ax_size(_attr("AXSize")),
                 # AXValue can be unboundedly large (e.g. a terminal's
                 # entire scrollback) and may contain sensitive content
                 # from an unrelated application. Cap what we persist to
                 # evidence files; identity/interference decisions below
-                # never depend on this field, only on role+title.
+                # never depend on this field.
                 **_bounded_value_fields(value_str),
             }
         )
@@ -233,16 +289,99 @@ def foreground_changed(before: Measurement, after: Measurement) -> Optional[bool
     return _values_differ(before, after)
 
 
-def _element_identity(element: Measurement) -> Optional[tuple]:
-    """Identity of a focused element for change detection: (role, title)
-    only. Deliberately excludes AXValue - an element's *content* (e.g. a
-    terminal's scrollback, a growing log) can legitimately change without
-    focus moving anywhere, and treating content drift as a focus change
-    would produce false-positive FOCUS_INTERFERENCE classifications."""
-    if not element.available:
+_GEOMETRY_TOLERANCE_PX = 1.0
+
+# Fields compared as exact string identity when both sides expose them.
+# AXIdentifier is the closest thing macOS AX has to a stable per-instance
+# id; title/description/help are semantic labels, not content. AXValue is
+# deliberately excluded (see `_element_identity_changed`).
+_IDENTITY_LABEL_FIELDS: Tuple[str, ...] = ("identifier", "title", "description", "help")
+
+
+def _geometry_distance(a: Optional[dict], b: Optional[dict], keys: Tuple[str, str]) -> Optional[float]:
+    if not a or not b:
         return None
-    value = element.value or {}
-    return (value.get("role"), value.get("title"))
+    try:
+        d0 = float(a[keys[0]]) - float(b[keys[0]])
+        d1 = float(a[keys[1]]) - float(b[keys[1]])
+    except (KeyError, TypeError, ValueError):
+        return None
+    return (d0 * d0 + d1 * d1) ** 0.5
+
+
+def _geometry_matches(position_before, position_after, size_before, size_after) -> Optional[bool]:
+    """True if position+size are both available and within tolerance on
+    both sides, False if both available and clearly apart, None if not
+    comparable (e.g. one side never exposed geometry)."""
+    pos_dist = _geometry_distance(position_before, position_after, ("x", "y"))
+    size_dist = _geometry_distance(size_before, size_after, ("width", "height"))
+    if pos_dist is None or size_dist is None:
+        return None
+    return pos_dist <= _GEOMETRY_TOLERANCE_PX and size_dist <= _GEOMETRY_TOLERANCE_PX
+
+
+def _element_identity_changed(before: Measurement, after: Measurement) -> Optional[bool]:
+    """Conservative same-element check for a focused UI element, using
+    (role, subrole, AXIdentifier, title, description, help, geometry) -
+    never AXValue.
+
+    A bare (role, title) match is not unique: two distinct, untitled
+    AXTextFields compare equal on that pair alone, which previously
+    produced a false-negative (missed) FOCUS_INTERFERENCE. This adds
+    further public, non-content AX signals so such elements can be told
+    apart, while still refusing to call two elements "the same" on role
+    alone.
+
+    Returns:
+      True  - a stable identity signal (role, subrole, identifier,
+              title, description, help, or geometry) explicitly
+              mismatches: these are different elements.
+      False - role matches *and* at least one other identity signal
+              (identifier/title/description/help match, or geometry is
+              within tolerance) corroborates sameness.
+      None  - available signals do not clear the bar for either verdict
+              (e.g. only role is comparable, or an element became
+              unavailable). Callers must treat this as unknown, never as
+              evidence of BACKGROUND_SAFE.
+    """
+    if not before.available or not after.available:
+        return None
+
+    b = before.value or {}
+    a = after.value or {}
+
+    role_before, role_after = b.get("role"), a.get("role")
+    if role_before is not None and role_after is not None and role_before != role_after:
+        return True
+
+    subrole_before, subrole_after = b.get("subrole"), a.get("subrole")
+    if subrole_before is not None and subrole_after is not None and subrole_before != subrole_after:
+        return True
+
+    corroborations = 0
+    for field_name in _IDENTITY_LABEL_FIELDS:
+        v_before, v_after = b.get(field_name), a.get(field_name)
+        if v_before is None or v_after is None:
+            continue  # not comparable on this field; no signal either way
+        if v_before != v_after:
+            return True
+        corroborations += 1
+
+    geometry_match = _geometry_matches(b.get("position"), a.get("position"), b.get("size"), a.get("size"))
+    if geometry_match is False:
+        return True
+    if geometry_match is True:
+        corroborations += 1
+
+    if role_before is None or role_after is None:
+        # We don't even know both sides are the same kind of control;
+        # nothing gathered above can safely corroborate sameness.
+        return None
+
+    if corroborations >= 1:
+        return False
+
+    return None
 
 
 def focus_changed(
@@ -251,12 +390,18 @@ def focus_changed(
     element_before: Measurement,
     element_after: Measurement,
 ) -> Optional[bool]:
+    """Three-valued combination of the window and element identity
+    signals. A definite interference (True) from either signal always
+    wins; otherwise, if either signal is unknown (None), the result is
+    unknown - never silently treated as "no interference". Only when
+    both signals are affirmatively False (measured and matching) is the
+    result False.
+    """
     window_diff = _values_differ(window_before, window_after)
+    element_diff = _element_identity_changed(element_before, element_after)
 
-    identity_before = _element_identity(element_before)
-    identity_after = _element_identity(element_after)
-    element_diff = None if identity_before is None or identity_after is None else identity_before != identity_after
-
-    if window_diff is None and element_diff is None:
+    if window_diff is True or element_diff is True:
+        return True
+    if window_diff is None or element_diff is None:
         return None
-    return bool(window_diff) or bool(element_diff)
+    return False

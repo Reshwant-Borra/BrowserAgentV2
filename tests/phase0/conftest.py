@@ -39,6 +39,18 @@ def make_snapshot(
     window="Test Window",
     window_available=True,
     element_role="AXTextField",
+    element_subrole=None,
+    element_identifier=None,
+    # Non-None by default so two default snapshots corroborate as the
+    # *same* element (role alone is deliberately not enough - see
+    # `observers_macos._element_identity_changed`). Tests that need to
+    # exercise ambiguous/indistinguishable elements pass None explicitly.
+    element_title="Test Field",
+    element_description=None,
+    element_help=None,
+    element_position=(50.0, 50.0),
+    element_size=(200.0, 24.0),
+    element_value=None,
     element_available=True,
 ) -> SystemSnapshot:
     cursor_m = (
@@ -53,8 +65,24 @@ def make_snapshot(
     window_m = (
         Measurement.of({"title": window}) if window_available else Measurement.unavailable("test: window unavailable")
     )
+    position = {"x": element_position[0], "y": element_position[1]} if element_position is not None else None
+    size = {"width": element_size[0], "height": element_size[1]} if element_size is not None else None
     element_m = (
-        Measurement.of({"role": element_role, "value": None, "title": None})
+        Measurement.of(
+            {
+                "role": element_role,
+                "subrole": element_subrole,
+                "identifier": element_identifier,
+                "title": element_title,
+                "description": element_description,
+                "help": element_help,
+                "position": position,
+                "size": size,
+                "value": element_value,
+                "value_length": len(element_value) if element_value is not None else None,
+                "value_truncated": False,
+            }
+        )
         if element_available
         else Measurement.unavailable("test: element unavailable")
     )

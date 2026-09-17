@@ -181,16 +181,52 @@ touches the real desktop.
   criteria require measurement across target macOS *and* Windows
   configurations, at higher trial counts, before any `BACKGROUND_PROVEN`
   claim is justified.
-- **Focus identity vs. content.** `focus_changed()` compares a focused
-  element's `(role, title)`, deliberately *excluding* its `AXValue`.
-  Early runs showed false-positive `FOCUS_INTERFERENCE` because a
-  terminal's `AXValue` is its entire scrollback buffer, which grows from
-  unrelated shell output between a trial's before/after snapshot -  that
-  is content drift, not a focus change. `AXValue` capture is also capped
-  at 200 characters (`observers_macos._bounded_value_fields`) with a
+- **Focus identity vs. content.** `focus_changed()` /
+  `_element_identity_changed()` compare a focused element's role,
+  subrole, `AXIdentifier`, title, description, help text, and geometry
+  (position/size) - deliberately *excluding* its `AXValue`. Early runs
+  showed false-positive `FOCUS_INTERFERENCE` because a terminal's
+  `AXValue` is its entire scrollback buffer, which grows from unrelated
+  shell output between a trial's before/after snapshot - that is content
+  drift, not a focus change. `AXValue` capture is also capped at 200
+  characters (`observers_macos._bounded_value_fields`) with a
   `value_truncated` flag, both to avoid this false signal and to avoid
   persisting unbounded/potentially sensitive application content into
   evidence files.
+  Identity previously compared `(role, title)` only, which created the
+  opposite problem: a **false negative**. Two distinct, untitled
+  `AXTextField`s (a common real shape - `role=AXTextField`, `title=None`
+  on both) compared equal, so a genuine focus move between them was
+  missed. Role/title alone are no longer treated as sufficient evidence
+  of sameness; at least one corroborating signal (identifier, title,
+  description, help, or geometry within ~1px tolerance) must also match,
+  otherwise the comparison returns *unknown* rather than "same" -
+  `classify_interference` maps unknown to `INCONCLUSIVE`, never
+  `BACKGROUND_SAFE`. `phase0/fixtures/mac_ax_fixture_app.py` now exposes
+  two such untitled fields (`second_text_field`, distinguishable only by
+  position) and
+  `tests/phase0/integration/test_focus_switch_positive_control.py` moves
+  real AX focus between them via the public `AXFocused` attribute to
+  prove `FOCUS_INTERFERENCE` is actually detected, not just unit-tested
+  against canned data. See `tests/phase0/test_observers_macos.py` for
+  the full identity truth table (same-element value drift, distinct
+  elements with matching role/title, role-only/insufficient information,
+  role or subrole mismatches, stable same-element observations).
+  `focus_changed()`'s window/element combinator was also tightened: it
+  previously coerced an unmeasurable element signal (`None`) to "no
+  change" whenever the window signal alone was already known `False`
+  (`bool(None) == False`), which could silently manufacture a clean
+  focus result from a half-unknown comparison. It now returns unknown
+  whenever *either* signal is unknown, unless the other signal is a
+  definite `True`.
+- **Geometry as an identity signal has its own edge case.** A live
+  window resize/reflow between a trial's before/after snapshot could in
+  principle move the *same* element by more than the 1px tolerance,
+  registering as a different element. Not observed in this milestone's
+  fixed-size fixture/browser-page runs (a trial's before/after capture
+  is near-instantaneous), but a source of measurement noise to watch for
+  once real, resizable third-party applications are exercised (tracked
+  by the "small, deterministic fixtures only" limitation below).
 - **Window title volatility.** A window's title *is* still used for
   identity (there is no better cheap signal without deeper AX/window
   APIs). In terminals or tools that rewrite their own window title
