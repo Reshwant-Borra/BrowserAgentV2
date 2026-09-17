@@ -1,0 +1,7 @@
+# Phase 0 harness dependencies only. Kept minimal and isolated from any
+# future production ComputerAgent dependency set.
+playwright>=1.63,<2
+pyobjc-framework-Quartz>=12.2,<13; sys_platform == "darwin"
+pyobjc-framework-ApplicationServices>=12.2,<13; sys_platform == "darwin"
+pyobjc-framework-Cocoa>=12.2,<13; sys_platform == "darwin"
+pytest>=9,<10

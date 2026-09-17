@@ -1,0 +1,7 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-m \"not integration\""
+markers = [
+    "integration: requires a real machine (permissions, display, network-free local browser); not part of the default unit suite",
+]

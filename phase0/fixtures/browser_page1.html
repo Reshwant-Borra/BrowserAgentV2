@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase0 Fixture Page 1</title>
+</head>
+<body>
+  <h1 id="heading">Phase0 Browser Non-Interference Fixture</h1>
+
+  <section>
+    <button id="increment-btn" type="button">Increment</button>
+    <span id="counter" data-count="0">0</span>
+  </section>
+
+  <section>
+    <input id="text-input" type="text" value="">
+    <span id="text-mirror"></span>
+  </section>
+
+  <section>
+    <select id="select-input">
+      <option value="alpha">Alpha</option>
+      <option value="bravo">Bravo</option>
+      <option value="charlie">Charlie</option>
+    </select>
+    <span id="select-mirror">alpha</span>
+  </section>
+
+  <section>
+    <a id="nav-link" href="browser_page2.html">Go to Page 2</a>
+  </section>
+
+  <ul id="log"></ul>
+
+  <script>
+    function log(msg) {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      document.getElementById('log').appendChild(li);
+    }
+
+    const counterEl = document.getElementById('counter');
+    document.getElementById('increment-btn').addEventListener('click', () => {
+      const next = parseInt(counterEl.dataset.count, 10) + 1;
+      counterEl.dataset.count = String(next);
+      counterEl.textContent = String(next);
+      log('increment -> ' + next);
+    });
+
+    const textInput = document.getElementById('text-input');
+    const textMirror = document.getElementById('text-mirror');
+    textInput.addEventListener('input', () => {
+      textMirror.textContent = textInput.value;
+      log('text -> ' + textInput.value);
+    });
+
+    const selectInput = document.getElementById('select-input');
+    const selectMirror = document.getElementById('select-mirror');
+    selectInput.addEventListener('change', () => {
+      selectMirror.textContent = selectInput.value;
+      log('select -> ' + selectInput.value);
+    });
+  </script>
+</body>
+</html>
