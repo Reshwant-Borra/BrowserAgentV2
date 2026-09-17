@@ -11,6 +11,7 @@ __pycache__/
 # Phase 0 generated evidence artifacts (not source of truth; regenerate via CLI)
 phase0/results/*.jsonl
 phase0/results/*summary.json
+phase0/results/focus_diagnostics-*.json
 !phase0/results/.gitkeep
 
 # Graphify generated output (auxiliary developer index, not source of truth)

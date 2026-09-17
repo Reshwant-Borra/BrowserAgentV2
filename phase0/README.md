@@ -182,11 +182,14 @@ multi-condition campaign (500+ trials each: click/fill/select/navigate,
 backgrounded/occluded/multi-tab/multi-window/popup for the browser;
 read/set-value/invoke/focus-switch/occluded/stale-element for AX). See
 `phase0/CAMPAIGN_REPORT.md` for the results, gate verdict against
-`docs/BUILD_SPEC.md`, and current limitations (most notably: Chrome does
-not expose `AXFocusedUIElement` via public AX APIs in the tested
-environment, which keeps the majority of trials `INCONCLUSIVE` rather
-than `BACKGROUND_SAFE` for the focus signal specifically - not converted
-into a pass anywhere in the pipeline).
+`docs/BUILD_SPEC.md`, and current limitations (most notably: Chrome did
+not expose `AXFocusedUIElement` via a single-shot public AX read in the
+tested environment, which kept the majority of trials `INCONCLUSIVE`
+rather than `BACKGROUND_SAFE` for the focus signal specifically - not
+converted into a pass anywhere in the pipeline. `phase0/CAMPAIGN_REPORT.md`
+section M has since identified the root cause and a working, non-invasive
+fix, `observers_macos.warm_up_ax_focus_tree` - not yet wired into a
+campaign rerun).
 
 ## Interpreting results / known limitations
 

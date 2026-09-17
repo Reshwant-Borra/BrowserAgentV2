@@ -122,7 +122,7 @@ Neither route can be marked `BACKGROUND_PROVEN` (focus signal insufficiently mea
 
 ## K. Remaining limitations
 
-- Chrome's `AXFocusedUIElement` is unavailable via public AX APIs in this session for reasons not fully resolved (F) — the single largest open gap in this evidence.
+- ~~Chrome's `AXFocusedUIElement` is unavailable via public AX APIs in this session for reasons not fully resolved (F)~~ — **resolved**, see section M addendum below: root cause identified (-25212 is `kAXErrorNoValue`, Chromium's on-demand AX tree, not `kAXErrorAttributeUnsupported`) and a working, non-invasive fix (`warm_up_ax_focus_tree`) demonstrated. Not yet wired into a campaign rerun.
 - AX "multiple target windows" not covered (D).
 - Both campaigns ran on one Apple Silicon Mac, one session; BUILD_SPEC's completion criterion requires measurement "on target macOS **and Windows** configurations" — Windows UIA is untouched (out of scope per instructions).
 - `occluded` overlay covers the whole screen rather than precisely the target window's bounds (simpler, still a genuine visual occlusion, but not pixel-exact).
@@ -131,6 +131,82 @@ Neither route can be marked `BACKGROUND_PROVEN` (focus signal insufficiently mea
 
 ## L. Tests executed
 
-- `pytest tests/phase0 -m "not integration"`: **64 passed** (59 pre-existing + 5 new classification regression tests).
-- `pytest -m integration tests/phase0/integration`: **6 passed** (includes the same-role/title focus-switch positive control, re-run explicitly and individually: 1 passed).
-- `python -m phase0 control --confirm`: **`CURSOR_INTERFERENCE`** (correctly detected; was `INCONCLUSIVE` before the classification fix — see B).
+- `pytest tests/phase0 -m "not integration"`: **67 passed** (64 from the original campaign + 3 new `warm_up_ax_focus_tree` guard-clause unit tests, see M).
+- `pytest -m integration tests/phase0/integration`: **7 passed** (includes the same-role/title focus-switch positive control and the new focus-warm-up positive control, see M).
+- `python -m phase0 control --confirm`: **`CURSOR_INTERFERENCE`** (correctly detected; was `INCONCLUSIVE` before the classification fix — see B). Not re-run for this addendum; unaffected by it.
+
+## M. Addendum — macOS focus-observation gap investigation (2026-09-17)
+
+Follow-up to F, scoped narrowly to characterizing/resolving the Chrome
+`AXFocusedUIElement` gap that kept 940/1,010 (93%) trials `INCONCLUSIVE`
+above. This did **not** rerun the campaign; it is a small diagnostic
+matrix (`phase0/experiments/macos_ax/focus_diagnostics.py`) plus two new
+tests. Full reasoning and evidence are in this session's final report;
+this section records the durable, checked-in-relevant facts.
+
+**Correction to F:** this report previously stated AX error -25212 is
+`kAXErrorAttributeUnsupported`. That is wrong. Verified directly against
+`ApplicationServices.kAXErrorNoValue` via PyObjC: **-25212 is
+`kAXErrorNoValue`** ("the requested value does not exist"), not
+`kAXErrorAttributeUnsupported` (-25205, a distinct code). `AXFocusedUIElement`
+is present in Chrome's own `AXUIElementCopyAttributeNames` output - the
+attribute is supported; it simply had no value to return in most sampled
+trials.
+
+**Root cause:** Chromium (Google Chrome, and by extension Electron)
+builds its web-content accessibility subtree - including whatever is
+needed to resolve `AXFocusedUIElement` - on demand, only once it detects
+a real assistive-technology client attached. A one-shot
+`AXUIElementCopyAttributeValue` read from a foreign process, exactly
+what the campaign's `MacObserver` does, does not trigger that
+detection. This is Chromium-specific: Safari (WebKit) exposes its
+`AXWebArea`/content subtree immediately with no such gating; the
+Cocoa AX fixture and a Playwright-launched Chromium (which appears to
+already have its own AX bridge active, plausibly for its own semantic
+locator APIs) also needed no warm-up in this investigation's runs.
+
+**Resolution:** registering an `AXObserver` for `AXFocusedUIElementChanged`
+on the target (`AXObserverCreate` + `AXObserverAddNotification`) is the
+standard public mechanism real ATs use to trigger this, and reliably
+does so here too - the same mechanism the original campaign attempted
+and abandoned after hitting `TypeError: Callable argument is not a
+PyObjC closure`. That is a PyObjC usage bug, not an API limitation: the
+callback must be wrapped with `@objc.callbackFor(AS.AXObserverCreate)`.
+Implemented as `observers_macos.warm_up_ax_focus_tree(pid)` - read/
+registration-only, works against a fully backgrounded target, never
+foregrounds it, moves the cursor, or injects input; its only disclosed
+side effect is that the target's accessibility mode typically stays on
+for the rest of that process's lifetime (documented Chromium behavior,
+small CPU cost, not a functional change). Across 5 diagnostic runs and
+6 integration-test runs, the warm-up call succeeded every time it was
+needed; on some runs Chrome's tree was already warm before any call was
+made (Chrome's own AT-detection state is not fully deterministic
+run-to-run, which is why the new integration positive control skips
+rather than fails when it can't reproduce the pre-warm-up gap that
+particular run - see `tests/phase0/integration/test_focus_warmup_positive_control.py`).
+
+**Architectural question (A/B/C):** the harness already defaults to
+measuring **B** - the real foreground holder's focus, not the
+background target's own internal focus - because `ActionSpec.focus_pid`
+is left unset (`None`) for the browser experiment and the AX campaign's
+`baseline`/`occluded` conditions, and `MacObserver.snapshot(pid=None)`
+resolves to whichever process is frontmost at observation time, not to
+the manipulated target. (Only `focus_switch`/`stale_element` pin
+`focus_pid` to the fixture deliberately, because those conditions exist
+specifically to test the target's *own* focus semantics.) This is the
+correct property to protect per D-008/the user's stated safety
+requirement (preserve the user's real foreground focus while a
+different background target is manipulated) and this investigation
+found no evidence to change it - it does not need to be reasoned into
+existence, only confirmed, which this addendum does.
+
+**Not yet done (explicitly out of scope for this addendum, per
+instruction):** the full campaign has not been rerun with the warm-up
+step wired into `campaign.py`'s baseline/occluded trial setup. The 500/
+510-trial numbers in C/D above are unchanged and still stand as
+originally measured; they are not retroactively reclassified.
+
+**Files:** `phase0/harness/observers_macos.py` (new
+`warm_up_ax_focus_tree`), `phase0/experiments/macos_ax/focus_diagnostics.py`
+(new diagnostic matrix), `tests/phase0/test_observers_macos_warmup.py`,
+`tests/phase0/integration/test_focus_warmup_positive_control.py`.

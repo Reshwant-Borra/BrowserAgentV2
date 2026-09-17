@@ -17,6 +17,7 @@ rather than raising or fabricating a value.
 from __future__ import annotations
 
 import platform as _platform
+import time
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
@@ -59,6 +60,87 @@ def accessibility_trusted() -> bool:
         return False
     try:
         return bool(AS.AXIsProcessTrusted())
+    except Exception:
+        return False
+
+
+def warm_up_ax_focus_tree(pid: int, timeout: float = 2.0, poll_interval: float = 0.2) -> bool:
+    """Triggers a target process's on-demand accessibility tree via the
+    standard public AT-detection mechanism, then immediately tears the
+    trigger back down.
+
+    Some applications - most notably Chromium-based browsers (Google
+    Chrome, and by extension any Electron app), and generally anything
+    that lazily builds its accessibility tree - do not populate
+    AXFocusedUIElement (AX error -25212 / kAXErrorNoValue) until the OS
+    signals that a real assistive-technology client is attached. A
+    single AXUIElementCopyAttributeValue read from a foreign process
+    does not trigger that signal; registering an AXObserver notification
+    does (this is the same public mechanism VoiceOver and other real ATs
+    use - see `phase0/CAMPAIGN_REPORT.md`'s focus-observation addendum
+    for the diagnostic evidence this was derived from).
+
+    This function only creates/removes an AXObserver notification
+    registration - it never moves the physical cursor, changes the
+    frontmost application, or injects synthetic input, and it works
+    against a fully backgrounded target. Its one disclosed side effect:
+    once triggered, the target's accessibility mode typically stays
+    enabled for the remainder of that process's lifetime (Chromium
+    documents a small, persistent CPU overhead from this - not a
+    functional behavior change).
+
+    Returns True once AXFocusedUIElement becomes readable (a non-error
+    read, whether or not it currently has a focused element), False if
+    that does not happen within `timeout` seconds. Never raises for an
+    ordinary AX failure - a warm-up that doesn't help is a normal,
+    reportable outcome, not an error.
+    """
+    if not _PYOBJC_AVAILABLE or not accessibility_trusted():
+        return False
+    try:
+        import objc
+
+        ax_app = AS.AXUIElementCreateApplication(pid)
+
+        err0, elem0 = AS.AXUIElementCopyAttributeValue(ax_app, "AXFocusedUIElement", None)
+        if err0 == 0:
+            return True  # already warm; nothing to do
+
+        @objc.callbackFor(AS.AXObserverCreate)
+        def _on_notification(observer, element, notification, refcon):  # pragma: no cover
+            # Never expected to fire synchronously within this function's
+            # short-lived run loop pump; the registration side effect
+            # (not the callback) is what wakes the target up.
+            pass
+
+        create_err, observer = AS.AXObserverCreate(pid, _on_notification, None)
+        if create_err != 0 or observer is None:
+            return False
+
+        reg_err = AS.AXObserverAddNotification(observer, ax_app, "AXFocusedUIElementChanged", None)
+        if reg_err != 0:
+            return False
+
+        run_loop = None
+        source = None
+        try:
+            import Quartz
+
+            source = AS.AXObserverGetRunLoopSource(observer)
+            run_loop = Quartz.CFRunLoopGetCurrent()
+            Quartz.CFRunLoopAddSource(run_loop, source, Quartz.kCFRunLoopDefaultMode)
+
+            deadline = time.monotonic() + timeout
+            while time.monotonic() < deadline:
+                Quartz.CFRunLoopRunInMode(Quartz.kCFRunLoopDefaultMode, poll_interval, False)
+                err, elem = AS.AXUIElementCopyAttributeValue(ax_app, "AXFocusedUIElement", None)
+                if err == 0:
+                    return True
+            return False
+        finally:
+            AS.AXObserverRemoveNotification(observer, ax_app, "AXFocusedUIElementChanged")
+            if run_loop is not None and source is not None:
+                Quartz.CFRunLoopRemoveSource(run_loop, source, Quartz.kCFRunLoopDefaultMode)
     except Exception:
         return False
 
