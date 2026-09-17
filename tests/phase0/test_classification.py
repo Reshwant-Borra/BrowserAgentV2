@@ -99,6 +99,33 @@ def test_error_takes_precedence_over_unsupported():
     assert result == InterferenceClassification.ERROR
 
 
+@pytest.mark.parametrize(
+    "cursor_moved,foreground_changed,focus_changed,expected",
+    [
+        (True, None, None, InterferenceClassification.CURSOR_INTERFERENCE),
+        (None, True, None, InterferenceClassification.FOREGROUND_INTERFERENCE),
+        (None, None, True, InterferenceClassification.FOCUS_INTERFERENCE),
+        (True, True, None, InterferenceClassification.MULTIPLE_INTERFERENCE),
+        (True, None, True, InterferenceClassification.MULTIPLE_INTERFERENCE),
+    ],
+)
+def test_proven_interference_is_never_masked_by_an_unrelated_unmeasurable_signal(
+    cursor_moved, foreground_changed, focus_changed, expected
+):
+    # Regression: the cursor positive control (a KNOWN, deliberate cursor
+    # warp) returned INCONCLUSIVE instead of CURSOR_INTERFERENCE whenever
+    # the focus signal was unavailable (e.g. the frontmost app not
+    # exposing AXFocusedUIElement). A proven interference must never be
+    # hidden behind an unrelated broken observer.
+    result = classify_interference(
+        cursor_moved=cursor_moved,
+        foreground_changed=foreground_changed,
+        focus_changed=focus_changed,
+        action_outcome=ActionOutcome.SUCCESS,
+    )
+    assert result == expected
+
+
 def test_action_failure_does_not_force_error_classification():
     # A failed postcondition (ActionOutcome.FAILURE) with clean
     # interference signals is still BACKGROUND_SAFE: interference and

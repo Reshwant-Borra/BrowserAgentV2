@@ -53,8 +53,16 @@ TEXT_FIELD_INITIAL_VALUE = "phase0-initial-value"
 SECOND_TEXT_FIELD_INITIAL_VALUE = "phase0-second-field"
 COUNTER_LABEL_PREFIX = "pressed:"
 BUTTON_TITLE = "Press Me"
+# Pressing this button destroys `second_text_field` and replaces it with
+# a brand-new NSTextField instance at the same position/value. It exists
+# so a campaign can hold a reference to the OLD AXUIElement, trigger a
+# rebuild, and confirm the harness observes a genuine AX error (not a
+# silent stale read) when that old reference is used afterward -
+# docs/BUILD_SPEC.md's "stale-element behavior" measurement requirement.
+REBUILD_BUTTON_TITLE = "Rebuild Field 2"
 
 _handler_ref = None  # module-global strong reference; see build_and_run()
+_rebuild_handler_ref = None
 
 
 class _ButtonHandler(NSObject):
@@ -69,6 +77,25 @@ class _ButtonHandler(NSObject):
     def onPress_(self, sender):  # noqa: N802 - Objective-C selector naming
         self.count += 1
         self.label.setStringValue_(f"{COUNTER_LABEL_PREFIX}{self.count}")
+
+
+class _RebuildHandler(NSObject):
+    def initWithContainer_field_(self, container, field_holder):
+        self = objc.super(_RebuildHandler, self).init()
+        if self is None:
+            return None
+        self.container = container
+        self.field_holder = field_holder  # single-element list: mutable box
+        return self
+
+    def onPress_(self, sender):  # noqa: N802 - Objective-C selector naming
+        old_field = self.field_holder[0]
+        frame = old_field.frame()
+        old_field.removeFromSuperview()
+        new_field = NSTextField.alloc().initWithFrame_(frame)
+        new_field.setStringValue_(SECOND_TEXT_FIELD_INITIAL_VALUE)
+        self.container.addSubview_(new_field)
+        self.field_holder[0] = new_field
 
 
 def build_and_run() -> None:
@@ -116,6 +143,18 @@ def build_and_run() -> None:
     button.setTarget_(handler)
     button.setAction_("onPress:")
     window.contentView().addSubview_(button)
+
+    global _rebuild_handler_ref
+    field_holder = [second_text_field]
+    rebuild_handler = _RebuildHandler.alloc().initWithContainer_field_(window.contentView(), field_holder)
+    _rebuild_handler_ref = rebuild_handler
+
+    rebuild_button = NSButton.alloc().initWithFrame_(NSMakeRect(160, 20, 140, 30))
+    rebuild_button.setTitle_(REBUILD_BUTTON_TITLE)
+    rebuild_button.setBezelStyle_(1)
+    rebuild_button.setTarget_(rebuild_handler)
+    rebuild_button.setAction_("onPress:")
+    window.contentView().addSubview_(rebuild_button)
 
     window.makeKeyAndOrderFront_(None)
     # Deterministic starting focus for the focus-switch positive control:

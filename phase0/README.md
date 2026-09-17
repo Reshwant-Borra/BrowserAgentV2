@@ -173,6 +173,21 @@ touches the real desktop.
   data, and can be killed at any time with no save prompt. Run it
   directly for manual inspection: `python3 phase0/fixtures/mac_ax_fixture_app.py`.
 
+## Larger evidence campaign
+
+The single-condition `browser`/`ax` CLI commands above were a preliminary
+60/30-trial spike. `phase0/experiments/browser_background/campaign.py`
+and `phase0/experiments/macos_ax/campaign.py` run a much larger,
+multi-condition campaign (500+ trials each: click/fill/select/navigate,
+backgrounded/occluded/multi-tab/multi-window/popup for the browser;
+read/set-value/invoke/focus-switch/occluded/stale-element for AX). See
+`phase0/CAMPAIGN_REPORT.md` for the results, gate verdict against
+`docs/BUILD_SPEC.md`, and current limitations (most notably: Chrome does
+not expose `AXFocusedUIElement` via public AX APIs in the tested
+environment, which keeps the majority of trials `INCONCLUSIVE` rather
+than `BACKGROUND_SAFE` for the focus signal specifically - not converted
+into a pass anywhere in the pipeline).
+
 ## Interpreting results / known limitations
 
 - **This is a spike on one machine, not a capability proof.** Both
@@ -180,7 +195,8 @@ touches the real desktop.
   during this milestone; `docs/BUILD_SPEC.md`'s Phase 0 completion
   criteria require measurement across target macOS *and* Windows
   configurations, at higher trial counts, before any `BACKGROUND_PROVEN`
-  claim is justified.
+  claim is justified. See `phase0/CAMPAIGN_REPORT.md` for the larger
+  (500+ trial) follow-up campaign's results.
 - **Focus identity vs. content.** `focus_changed()` /
   `_element_identity_changed()` compare a focused element's role,
   subrole, `AXIdentifier`, title, description, help text, and geometry

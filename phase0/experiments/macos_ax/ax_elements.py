@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from phase0.fixtures.mac_ax_fixture_app import BUTTON_TITLE
+from phase0.fixtures.mac_ax_fixture_app import BUTTON_TITLE, REBUILD_BUTTON_TITLE
 
 try:
     import ApplicationServices as AS
@@ -61,11 +61,19 @@ def get_text_fields(window) -> List["object"]:
 
 
 def get_press_button(window) -> "object":
+    return _get_button_titled(window, BUTTON_TITLE)
+
+
+def get_rebuild_button(window) -> "object":
+    return _get_button_titled(window, REBUILD_BUTTON_TITLE)
+
+
+def _get_button_titled(window, title: str) -> "object":
     children = _copy_attr(window, "AXChildren") or []
     for child in children:
-        if _copy_attr(child, "AXRole") == "AXButton" and _copy_attr(child, "AXTitle") == BUTTON_TITLE:
+        if _copy_attr(child, "AXRole") == "AXButton" and _copy_attr(child, "AXTitle") == title:
             return child
-    raise ElementNotFoundError(f"no AXButton titled {BUTTON_TITLE!r} found in fixture window")
+    raise ElementNotFoundError(f"no AXButton titled {title!r} found in fixture window")
 
 
 def get_counter_label(window) -> "object":
