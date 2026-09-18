@@ -20,9 +20,9 @@ These are provisional evidence-backed ADRs for the overnight mission. Confidence
 ## ADR-O2 — Verification is a first-class contract, not a model reflection step
 **DECISION:** Every state-changing skill/adapter must expose or construct a postcondition verifier independent of the action's API return and model's success claim. Prefer structured/app-state verification; use visual/LLM verification only when deterministic state is unavailable, with uncertainty/handoff.
 
-**CONFIDENCE:** 96%
+**CONFIDENCE:** 97%
 
-**EVIDENCE:** BrowserAgentV2 directly observed Chrome AXPress return success without producing the intended page effect. OpenComputer reports structured hard-coded verifiers align better with humans than LLM-as-judge for fine-grained app state. Local CUA inference research reports failures shifting toward premature false success when more history/compute is supplied.
+**EVIDENCE:** BrowserAgentV2 directly observed Chrome AXPress return success without producing the intended page effect. OpenComputer and Interactive Reward Agent support structured/environment-state verification over trajectory-only judging. VeriGUI explicitly models action-effect verification and recovery. Local CUA inference research reports failures shifting toward premature false success when more history/compute is supplied.
 
 **ALTERNATIVES:** trust action API success; let acting model decide success; screenshot-difference-only verifier.
 
@@ -30,7 +30,7 @@ These are provisional evidence-backed ADRs for the overnight mission. Confidence
 
 **RISKS:** writing verifiers for arbitrary tasks can become app-specific complexity.
 
-**HOW TO VALIDATE:** build a verifier contract with generic semantic predicates plus skill-specific predicates; inject no-op-success, partial-success, stale-state and wrong-target faults and require zero false success on controlled fixtures.
+**HOW TO VALIDATE:** implement the small predicate contract in ACTION_VERIFICATION.md; inject no-op-success, partial-success, stale-state, verifier-unavailable, unrelated-visual-change and wrong-target faults; require zero false success on controlled fixtures.
 
 ## ADR-O3 — Re-resolve semantic targets after mutation
 **DECISION:** Do not treat DOM/AX object handles as durable identity across arbitrary UI mutations. Store a semantic target description/fingerprint and re-resolve against a fresh observation before consequential actions or verification.
@@ -82,7 +82,7 @@ These are provisional evidence-backed ADRs for the overnight mission. Confidence
 
 **CONFIDENCE:** 93%
 
-**EVIDENCE:** OSGuard demonstrates nominal task success can coexist with unsafe shortcuts and evaluates explicit state-based safety invariants. This reinforces existing D-008 rather than replacing it.
+**EVIDENCE:** OSGuard demonstrates nominal task success can coexist with unsafe shortcuts and evaluates explicit state-based safety invariants. VeriSafe and ConflictGUI independently reinforce pre-action feasibility/intent checks and the need to terminate rather than blindly execute when evidence conflicts.
 
 **ALTERNATIVES:** action-level guard only; success verifier only.
 
@@ -91,3 +91,33 @@ These are provisional evidence-backed ADRs for the overnight mission. Confidence
 **RISKS:** invariant coverage can be incomplete.
 
 **HOW TO VALIDATE:** adversarial fixtures where the easiest route violates a constraint but a safe route remains available; require safe completion or handoff.
+
+## ADR-O7 — No durable universal element; use ephemeral intent-to-candidate resolution
+**DECISION:** Represent targets as route-neutral `TargetSpec` semantic intent, resolve against each fresh observation into `TargetCandidate` objects with provenance/confidence, and keep DOM/AX/UIA handles or coordinates as opaque adapter-local `ExecutionRef`s that expire with observation/mutation.
+
+**CONFIDENCE:** 95%
+
+**EVIDENCE:** Direct BrowserAgentV2 evidence shows AX node rebuilding/staleness and browser dynamic-state risk. BrowserGym/ComponentBench use observation-local IDs. Agent S separates grounding from action. Tactile 2026 represents heterogeneous semantic/OCR/visual target candidates with provenance, affordances and verification cues. Visual coordinates inherently lack durable identity.
+
+**ALTERNATIVES:** one persistent `UniversalElement` wrapping every backend; durable coordinates; backend handles persisted across steps.
+
+**WHY REJECTED:** they hide incompatible identity/lifetime semantics and create dangerous semantic rebinding after UI mutation.
+
+**RISKS:** re-resolution may be ambiguous; cross-source fusion could become complex.
+
+**HOW TO VALIDATE:** duplicate-label/reorder, DOM replacement, AX replacement, window-reflow, overlay-hijack, cross-route-agreement and canvas fixtures. Correct behavior is resolution or explicit abstention, never arbitrary best-score action.
+
+## ADR-O8 — Pre-dispatch freshness gate for consequential actions
+**DECISION:** For consequential actions, revalidate app/window/target state immediately before dispatch; observation age and unexpected UI transitions are part of action eligibility. Do not rely solely on post-action verification.
+
+**CONFIDENCE:** 89%
+
+**EVIDENCE:** BrowserAgentV2 already proves semantic handles can stale. 2026 desktop GUI TOCTOU work formalizes observation-to-action state changes and demonstrates action redirection attacks, motivating pre-execution UI state verification. This also protects against benign reflow/popups, not only adversaries.
+
+**ALTERNATIVES:** observe once then act regardless of delay; postcondition-only detection.
+
+**WHY REJECTED:** postcondition verification can detect a wrong action only after side effects occur; stale coordinates can hit a different control.
+
+**RISKS:** extra observation latency may itself increase drift; overly sensitive screenshot checks can false-abstain.
+
+**HOW TO VALIDATE:** benign overlay/focus/window-move injection between grounding and dispatch at varied delays; measure unsafe-dispatch rate and false-abstention cost.
