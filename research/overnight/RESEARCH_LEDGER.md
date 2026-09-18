@@ -10,7 +10,7 @@ This file is the continuity handoff between scheduled research runs.
 - Record negative results and failed hypotheses.
 
 ## Current Architecture Hypothesis
-Preserve BrowserAgentV2's reliability-first architecture and Phase 0 harness. Production direction is a **hybrid semantic-first, verifier-grounded ComputerAgent**: deterministic tools/APIs when available -> Playwright/CDP browser semantics -> platform accessibility -> visual grounding/coordinate fallback -> foreground/handoff. Authoritative Goal/Plan/Action/Policy/Recovery state remains outside the model in structured durable storage plus an append-only event journal. Model context is a bounded projection of current state, recent verified actions, unresolved errors and selected facts; retrieval memory is advisory only. Every state-changing action is a durable intent transaction with stable logical action ID. Plan advances only after separately observed postcondition verification. Crash recovery reconciles uncertain external effects before retry and never assumes generic exactly-once execution. Targets use route-neutral semantic intent (`TargetSpec`) resolved against a fresh observation into ephemeral candidates; backend handles/coordinates are never durable identity. Consequential actions get a pre-dispatch freshness gate. Verification uses typed predicates and explicit inconclusive/partial/unsafe outcomes. Model specialization remains experimentally open.
+Preserve BrowserAgentV2's reliability-first Phase 0 harness. Production direction is a **hybrid semantic-first, verifier-grounded ComputerAgent**: deterministic tools/APIs when available -> Playwright/CDP browser semantics -> platform accessibility -> visual grounding/coordinate fallback -> foreground/handoff. A single durable deterministic controller owns Goal/Plan/Action/Policy/Recovery state, lifecycle, retry budgets and an append-only journal. Models are bounded proposal functions, not authorities. Untrusted observations supply information but cannot increase authority; consequential ActionIntents pass deterministic task-scoped capability/policy gates. Model context is a bounded projection of current durable state plus selected facts; retrieval memory is advisory. Every state-changing action is a durable intent transaction with stable logical action ID; crash recovery reconciles uncertain effects before retry and never claims generic exactly-once execution. Targets use semantic `TargetSpec` -> fresh observation-local candidate -> ephemeral backend ExecutionRef. Verification uses typed predicates/invariants and explicit inconclusive/unsafe outcomes. Start local evaluation with one replaceable multimodal ~8B generalist (Qwen3-VL-8B-Instruct first benchmark), specialist GUI grounder only on measured escalation, and critic only on verifier-inconclusive cases if justified. Reusable skills are versioned progressive-disclosure procedures under the controller, never autonomous sub-agents.
 
 ## Evidence Entries
 
@@ -40,42 +40,71 @@ Preserve BrowserAgentV2's reliability-first architecture and Phase 0 harness. Pr
 - **Impact:** cross-platform semantic-first hierarchy survives; no permanent grounder yet.
 
 ### 2026-09-18 02:xx ET — Long-horizon state/context
-- **Question:** How can 200-1,000 action tasks avoid prompt growth and retrieval contamination?
-- **Finding:** Long-horizon research (LongSeeker, CAT, MAGE, Mem0) converges on selective/structured context management rather than append-only transcripts. MAGE specifically identifies semantic-retrieval mismatch with execution dependencies. For BrowserAgentV2, correctness-critical Goal/Plan/Action/Recovery state must therefore be structured and authoritative outside the model; the model receives a bounded projection. Retrieval memory is advisory and provenance/freshness-tagged.
+- **Finding:** Long-horizon research converges on selective/structured context rather than append-only transcripts. Correctness-critical Goal/Plan/Action/Recovery state must be structured and authoritative outside model; retrieval is advisory/provenanced.
 - **Evidence quality:** 3-4, architecture reasoning 5
-- **Impact:** add `GoalState`, versioned `PlanState`, `ActionState`, revocable `FactState`, `RecoveryState`, append-only EventLog, bounded working projection. Start SQLite + structured/FTS retrieval; no vector DB until benchmark justifies it.
-- **Validation:** 200/500/1,000 action synthetic prompt-flatness/reconstruction benchmark. Target <15% active-token growth from 200 to 1,000 actions with >=99% required-fact recall.
+- **Impact:** structured durable state + bounded working projection; start SQLite/FTS; no vector DB until benchmark.
+- **Validation:** 200/500/1,000 action prompt-flatness/reconstruction benchmark.
 
 ### 2026-09-18 02:xx ET — Crash reconciliation / durable side effects
-- **Question:** Can an unresolved ACTION_INTENT safely resume without duplicate external effects?
-- **Finding:** No generic exactly-once guarantee exists across arbitrary external/UI effects. Crash after external commit but before local result persistence creates irreducible ambiguity unless the external system supports idempotency or state can be reconciled. Durable workflow systems use at-least-once activities and idempotency/reconciliation for this reason. Checkpoints alone do not close the commit/ack window.
+- **Finding:** No generic exactly-once guarantee exists across arbitrary external/UI effects. Crash after external commit but before local result persistence creates ambiguity unless external idempotency/reconciliation exists.
 - **Evidence quality:** 4
-- **Impact:** stable logical `action_id`; persist intent before dispatch; use same idempotency key across retries; reconcile queryable state before retry; ambiguous irreversible non-idempotent actions become `OUTCOME_UNKNOWN/NEEDS_REVIEW`, never blind retry. Persist accepted model decisions rather than regenerating them during replay.
-- **Validation:** fake external service with crash injection at every intent/dispatch/commit/result/verify boundary, >=1,000 randomized trials/action class.
+- **Impact:** stable action_id; persist intent before dispatch; idempotency/reconcile before retry; ambiguous irreversible non-idempotent -> OUTCOME_UNKNOWN/NEEDS_REVIEW.
+- **Validation:** injected crash matrix >=1,000 randomized trials/action class.
+
+### 2026-09-18 03:xx ET — Security/policy trust boundary
+- **Finding:** Separate authority from information. Web/DOM/AX/UIA/screenshot/OCR/document/tool/model content is untrusted evidence and cannot widen capability. Prompt-injection detection is defense-in-depth, not authorization.
+- **Evidence quality:** 3-4 plus architecture reasoning
+- **Impact:** deterministic ActionIntent capability/policy gate, provenance/data-flow controls, task-scoped authority, separate success/safety invariants.
+- **Validation:** adversarial authority-expansion and sensitive-read/external-write fixtures.
+
+### 2026-09-18 03:xx ET — Planner/recovery controller
+- **Finding:** Separate autonomous planner/executor/recovery agents add state handoffs without solving durability. Use one durable deterministic controller with typed lifecycle/failure transitions; models propose only.
+- **Evidence quality:** architecture synthesis grounded in prior direct failure evidence
+- **Impact:** retry/re-ground/route-switch/replan/handoff are deterministic transitions with bounded budgets; replans version history.
+- **Validation:** failure-class fault injection and state-machine invariant tests.
+
+### 2026-09-18 05:xx ET — Local model/routing
+- **Question:** What is the smallest local model architecture worth building for M5 24 GB and RTX 4070 12 GB?
+- **Finding:** Qwen3-VL now has an official 8B Instruct model, local GGUF path, computer-use/grounding capability and tool interfaces. Because BrowserAgentV2 is semantic-first, the general model need not be the primary pixel controller. Start with one multimodal 8B generalist baseline; compare optional 2-3B GUI specialists only on semantic gaps. Keep critic probabilistic and on-demand. Use stable-prefix/bounded-state prompting and measure prompt/KV caching rather than expanding context.
+- **Evidence quality:** 2-4; final hardware suitability unmeasured
+- **Impact:** narrows v1 model architecture substantially; no always-on ensemble, learned router or mandatory critic. Qwen3-VL-8B is benchmark candidate, not permanent dependency.
+- **Validation:** common fixtures on both machines measuring schema validity, wrong-target/abstention, verifier-confirmed success, p95 latency, RAM/VRAM and repeated variance.
+
+### 2026-09-18 05:xx ET — Reusable skills
+- **Question:** How should repeated workflows be encoded without prompt growth or sub-agent complexity?
+- **Finding:** Agent Skills/OpenHands converge on progressive disclosure of reusable procedural knowledge. For BrowserAgentV2, skills should be versioned packages with metadata, typed inputs, capability envelope, preconditions, procedure/helpers, verifier/invariants and regression fixtures. Controller executes; model can select but cannot widen authority. Successful traces are candidates, not automatically executable skills.
+- **Evidence quality:** 2-4 plus architecture fit
+- **Impact:** skills reduce repeated reasoning while preserving bounded context and deterministic authority; reject one-agent-per-skill and vector-retrieval-to-execution.
+- **Validation:** 10 real skills + 100 decoys comparing full injection vs metadata progressive disclosure vs schema-filtered routing.
 
 ## Decisions Recorded
 See `ARCHITECTURE_DECISIONS.md`:
-- ADR-O1 hybrid semantic-first control, visual fallback — 94%
-- ADR-O2 verification as first-class typed contract — 97%
-- ADR-O3 re-resolve semantic targets after mutation — 95%
+- ADR-O1 hybrid semantic-first control — 94%
+- ADR-O2 typed independent verification — 97%
+- ADR-O3 re-resolve targets after mutation — 95%
 - ADR-O4 repeated-trial reliability metric — 92%
-- ADR-O5 do not freeze multi-model architecture yet — 86%
-- ADR-O6 safety invariants accompany success predicates — 93%
+- ADR-O5 no frozen multi-model architecture — 88%
+- ADR-O6 safety invariants with success predicates — 93%
 - ADR-O7 no durable universal element — 95%
 - ADR-O8 pre-dispatch freshness gate — 89%
-- ADR-O9 structured authoritative execution state; retrieval advisory — 95%
-- ADR-O10 durable intent + reconciliation; no generic exactly-once claim — 97%
+- ADR-O9 structured authoritative execution state — 95%
+- ADR-O10 durable intent + reconciliation — 97%
+- ADR-O11 authority/information separation + deterministic capability gate — 96%
+- ADR-O12 one durable deterministic controller — 94%
+- ADR-O13 multimodal 8B generalist baseline + measured escalation — 88% architecture / 76% final Qwen3-VL choice
+- ADR-O14 progressive-disclosure versioned skills — 93%
 
 ## Current Highest-Priority Unresolved Questions
 Ranked by architecture impact × uncertainty × cheapness of validation:
-1. **Security/policy:** convert task-level prohibited effects and indirect prompt injection into deterministic policy/verifier invariants; define trust boundaries for UI/web content.
-2. **Planning/state machine:** minimal replanning policy and failure taxonomy; when to retry, re-ground, switch route, replan, or hand off.
-3. **Local model split:** single generalist vs +GUI grounder vs +critic on one common fixture set; include prompt/KV-cache behavior and constrained output reliability.
-4. **Grounding experiment implementation:** duplicate-label, replacement, reflow, overlay, absent-target, cross-route agreement fixtures.
-5. **Verifier coverage experiment:** implement small predicate vocabulary and measure custom-predicate pressure before expanding DSL.
-6. **Crash experiment implementation:** fake external service + injected crash matrix from `CRASH_RECOVERY.md`.
-7. **Prompt-flatness experiment:** synthetic long-run state projection benchmark from `LONG_HORIZON_STATE.md`.
-8. **Windows hardware capability matrix:** reproduce semantic/background assumptions on target machine.
+1. **Experiment specs + implementation order:** turn architecture claims into one executable validation matrix before more broad research.
+2. **Grounding fault fixture:** duplicate-label, replacement, reflow, overlay, absent/ambiguous target, cross-route agreement.
+3. **Verifier vocabulary coverage:** measure how many real tasks fit a small predicate vocabulary before expanding DSL.
+4. **Crash matrix:** fake external service + crash injection from durable intent through commit/verify.
+5. **Prompt-flatness:** 200/500/1,000-action synthetic state projection/reconstruction benchmark.
+6. **Model fixture harness:** Qwen3-VL-8B baseline vs optional grounders on target hardware; schema/abstention/wrong-target/latency/memory.
+7. **Skill routing fixture:** 10 real + 100 decoy skills; progressive disclosure/context growth.
+8. **Windows hardware capability matrix:** reproduce UIA semantic/background assumptions on target Windows machine.
+9. **Observability schema:** ensure traces make every controller transition/model proposal/verification/fallback diagnosable without excessive storage.
 
 ## Negative Results / Assumptions Rejected
 - Raw AX/UIA availability cannot be assumed behaviorally reliable or background-safe.
@@ -83,15 +112,21 @@ Ranked by architecture impact × uncertainty × cheapness of validation:
 - Pixel-only is not automatically best because frontier CUAs use it.
 - More context, more steps, or more model stages are not monotonic reliability improvements.
 - One successful benchmark trajectory is not reliability evidence.
-- Durable cross-backend `UniversalElement` is wrong abstraction.
+- Durable cross-backend UniversalElement is wrong abstraction.
 - Screenshot difference alone is not semantic success verification.
 - Post-action verification alone is insufficient for high-risk actions.
 - Full transcript is not long-horizon memory architecture.
 - Vector/semantic retrieval must not be authoritative execution state.
-- A rolling summary alone is insufficient for recovery/audit correctness.
+- Rolling summary alone is insufficient for recovery/audit correctness.
 - Checkpoint-after-step does not provide exactly-once external effects.
-- After an ambiguous non-idempotent external commit window, automatic retry is unsafe.
-- LLM nondeterminism must not be silently replayed as though it were deterministic history.
+- Ambiguous non-idempotent external effects must not be blind-retried.
+- LLM nondeterminism must not be silently replayed as deterministic history.
+- Prompt-injection classifier cannot be root authorization boundary.
+- Separate autonomous planner/executor/recovery agents are unnecessary in v1.
+- Always-on planner+grounder+critic ensemble is premature.
+- Maximum model context should not be treated as a memory target.
+- Vector similarity must not directly activate executable skills.
+- Successful trajectories must not auto-promote into trusted executable skills.
 
 ## Handoff
-This pass resolved long-horizon state and crash semantics enough to proceed. New artifacts: `LONG_HORIZON_STATE.md`, `CRASH_RECOVERY.md`; ADR-O9/O10 added. Do **not** redo generic memory/vector-database or durable-workflow surveys. Next pass should focus on policy/security trust boundaries and the planner/recovery state machine, then move into local-model routing if those converge. The key remaining implementation proofs are now explicit experiments rather than broad research questions.
+Architecture discovery is now close to saturation. New artifacts: `LOCAL_MODEL_OPTIMIZATION.md`, `SKILL_SYSTEM.md`; ADR-O11 through O14 are now recorded alongside prior ADRs. Do **not** redo broad model/skill surveys next. The next pass should convert the remaining assumptions into a concrete BrowserAgentV2 validation/fault-injection plan and, where connector limitations allow, prototype the cheapest harness pieces. Highest value is proving or falsifying the controller contracts: grounding freshness/abstention, verifier false-success resistance, crash reconciliation, prompt-flatness, model structured-output/visual escalation, and skill progressive disclosure. Windows hardware remains an explicit external validation blocker rather than a reason to redesign the architecture.
