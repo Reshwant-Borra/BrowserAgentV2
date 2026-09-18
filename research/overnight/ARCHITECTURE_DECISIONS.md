@@ -127,3 +127,21 @@ These are provisional evidence-backed ADRs for the overnight mission. Confidence
 **WHY REJECTED:** state/authority duplication, prompt growth, unsafe applicability and brittle trace reuse.
 **RISKS:** manifest overdesign; skill trigger misses.
 **HOW TO VALIDATE:** 10 real skills + 100 decoys; compare full injection vs metadata disclosure vs schema-filtered routing.
+
+## ADR-O15 — Durable event journal is source of truth; OpenTelemetry is derived observability
+**DECISION:** Persist a compact typed controller event journal for recovery/audit and correlate it with optional OpenTelemetry-compatible spans/metrics. OTel export, sampling, or failure must never affect behavior or recovery.
+**CONFIDENCE:** 94%
+**EVIDENCE:** Existing Phase 0 already benefits from structured evidence records; OpenTelemetry GenAI conventions cover agent/model/tool spans, tokens and latency while its guidance recommends bounded high-value attributes and opt-in handling for verbose/sensitive content.
+**ALTERNATIVES:** raw transcript logs; OTel backend as recovery store; unstructured debug logging only.
+**WHY REJECTED:** transcripts are large/ambiguous/sensitive; telemetry exporters are not transactional state; unstructured logs make deterministic fault diagnosis difficult.
+**RISKS:** schema overgrowth; artifact storage volume; accidental sensitive capture.
+**HOW TO VALIDATE:** failure-class trace reconstruction, OTel-disabled recovery equivalence, 1,000-action storage test, sensitive-string leak test.
+
+## ADR-O16 — Falsify deterministic contracts before optimizing end-to-end agent score
+**DECISION:** Build validation in this order: grounding freshness/abstention -> verifier false-success resistance -> crash reconciliation -> bounded-state reconstruction -> authority gate -> model/escalation -> skills -> Windows UIA -> cross-app endurance. Deterministic safety/correctness gates precede benchmark chasing.
+**CONFIDENCE:** 96%
+**EVIDENCE:** BrowserAgentV2's strongest evidence comes from controlled repeated campaigns; current cross-app GUI benchmarks remain weak enough that headline task success can hide wrong-action/recovery defects; direct Chrome AXPress false-success demonstrates why end-to-end completion alone is insufficient.
+**ALTERNATIVES:** build full agent first and tune OSWorld/WebArena score; optimize model before controller contracts.
+**WHY REJECTED:** failures become entangled and model capability can mask state/verification defects without fixing them.
+**RISKS:** slower visible demo progress; deterministic fixture gates may be initially too strict.
+**HOW TO VALIDATE:** execute `VALIDATION_PLAN.md`; architecture-changing failure must map to a specific contract and reproducible fixture before redesign.
