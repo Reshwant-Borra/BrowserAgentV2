@@ -83,6 +83,12 @@ Preserve BrowserAgentV2's reliability-first Phase 0 harness. Production directio
 - **Evidence quality:** 4-5 architecture fit + OpenTelemetry primary documentation
 - **Impact:** added `OBSERVABILITY.md`; canonical task/plan/step/action/attempt/observation/verification/model/skill IDs and finite event vocabulary. Start SQLite + artifact references + JSONL/optional OTel; no distributed tracing stack required for v1.
 
+### 2026-09-18 07:xx ET — Falsification-first vertical slice
+- **Finding:** Direct inspection of `phase0/harness/runner.py`, `persistence.py`, and the existing unit-test layout supports a clean boundary: keep Phase 0 as measurement substrate and create a separate production `computer_agent/` package. The smallest useful slice is model-free: typed TargetSpec/ObservationVersion, deterministic freshness/abstention, independent verifier, durable journal/controller, policy gate, and crash reconciliation fixtures.
+- **Evidence quality:** 5 for repository fit; architecture synthesis for proposed package boundary.
+- **Impact:** created `VERTICAL_SLICE_BUILD_SPEC.md` with exact files, invariants, fixtures, gates, and stop conditions; created `OPEN_QUESTIONS.md` classifying remaining uncertainty. Do not grow `ExperimentRunner` into production runtime and do not treat JSONL experiment evidence as the recovery journal.
+- **Validation:** first engineering task is pure-Python mutable-UI fixture + grounding freshness gate, >=1,000 seeded trials, zero wrong/stale dispatch and abstention on ambiguity/absence.
+
 ## Decisions Recorded
 See `ARCHITECTURE_DECISIONS.md`:
 - ADR-O1 hybrid semantic-first control — 94%
@@ -136,6 +142,8 @@ See `ARCHITECTURE_DECISIONS.md`:
 - OpenTelemetry/exported traces must not be used as recovery state.
 - Raw transcript/full screenshot capture is not an acceptable default observability strategy.
 - External benchmark score should not precede deterministic contract validation.
+- Phase 0 `ExperimentRunner` should not be mutated into the production controller; preserve it as an independent measurement harness.
+- Phase 0 JSONL result persistence is experiment evidence, not transactional recovery state.
 
 ## Handoff
-Broad architecture research should now be considered nearly saturated. New artifacts: `VALIDATION_PLAN.md`, `OBSERVABILITY.md`; ADR-O15/O16 added. **Do not spend the next pass on another broad survey.** Implement/specify the cheapest falsification harnesses in priority order and inspect existing code for the smallest vertical slice. If tool constraints prevent code execution on target hardware, turn each remaining blocker into an exact runnable test spec and prepare final convergence. The final pass should decide READY_TO_BUILD vs READY_WITH_BLOCKERS based primarily on whether unresolved items are implementation validation blockers rather than architecture-design blockers.
+Broad architecture research is saturated enough for final convergence. New artifacts: `VERTICAL_SLICE_BUILD_SPEC.md`, `OPEN_QUESTIONS.md`, and `RUN8_HANDOFF.md`. **Do not perform another broad survey in the final pass.** Review all evidence/ADRs for contradictions, red-team the coherent candidate architecture, and produce the required final architecture/build/report artifacts. Be explicit that V1-V8 are specified but not yet executed. The strongest remaining blockers are implementation-validation blockers, not currently known architecture-design blockers. The single next engineering task is Fixture A: implement the minimal TargetSpec/ObservationVersion/freshness contract and run >=1,000 seeded mutation trials before model integration.
