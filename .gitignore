@@ -15,6 +15,12 @@ phase0/results/*-matrix.json
 phase0/results/focus_diagnostics-*.json
 !phase0/results/.gitkeep
 
+# ComputerAgent M1 campaign evidence (not source of truth; regenerate via
+# tests/computer_agent/campaign.py -- see computer_agent/M1_GROUNDING_REPORT.md)
+computer_agent/results/*.jsonl
+computer_agent/results/*summary.json
+!computer_agent/results/.gitkeep
+
 # Graphify generated output (auxiliary developer index, not source of truth)
 graphify-out/
 
