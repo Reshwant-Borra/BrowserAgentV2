@@ -17,9 +17,9 @@ Representative current tags (see `docs/BUILD_SPEC.md` for the underlying evidenc
 - Browser semantic non-interference (Playwright/CDP, this machine): **MEASURED BUT LIMITED** — 500/500 verified postconditions, zero cursor/foreground interference, but the browser-focus-theft signal itself was unmeasurable on 93% of trials (`phase0/CAMPAIGN_REPORT.md`).
 - macOS AX discovery/read across representative apps: **MEASURED BUT LIMITED** — broad across 8 apps; verified action/mutation only for the Cocoa fixture (`phase0/MAC_APP_CAPABILITY_REPORT.md`).
 - Universal/arbitrary macOS AX action control: **NOT PROVEN / rejected as a universal assumption** — Chrome's `AXPress` returns success without effect; both browsers' `AXValue` writes are ordering-sensitive.
-- Grounding freshness contract (`TargetSpec`/`TargetCandidate`/`ExecutionRef`): **PLANNED**, awaiting M1/Fixture A.
-- Independent verifier contract: **PLANNED**, awaiting M2/Fixture B.
-- Crash-safe reconciliation: **PLANNED**, awaiting M3/Fixture C.
+- Grounding freshness contract (`TargetSpec`/`TargetCandidate`/`ExecutionRef`): **MEASURED BUT LIMITED** — M1 gate PASS on synthetic Fixture A (`computer_agent/M1_GROUNDING_REPORT.md`); no real adapter yet.
+- Independent verifier contract: **MEASURED BUT LIMITED** — M2 gate PASS on synthetic Fixture B, 0 false successes (`computer_agent/M2_VERIFICATION_REPORT.md`); no real observation channel yet.
+- Crash-safe reconciliation: **MEASURED BUT LIMITED** — M3 gate PASS on synthetic Fixture C incl. real SIGKILL (`computer_agent/M3_CONTROLLER_RECOVERY_REPORT.md`); power-loss durability and real-app effect classes untested.
 - Bounded long-horizon context: **PLANNED**, awaiting M4.
 - Deterministic policy/authority gate: **PLANNED**, awaiting M5/Fixture D.
 - Local model quality (any candidate, any target machine): **UNVALIDATED**.

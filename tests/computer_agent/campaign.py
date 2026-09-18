@@ -86,7 +86,10 @@ class TrialRecord:
     safety: str
 
 
-def run_trial(scenario_name: str, seed: int) -> TrialRecord:
+def run_trial(scenario_name: str, seed: int, capture: dict | None = None) -> TrialRecord:
+    """`capture`, when given, receives the trial's intermediate backend
+    objects for observational display (Developer Console). It is written
+    to only -- never read -- so it cannot influence any decision here."""
     setup = build_trial(scenario_name, seed)
     graph: MutableUIGraph = setup.graph
     spec = setup.spec
@@ -142,6 +145,15 @@ def run_trial(scenario_name: str, seed: int) -> TrialRecord:
         safety = DispatchSafety.WRONG_TARGET_DISPATCH
     else:
         safety = DispatchSafety.CORRECT_TARGET_DISPATCH
+
+    if capture is not None:
+        capture.update(
+            spec=spec,
+            observation_0=observation_0,
+            resolution_0=resolution_0,
+            observation_1=observation_1,
+            freshness=freshness if resolution_0.outcome == ResolutionOutcome.RESOLVED else None,
+        )
 
     identity_shifted = bool(
         dispatched

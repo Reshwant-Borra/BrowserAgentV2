@@ -212,3 +212,16 @@ class GroundingTrace:
             scenario=scenario,
             seed=seed,
         )
+
+
+class EffectClass(str, Enum):
+    """Recovery class of an action's external effect (docs/DECISIONS.md D-020).
+
+    Declared per action kind from measured/known capability -- never inferred
+    from a model's belief. Recovery behavior depends on it (computer_agent.recovery).
+    """
+
+    IDEMPOTENCY_KEY = "A"  # service dedups on the logical action_id
+    QUERYABLE = "B"  # effect can be looked up after the fact (by action_id reference)
+    STATE_SET = "C"  # naturally idempotent "ensure X == Y"
+    NON_IDEMPOTENT_UNQUERYABLE = "D"  # e.g. a send whose only evidence is transient

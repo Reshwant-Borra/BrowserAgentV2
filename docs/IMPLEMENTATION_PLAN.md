@@ -18,7 +18,7 @@ Where a milestone below implements something the overnight research proposed but
 **Status: this task.** Reconcile overnight research into `docs/ARCHITECTURE.md`, `docs/BUILD_SPEC.md`, `docs/DECISIONS.md`, `docs/ROADMAP.md`, and this file. No application or Phase 0 code changes.
 
 ## M1 — Grounding and freshness contract
-**Status: PLANNED — the single next engineering task.**
+**Status: GATE PASSED (2026-09-18, synthetic Fixture A) — `computer_agent/M1_GROUNDING_REPORT.md`. Frozen dependency for M2+.**
 
 Build the minimal production-shaped types and a deterministic Fixture A. No LLM, no real adapters, no Playwright/AX wiring yet — this milestone must falsify or confirm the target-resolution contract in complete isolation.
 
@@ -66,7 +66,7 @@ The fixture's hidden ground-truth ID must never be visible to the controller thr
 A small Developer Console may start once the M1 schemas exist (see "Developer Console," below) — it visualizes `TargetSpec`/`TargetCandidate`/resolution/freshness output; it does not gate M1's pass/fail criteria.
 
 ## M2 — Independent verifier
-**Status: PLANNED.**
+**Status: GATE PASSED (2026-09-18, synthetic Fixture B: 2,200-trial permanent gate + 13,200-trial sweep, 0 false successes) — `computer_agent/M2_VERIFICATION_REPORT.md`.**
 
 Build `computer_agent/verification.py` and a deceptive Fixture B: a fake service whose actions can report success while actually performing expected mutation, no-op, wrong-object mutation, partial mutation, delayed mutation, duplicate mutation, prohibited collateral mutation, or leaving verification evidence unavailable.
 
@@ -80,7 +80,7 @@ Outcome vocabulary: `VERIFIED_SUCCESS`, `VERIFIED_FAILURE`, `INCONCLUSIVE`, `PAR
 **Stop condition:** any false success halts expansion; inspect observation independence and predicate semantics before continuing.
 
 ## M3 — Durable state / controller / journal / recovery
-**Status: PLANNED.**
+**Status: GATE PASSED (2026-09-18, synthetic Fixture C: 4,176 in-process + 288 real-SIGKILL crash trials, zero duplicate/unsafe-retry/incorrect-success/unverified-advance) — `computer_agent/M3_CONTROLLER_RECOVERY_REPORT.md`. Fixture C's boundary list merges "during dispatch" into `during_dispatch_before_effect`/`after_effect_before_return` and "after plan advance" into `after_step_complete`.**
 
 Add `state.py`, `journal.py`, `controller.py`, `recovery.py`. SQLite in WAL mode; append-only event journal plus deterministic materialized state. Do not grow the Phase 0 `ExperimentRunner`/JSONL persistence into this — it stays a measurement harness (`phase0/`), production state is a separate package (`computer_agent/`).
 
@@ -167,7 +167,7 @@ Polished task UI, onboarding, permissions, model management, Agent Cursor / visi
 
 A Developer/Test Console may begin as early as M1, once `TargetSpec`/`TargetCandidate`/`ResolutionResult` exist to visualize. It grows across milestones to display: active task, current step, current observation/version, `TargetSpec`, `TargetCandidate`s, resolution result, freshness result, selected route, action intent, dispatch result, verification result, recovery state, the event timeline, and abstention/blocking reasons.
 
-**It is observational only.** It visualizes authoritative backend state; it never becomes part of the correctness contract, and the backend must remain fully testable headlessly without it. This is distinct from the Phase 2 consumer product UI (M11), which is a different artifact with different design goals (onboarding, polish, non-developer users).
+**Implemented as Developer Console v0** (`devconsole/`, D-026): M1/M2/M3 tabs, launched with `python -m devconsole`. **It is observational only.** It visualizes authoritative backend state; it never becomes part of the correctness contract, and the backend must remain fully testable headlessly without it. This is distinct from the Phase 2 consumer product UI (M11), which is a different artifact with different design goals (onboarding, polish, non-developer users).
 
 ## What this plan deliberately excludes for now
 

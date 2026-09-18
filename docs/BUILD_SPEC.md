@@ -144,7 +144,7 @@ Phase 0 may build reusable libraries/interfaces when needed for measurement, but
 
 ## Phase 1 (M1-M6) falsifiable gates
 
-These gates convert `docs/IMPLEMENTATION_PLAN.md`'s milestones into pass/fail experiments, reconciled from the overnight research branch's `VALIDATION_PLAN.md`/`VERTICAL_SLICE_BUILD_SPEC.md` (`research/overnight-2026-09-18`, supporting research only — see D-017 through D-024 in `docs/DECISIONS.md`). None of these have run yet; all are **PLANNED**, not measured. Implement strictly in order — a later gate's fixtures assume an earlier gate's contract is trustworthy.
+These gates convert `docs/IMPLEMENTATION_PLAN.md`'s milestones into pass/fail experiments, reconciled from the overnight research branch's `VALIDATION_PLAN.md`/`VERTICAL_SLICE_BUILD_SPEC.md` (`research/overnight-2026-09-18`, supporting research only — see D-017 through D-024 in `docs/DECISIONS.md`). **Measured status (2026-09-18):** M1, M2 and M3 **PASS** on their synthetic fixtures — see `computer_agent/M1_GROUNDING_REPORT.md`, `M2_VERIFICATION_REPORT.md`, `M3_CONTROLLER_RECOVERY_REPORT.md`; permanent gates run in the default `pytest` suite (`tests/computer_agent/test_campaign_gate.py`, `test_m2_gate.py`, `test_m3_gate.py`, plus real-SIGKILL `test_crash_reconciliation.py`). These are contract-level results on fixtures, not real-adapter capability claims. M4-M6 remain **PLANNED**. Implement strictly in order — a later gate's fixtures assume an earlier gate's contract is trustworthy.
 
 ### Gate M1 — Grounding freshness and abstention
 **Hypothesis:** `TargetSpec -> fresh observation -> TargetCandidate -> ExecutionRef -> pre-dispatch freshness` achieves zero wrong/stale dispatch under seeded UI mutation.
@@ -155,6 +155,7 @@ These gates convert `docs/IMPLEMENTATION_PLAN.md`'s milestones into pass/fail ex
 **FAIL:** any wrong-target or stale-target dispatch.
 **INCONCLUSIVE:** not applicable — the fixture is deterministic and fully observable; every trial must resolve to PASS or FAIL.
 **Stop condition:** any FAIL halts all downstream milestones; repair the identity/freshness contract (`computer_agent/grounding.py`) before continuing. Every failing seed becomes a permanent regression in `tests/computer_agent/test_grounding_freshness.py`.
+**Measured (M1):** PASS — 1,500-trial permanent gate (21 scenarios) + ~37,800-trial sweep: 0 wrong-target, 0 stale-target dispatch; re-confirmed byte-identical after the M2/M3 work.
 **Architecture consequence on FAIL:** D-017's TargetSpec/TargetCandidate/ExecutionRef contract itself is called into question, not just its implementation — re-open grounding design before writing more code.
 
 ### Gate M2 — Verifier false-success resistance
@@ -166,6 +167,7 @@ These gates convert `docs/IMPLEMENTATION_PLAN.md`'s milestones into pass/fail ex
 **FAIL:** any false success.
 **INCONCLUSIVE (design-level, not per-trial):** if >= 10% of representative BrowserAgentV2/ComputerAgent task postconditions cannot be expressed compositionally with the small vocabulary plus a bounded domain callback, treat the *vocabulary* as inconclusive and expand it deliberately rather than declaring the contract failed.
 **Stop condition:** any false success halts downstream milestones; inspect observation independence and predicate semantics in `computer_agent/verification.py` before continuing.
+**Measured (M2):** PASS — 2,200-trial permanent gate (44 behavior×action classes) + 13,200-trial seed sweep: 0 false successes, 0 false failures; sabotaged verifiers are caught by the same oracle. Predicate-coverage (≥90% of real postconditions) not yet measured against real tasks.
 **Architecture consequence on FAIL:** re-open D-018 — evidence-source ordering or predicate semantics, not just the fixture, is suspect.
 
 ### Gate M3 — Crash/side-effect reconciliation
@@ -177,6 +179,7 @@ These gates convert `docs/IMPLEMENTATION_PLAN.md`'s milestones into pass/fail ex
 **FAIL:** any duplicate effect, any blind class-D retry, or any incorrect verified success.
 **INCONCLUSIVE:** a class-D effect correctly surfaces as `OUTCOME_UNKNOWN`/`NEEDS_REVIEW` — this is a PASS outcome for that trial, not an inconclusive one; reserve INCONCLUSIVE for kill points the harness itself cannot observe cleanly (fix the harness, do not count these toward the trial total).
 **Stop condition:** any FAIL halts downstream milestones; inspect the journal/recovery transition table (`computer_agent/journal.py`, `computer_agent/recovery.py`).
+**Measured (M3):** PASS — 1,044 trials per class (4,176) across 12 crash boundaries with 25% double crashes, plus 240 + 48 trials with real `SIGKILL`: 0 duplicate effects, 0 lost effects, 0 incorrect `VERIFIED_SUCCESS`, 0 unsafe/blind class-D retries, 0 unverified step advancement, 0 replay mismatches. Power-loss/filesystem durability not tested.
 **Architecture consequence on FAIL:** re-open D-019/D-020 — the SQLite WAL journal design or the four-class recovery taxonomy itself, not just this implementation.
 
 ### Gate M4 — Bounded long-horizon state reconstruction

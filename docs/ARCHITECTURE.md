@@ -115,7 +115,7 @@ Models Accessibility/Screen Recording permissions on macOS, Windows security bou
 ### Verifier
 Independently checks action postconditions from observed state rather than accepting model claims of success.
 
-## Target resolution contract (PLANNED — see `docs/IMPLEMENTATION_PLAN.md` M1)
+## Target resolution contract (IMPLEMENTED, M1 gate passed on fixtures — `computer_agent/grounding.py`)
 
 ComputerAgent does not build a durable `UniversalElement` that pretends DOM/AX/UIA/vision identities share a lifetime (D-017). Backend element identity is too ephemeral: WebKit rebuilds AX nodes on mutation, and duplicate-labeled controls make role/name alone insufficient to disambiguate.
 
@@ -135,7 +135,7 @@ Goal/subgoal
 
 Ambiguous or absent resolution must abstain, never guess among tied candidates. This contract is specified but unimplemented; M1's Fixture A (>=1,000 seeded UI-mutation trials) is the falsification test.
 
-## Verification contract (PLANNED — see `docs/IMPLEMENTATION_PLAN.md` M2)
+## Verification contract (IMPLEMENTED, M2 gate passed on fixtures — `computer_agent/verification.py`)
 
 Every state-changing adapter/skill carries a typed `VerificationSpec`, independent of the action's own return value (D-018). This is not optional polish: `phase0/MAC_APP_CAPABILITY_REPORT.md` §G directly measured Chrome's `AXPress` returning AX success while never firing a plain HTML button's click handler.
 
@@ -162,7 +162,7 @@ On restart with an unresolved intent:
 - if proven not to have happened: retry only if policy permits;
 - if ambiguous: reconcile or hand off.
 
-### Recovery classification (PLANNED — see `docs/IMPLEMENTATION_PLAN.md` M3)
+### Recovery classification (IMPLEMENTED, M3 gate passed on fixtures — `computer_agent/recovery.py`, `controller.py`)
 
 There is no generic exactly-once guarantee for arbitrary external/UI effects (D-020). Every unresolved action is classified into exactly one of:
 
