@@ -3,6 +3,7 @@
     python -m phase0 browser   --trials 20 --out phase0/results
     python -m phase0 ax        --trials 15 --out phase0/results
     python -m phase0 control   --confirm
+    python -m phase0 mac-app-capabilities [--app <key>] --out phase0/results
     python -m phase0 summarize --input phase0/results/<file>.jsonl
 
 See phase0/README.md for full usage and interpretation of results.
@@ -93,6 +94,31 @@ def cmd_control(args: argparse.Namespace) -> int:
     return 0 if observation.classification.value == "CURSOR_INTERFERENCE" else 1
 
 
+def cmd_mac_app_capabilities(args: argparse.Namespace) -> int:
+    from phase0.experiments.mac_app_capabilities.matrix import MatrixBlocked, run_matrix
+
+    run_id = args.run_id or _new_run_id()
+    try:
+        matrix_path, records = run_matrix(output_dir=Path(args.out), run_id=run_id, only_key=args.app)
+    except MatrixBlocked as exc:
+        print(f"BLOCKED: {exc}", file=sys.stderr)
+        return 2
+
+    print(f"wrote capability matrix for {len(records)} application(s) to {matrix_path}")
+    for record in records:
+        print(f"  {record.application}: installed={record.installed} pid={record.pid}")
+        print(
+            f"    discovery={record.ax_application_creation.value} read={record.semantic_read.value} "
+            f"action_verified={record.semantic_action_verified.value} "
+            f"mutation_verified={record.value_mutation_verified.value}"
+        )
+        print(
+            f"    background_inspection={record.background_inspection.value} "
+            f"occluded_inspection={record.occluded_inspection.value}"
+        )
+    return 0
+
+
 def cmd_summarize(args: argparse.Namespace) -> int:
     from phase0.harness.persistence import read_results, summarize, write_summary
 
@@ -157,6 +183,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_control.add_argument("--out", type=str, default=str(DEFAULT_RESULTS_DIR))
     p_control.add_argument("--run-id", type=str, default=None)
     p_control.set_defaults(func=cmd_control)
+
+    p_mac_apps = sub.add_parser(
+        "mac-app-capabilities", help="run the Mac Application Capability Matrix across representative real apps"
+    )
+    p_mac_apps.add_argument("--app", type=str, default=None, help="only probe this target key (e.g. safari, chrome, finder)")
+    p_mac_apps.add_argument("--out", type=str, default=str(DEFAULT_RESULTS_DIR))
+    p_mac_apps.add_argument("--run-id", type=str, default=None)
+    p_mac_apps.set_defaults(func=cmd_mac_app_capabilities)
 
     p_summarize = sub.add_parser("summarize", help="aggregate an existing JSONL results file")
     p_summarize.add_argument("--input", type=str, required=True)

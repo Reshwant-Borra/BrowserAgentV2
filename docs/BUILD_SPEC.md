@@ -39,6 +39,8 @@ Measure AXUIElement inspection/actions across representative native and custom a
 
 Do not mark an AX action `BACKGROUND_PROVEN` without measurement.
 
+**Measured (2026-09-17):** a breadth capability survey across 8 representative applications (Finder, Notes, Calendar, System Settings, Safari, Chrome, VS Code/Electron, the existing Cocoa fixture) is recorded in `phase0/MAC_APP_CAPABILITY_REPORT.md`. Discovery/read is broadly supported; verified action/value-mutation is not — native system apps were deliberately left untested for mutation (real user data), and both browsers showed a genuine action/mutation gap (Chrome's `AXPress` doesn't invoke a plain HTML button's handler; both browsers' `AXValue` writes into web form fields were ordering-sensitive). This is evidence *for* the existing browser-semantics-before-AX routing preference (D-002), not a reason to change it. Still not `BACKGROUND_PROVEN` for any real (non-fixture) application's action route — see that report's §L/§M for what remains open.
+
 ### 4. Windows UIA harness
 Measure UI Automation semantic patterns including inspect/search, InvokePattern, ValuePattern, scrolling, waiting, occluded targets where supported, and representative Electron/custom UI coverage.
 
