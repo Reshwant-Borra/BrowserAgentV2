@@ -10,7 +10,7 @@ This file is the continuity handoff between scheduled research runs.
 - Record negative results and failed hypotheses.
 
 ## Current Architecture Hypothesis
-Preserve BrowserAgentV2's reliability-first Phase 0 harness. Production direction is a **hybrid semantic-first, verifier-grounded ComputerAgent**: deterministic tools/APIs when available -> Playwright/CDP browser semantics -> platform accessibility -> visual grounding/coordinate fallback -> foreground/handoff. A single durable deterministic controller owns Goal/Plan/Action/Policy/Recovery state, lifecycle, retry budgets and an append-only journal. Models are bounded proposal functions, not authorities. Untrusted observations supply information but cannot increase authority; consequential ActionIntents pass deterministic task-scoped capability/policy gates. Model context is a bounded projection of current durable state plus selected facts; retrieval memory is advisory. Every state-changing action is a durable intent transaction with stable logical action ID; crash recovery reconciles uncertain effects before retry and never claims generic exactly-once execution. Targets use semantic `TargetSpec` -> fresh observation-local candidate -> ephemeral backend ExecutionRef. Verification uses typed predicates/invariants and explicit inconclusive/unsafe outcomes. Start local evaluation with one replaceable multimodal ~8B generalist (Qwen3-VL-8B-Instruct first benchmark), specialist GUI grounder only on measured escalation, and critic only on verifier-inconclusive cases if justified. Reusable skills are versioned progressive-disclosure procedures under the controller, never autonomous sub-agents.
+Preserve BrowserAgentV2's reliability-first Phase 0 harness. Production direction is a **hybrid semantic-first, verifier-grounded ComputerAgent**: deterministic tools/APIs when available -> Playwright/CDP browser semantics -> platform accessibility -> visual grounding/coordinate fallback -> foreground/handoff. A single durable deterministic controller owns Goal/Plan/Action/Policy/Recovery state, lifecycle, retry budgets and an append-only journal. Models are bounded proposal functions, not authorities. Untrusted observations supply information but cannot increase authority; consequential ActionIntents pass deterministic task-scoped capability/policy gates. Model context is a bounded projection of current durable state plus selected facts; retrieval memory is advisory. Every state-changing action is a durable intent transaction with stable logical action ID; crash recovery reconciles uncertain effects before retry and never claims generic exactly-once execution. Targets use semantic `TargetSpec` -> fresh observation-local candidate -> ephemeral backend ExecutionRef. Verification uses typed predicates/invariants and explicit inconclusive/unsafe outcomes. Start local evaluation with one replaceable multimodal ~8B generalist (Qwen3-VL-8B-Instruct first benchmark), specialist GUI grounder only on measured escalation, and critic only on verifier-inconclusive cases if justified. Reusable skills are versioned progressive-disclosure procedures under the controller, never autonomous sub-agents. Observability uses the durable event journal as source of truth plus optional correlated OpenTelemetry traces/metrics; telemetry is never recovery state.
 
 ## Evidence Entries
 
@@ -64,18 +64,24 @@ Preserve BrowserAgentV2's reliability-first Phase 0 harness. Production directio
 - **Validation:** failure-class fault injection and state-machine invariant tests.
 
 ### 2026-09-18 05:xx ET — Local model/routing
-- **Question:** What is the smallest local model architecture worth building for M5 24 GB and RTX 4070 12 GB?
 - **Finding:** Qwen3-VL now has an official 8B Instruct model, local GGUF path, computer-use/grounding capability and tool interfaces. Because BrowserAgentV2 is semantic-first, the general model need not be the primary pixel controller. Start with one multimodal 8B generalist baseline; compare optional 2-3B GUI specialists only on semantic gaps. Keep critic probabilistic and on-demand. Use stable-prefix/bounded-state prompting and measure prompt/KV caching rather than expanding context.
 - **Evidence quality:** 2-4; final hardware suitability unmeasured
 - **Impact:** narrows v1 model architecture substantially; no always-on ensemble, learned router or mandatory critic. Qwen3-VL-8B is benchmark candidate, not permanent dependency.
-- **Validation:** common fixtures on both machines measuring schema validity, wrong-target/abstention, verifier-confirmed success, p95 latency, RAM/VRAM and repeated variance.
 
 ### 2026-09-18 05:xx ET — Reusable skills
-- **Question:** How should repeated workflows be encoded without prompt growth or sub-agent complexity?
-- **Finding:** Agent Skills/OpenHands converge on progressive disclosure of reusable procedural knowledge. For BrowserAgentV2, skills should be versioned packages with metadata, typed inputs, capability envelope, preconditions, procedure/helpers, verifier/invariants and regression fixtures. Controller executes; model can select but cannot widen authority. Successful traces are candidates, not automatically executable skills.
+- **Finding:** Skills should be versioned packages with metadata, typed inputs, capability envelope, preconditions, procedure/helpers, verifier/invariants and regression fixtures. Controller executes; model can select but cannot widen authority. Successful traces are candidates, not automatically executable skills.
 - **Evidence quality:** 2-4 plus architecture fit
-- **Impact:** skills reduce repeated reasoning while preserving bounded context and deterministic authority; reject one-agent-per-skill and vector-retrieval-to-execution.
-- **Validation:** 10 real skills + 100 decoys comparing full injection vs metadata progressive disclosure vs schema-filtered routing.
+- **Impact:** progressive disclosure reduces repeated reasoning while preserving bounded context and deterministic authority.
+
+### 2026-09-18 06:xx ET — Validation/fault-injection convergence
+- **Finding:** Architecture discovery is sufficiently mature to define falsification gates. The cheapest/highest-value implementation order is grounding freshness/abstention -> verifier false-success resistance -> crash reconciliation -> bounded-state reconstruction -> authority gate -> model/escalation -> skills -> Windows UIA -> cross-app endurance. Deterministic controller contracts should be proven before optimizing external benchmark score.
+- **Evidence quality:** 5 for reuse of existing Phase 0 verification discipline; 3-4 external benchmark/failure evidence; architecture synthesis
+- **Impact:** created `VALIDATION_PLAN.md` with explicit fixtures, metrics, pass gates and stop conditions. Critical controlled-fixture gates target zero wrong/stale dispatch, zero verifier false-success, no blind retry of ambiguous non-idempotent effects, exact deterministic state reconstruction at 1,000 actions, and zero authority expansion from untrusted content.
+
+### 2026-09-18 06:xx ET — Observability contract
+- **Finding:** Durable journal and operational telemetry have different jobs. Correctness/recovery events must never be sampled; OTel-compatible traces/metrics are a derived view and may be disabled without changing behavior. Raw prompts/screenshots/tool outputs are too sensitive/large for default trace attributes.
+- **Evidence quality:** 4-5 architecture fit + OpenTelemetry primary documentation
+- **Impact:** added `OBSERVABILITY.md`; canonical task/plan/step/action/attempt/observation/verification/model/skill IDs and finite event vocabulary. Start SQLite + artifact references + JSONL/optional OTel; no distributed tracing stack required for v1.
 
 ## Decisions Recorded
 See `ARCHITECTURE_DECISIONS.md`:
@@ -93,18 +99,18 @@ See `ARCHITECTURE_DECISIONS.md`:
 - ADR-O12 one durable deterministic controller — 94%
 - ADR-O13 multimodal 8B generalist baseline + measured escalation — 88% architecture / 76% final Qwen3-VL choice
 - ADR-O14 progressive-disclosure versioned skills — 93%
+- ADR-O15 durable journal source of truth + derived OTel — 94%
+- ADR-O16 falsify deterministic contracts before benchmark optimization — 96%
 
 ## Current Highest-Priority Unresolved Questions
-Ranked by architecture impact × uncertainty × cheapness of validation:
-1. **Experiment specs + implementation order:** turn architecture claims into one executable validation matrix before more broad research.
-2. **Grounding fault fixture:** duplicate-label, replacement, reflow, overlay, absent/ambiguous target, cross-route agreement.
-3. **Verifier vocabulary coverage:** measure how many real tasks fit a small predicate vocabulary before expanding DSL.
-4. **Crash matrix:** fake external service + crash injection from durable intent through commit/verify.
-5. **Prompt-flatness:** 200/500/1,000-action synthetic state projection/reconstruction benchmark.
-6. **Model fixture harness:** Qwen3-VL-8B baseline vs optional grounders on target hardware; schema/abstention/wrong-target/latency/memory.
-7. **Skill routing fixture:** 10 real + 100 decoy skills; progressive disclosure/context growth.
-8. **Windows hardware capability matrix:** reproduce UIA semantic/background assumptions on target Windows machine.
-9. **Observability schema:** ensure traces make every controller transition/model proposal/verification/fallback diagnosable without excessive storage.
+1. **Grounding fixture implementation:** can the proposed TargetSpec/freshness/abstention contract achieve zero wrong/stale dispatch in seeded faults?
+2. **Verifier vocabulary coverage:** can a small predicate vocabulary cover representative tasks without app-specific DSL explosion?
+3. **Crash harness implementation:** prove recovery classifications with injected process death across every action boundary.
+4. **Prompt-flatness implementation:** prove exact deterministic reconstruction and bounded projection at 200/500/1,000 actions.
+5. **Model hardware benchmark:** Qwen3-VL-8B and optional visual specialists on actual M5 24 GB + RTX 4070 12 GB.
+6. **Windows hardware capability matrix:** reproduce UIA assumptions on the target Windows machine.
+7. **Skill fixture:** measure progressive disclosure with decoys and policy boundaries.
+8. **External benchmark mapping:** select a small representative OSWorld/WindowsWorld/web subset only after controller contracts pass.
 
 ## Negative Results / Assumptions Rejected
 - Raw AX/UIA availability cannot be assumed behaviorally reliable or background-safe.
@@ -127,6 +133,9 @@ Ranked by architecture impact × uncertainty × cheapness of validation:
 - Maximum model context should not be treated as a memory target.
 - Vector similarity must not directly activate executable skills.
 - Successful trajectories must not auto-promote into trusted executable skills.
+- OpenTelemetry/exported traces must not be used as recovery state.
+- Raw transcript/full screenshot capture is not an acceptable default observability strategy.
+- External benchmark score should not precede deterministic contract validation.
 
 ## Handoff
-Architecture discovery is now close to saturation. New artifacts: `LOCAL_MODEL_OPTIMIZATION.md`, `SKILL_SYSTEM.md`; ADR-O11 through O14 are now recorded alongside prior ADRs. Do **not** redo broad model/skill surveys next. The next pass should convert the remaining assumptions into a concrete BrowserAgentV2 validation/fault-injection plan and, where connector limitations allow, prototype the cheapest harness pieces. Highest value is proving or falsifying the controller contracts: grounding freshness/abstention, verifier false-success resistance, crash reconciliation, prompt-flatness, model structured-output/visual escalation, and skill progressive disclosure. Windows hardware remains an explicit external validation blocker rather than a reason to redesign the architecture.
+Broad architecture research should now be considered nearly saturated. New artifacts: `VALIDATION_PLAN.md`, `OBSERVABILITY.md`; ADR-O15/O16 added. **Do not spend the next pass on another broad survey.** Implement/specify the cheapest falsification harnesses in priority order and inspect existing code for the smallest vertical slice. If tool constraints prevent code execution on target hardware, turn each remaining blocker into an exact runnable test spec and prepare final convergence. The final pass should decide READY_TO_BUILD vs READY_WITH_BLOCKERS based primarily on whether unresolved items are implementation validation blockers rather than architecture-design blockers.
