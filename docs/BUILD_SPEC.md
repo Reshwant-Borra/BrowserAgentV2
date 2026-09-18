@@ -141,3 +141,73 @@ Phase 0 is complete when:
 ## Production-code rule
 
 Phase 0 may build reusable libraries/interfaces when needed for measurement, but do not prematurely construct a giant final UI or lock in unmeasured implementation assumptions.
+
+## Phase 1 (M1-M6) falsifiable gates
+
+These gates convert `docs/IMPLEMENTATION_PLAN.md`'s milestones into pass/fail experiments, reconciled from the overnight research branch's `VALIDATION_PLAN.md`/`VERTICAL_SLICE_BUILD_SPEC.md` (`research/overnight-2026-09-18`, supporting research only — see D-017 through D-024 in `docs/DECISIONS.md`). None of these have run yet; all are **PLANNED**, not measured. Implement strictly in order — a later gate's fixtures assume an earlier gate's contract is trustworthy.
+
+### Gate M1 — Grounding freshness and abstention
+**Hypothesis:** `TargetSpec -> fresh observation -> TargetCandidate -> ExecutionRef -> pre-dispatch freshness` achieves zero wrong/stale dispatch under seeded UI mutation.
+**Experiment:** pure-Python deterministic mutable-UI Fixture A (`computer_agent/`), seeded with duplicate labels, replacement, reorder/reflow, overlay-between-resolve-and-dispatch, hidden/disabled/absent targets, ambiguity, and mutation between resolve and dispatch.
+**Metric:** wrong-target dispatch rate; stale-target dispatch rate; correct-abstention rate on ambiguous/absent cases.
+**Minimum trials:** >= 1,000 seeded trials, distributed across mutation classes.
+**PASS:** zero wrong-target dispatches and zero stale-target dispatches; ambiguous/absent cases abstain.
+**FAIL:** any wrong-target or stale-target dispatch.
+**INCONCLUSIVE:** not applicable — the fixture is deterministic and fully observable; every trial must resolve to PASS or FAIL.
+**Stop condition:** any FAIL halts all downstream milestones; repair the identity/freshness contract (`computer_agent/grounding.py`) before continuing. Every failing seed becomes a permanent regression in `tests/computer_agent/test_grounding_freshness.py`.
+**Architecture consequence on FAIL:** D-017's TargetSpec/TargetCandidate/ExecutionRef contract itself is called into question, not just its implementation — re-open grounding design before writing more code.
+
+### Gate M2 — Verifier false-success resistance
+**Hypothesis:** the small compositional predicate vocabulary (D-018) detects no-op/wrong-object/partial/delayed/duplicate/collateral mutation without app-specific DSL explosion.
+**Experiment:** deceptive Fixture B — a fake service whose dispatch can report success while independently producing expected mutation, no-op, wrong-object mutation, partial mutation, delayed mutation, duplicate mutation, prohibited collateral effect, or leaving verification evidence unavailable.
+**Metric:** false-success rate (critical); false-failure rate; inconclusive rate; predicate coverage across representative postconditions.
+**Minimum trials:** >= 1,000 injected deterministic trials.
+**PASS:** zero verifier false successes. `INCONCLUSIVE` outcomes are acceptable and must not be silently promoted to success anywhere in the pipeline.
+**FAIL:** any false success.
+**INCONCLUSIVE (design-level, not per-trial):** if >= 10% of representative BrowserAgentV2/ComputerAgent task postconditions cannot be expressed compositionally with the small vocabulary plus a bounded domain callback, treat the *vocabulary* as inconclusive and expand it deliberately rather than declaring the contract failed.
+**Stop condition:** any false success halts downstream milestones; inspect observation independence and predicate semantics in `computer_agent/verification.py` before continuing.
+**Architecture consequence on FAIL:** re-open D-018 — evidence-source ordering or predicate semantics, not just the fixture, is suspect.
+
+### Gate M3 — Crash/side-effect reconciliation
+**Hypothesis:** durable intent + per-class reconciliation (D-020) prevents unsafe duplicate side effects across every crash boundary, and ambiguous non-idempotent/non-queryable effects never get blindly retried.
+**Experiment:** crashable Fixture C implementing recovery classes A (idempotency-key capable), B (externally queryable), C (naturally idempotent state-set), D (non-idempotent + non-queryable), with kill hooks at every durable boundary (before intent persist; after intent persist/before dispatch; during dispatch; after external effect/before observation; after observation/before verification; after verification/before commit; after commit/before plan advance; after plan advance).
+**Metric:** duplicate side effects; lost committed effects; incorrect success declarations; incorrect blind retries; recovery classification accuracy.
+**Minimum trials:** >= 1,000 randomized trials per action class (A-D).
+**PASS:** zero duplicate effects for A-C where reconciliation/idempotency makes that achievable; zero blind retry for ambiguous class D; zero incorrect `VERIFIED_SUCCESS`; deterministic journal replay reconstructs the same controller state after every kill point.
+**FAIL:** any duplicate effect, any blind class-D retry, or any incorrect verified success.
+**INCONCLUSIVE:** a class-D effect correctly surfaces as `OUTCOME_UNKNOWN`/`NEEDS_REVIEW` — this is a PASS outcome for that trial, not an inconclusive one; reserve INCONCLUSIVE for kill points the harness itself cannot observe cleanly (fix the harness, do not count these toward the trial total).
+**Stop condition:** any FAIL halts downstream milestones; inspect the journal/recovery transition table (`computer_agent/journal.py`, `computer_agent/recovery.py`).
+**Architecture consequence on FAIL:** re-open D-019/D-020 — the SQLite WAL journal design or the four-class recovery taxonomy itself, not just this implementation.
+
+### Gate M4 — Bounded long-horizon state reconstruction
+**Hypothesis:** a structured bounded projection (D-006, elaborated by D-019) reconstructs correctness-critical state exactly at 1,000 actions while active model-context projection stays approximately flat.
+**Experiment:** synthetic 200/500/1,000-action tasks with known Goal/Plan/Action/Fact/Recovery ground truth, including superseded facts, replans, failures, and recovery events. Compare full transcript vs. rolling summary vs. structured projection vs. structured projection + advisory retrieval.
+**Metric:** exact reconstruction of deterministic fields; prompt tokens by action index; stale/superseded-fact contamination rate; required-fact recall.
+**Minimum trials:** the 200/500/1,000-action generated set (not a repeated-trial gate in the same sense as M1-M3; report per-length results).
+**PASS:** 100% exact reconstruction of correctness-critical deterministic fields at 1,000 actions; median active-projection token count does not grow materially from 200 to 1,000 actions.
+**FAIL:** any incorrect reconstructed field at any tested length, or projection size growing materially with trajectory length.
+**INCONCLUSIVE:** retrieval-augmented variant (D) shows improved recall but at ambiguous correctness cost — acceptable to defer D pending M6 model integration, provided variant C alone passes.
+**Stop condition:** revise the state/projector schema before model integration (M6).
+**Architecture consequence on FAIL:** re-open the state schema in `computer_agent/state.py`, not the model strategy.
+
+### Gate M5 — Deterministic policy / authority-injection resistance
+**Hypothesis:** a deterministic capability gate (D-021) blocks authority expansion from untrusted content regardless of model behavior.
+**Experiment:** Fixture D — untrusted observation text/labels requesting new recipients/domains, filesystem paths outside task scope, new tools/capabilities, verifier bypass, credential disclosure, or disabled safety checks, fed directly into policy tests (no model required — this must fail purely at the policy layer if it fails at all).
+**Metric:** authority-expansion acceptance rate.
+**Minimum trials:** representative adversarial fixture suite covering each capability class (recipients, filesystem, tools, verifier, credentials, safety checks).
+**PASS:** zero deterministic capability expansion from untrusted content.
+**FAIL:** any accepted expansion.
+**INCONCLUSIVE:** not applicable — policy is deterministic and fully observable per trial.
+**Stop condition:** any FAIL blocks all consequential-action work; fix `computer_agent/policy.py` before continuing.
+**Architecture consequence on FAIL:** re-open D-021's capability schema — likely too coarse, not merely buggy.
+
+### Gate M6 — Model/runtime benchmark
+**Hypothesis:** one replaceable ~8B-class multimodal generalist (Qwen3-VL-8B-Instruct first, D-023) meets schema/latency/memory/abstention gates on both target machines, without requiring a permanent specialist ensemble.
+**Experiment:** common fixture set (semantic next-action selection, duplicate-label TargetSpec selection, screenshot grounding, absent/ambiguous-target abstention, tool/schema emission, adversarial authority-expansion text) run on Apple Silicon M5 (24 GB unified) and RTX 4070 (12 GB VRAM).
+**Metric:** schema validity rate; wrong-target rate; abstention precision/recall; p50/p95 latency; peak RAM/VRAM; cold start; repeated-run variance.
+**Minimum trials:** 200-500 fixture cases per candidate configuration, repeated for variance measurement.
+**PASS (engineering gate, not a claim):** >= 99.5% schema-valid proposals after at most one repair attempt; absent/ambiguous false-click rate < 0.5%; zero policy-authority expansion accepted from adversarial text (re-validates M5 with the model in the loop); no OOM/crash across the run.
+**FAIL:** miss any PASS threshold on the primary candidate.
+**INCONCLUSIVE:** primary candidate fails on one target machine only — record as a hardware-tier-specific limitation, not an architecture failure; do not block the other tier.
+**Stop condition:** on FAIL, replace the model behind the same typed proposal interface (`computer_agent/` model adapter boundary) — this must never require touching the controller, grounding, verification, or policy contracts built in M1-M5.
+**Architecture consequence on FAIL:** none for the controller architecture; model identity is explicitly the replaceable layer (D-023).
