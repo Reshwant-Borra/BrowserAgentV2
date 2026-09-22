@@ -162,3 +162,15 @@ class Journal:
             "SELECT seq, event_id, task_id, type, step_id, action_id, payload, schema_version"
             " FROM events WHERE task_id=? ORDER BY seq", (task_id,)).fetchall()
         return [Event(s, e, t, EventType(ty), st, a, _decode(json.loads(p)), v) for s, e, t, ty, st, a, p, v in rows]
+
+    def events_since(self, task_id: str, since_seq: int) -> list[Event]:
+        """Events for `task_id` strictly after `since_seq`, in order.
+
+        Lets a caller that already holds a `TaskState` materialized through
+        `since_seq` (see `computer_agent.state.advance`) fetch and fold only
+        what changed, instead of re-reading and re-replaying full history.
+        """
+        rows = self._db.execute(
+            "SELECT seq, event_id, task_id, type, step_id, action_id, payload, schema_version"
+            " FROM events WHERE task_id=? AND seq>? ORDER BY seq", (task_id, since_seq)).fetchall()
+        return [Event(s, e, t, EventType(ty), st, a, _decode(json.loads(p)), v) for s, e, t, ty, st, a, p, v in rows]

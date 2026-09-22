@@ -28,7 +28,7 @@ from . import recovery
 from .grounding import freshness_check, resolve
 from .journal import EventType as E, Journal
 from .recovery import Next
-from .state import ActionState, Phase, TaskState, replay
+from .state import ActionState, Phase, TaskState, advance, replay
 from .types import ExecutionRef, Observation, ResolutionOutcome, TargetSpec
 from .verification import VerificationOutcome, VerificationSpec, judge, verify
 
@@ -70,6 +70,15 @@ class Controller:
     ) -> None:
         self.j, self.port, self.spec_for, self.crash = journal, port, spec_for, crash
         self.max_observations = max_observations
+        # Per-task materialized-state cache: `state()` is called many times per
+        # action lifecycle (see module docstring), and re-reading + re-replaying
+        # a task's entire journal from TASK_CREATED on every call is quadratic
+        # in event count. Journal truth is unchanged; only >self.j.events_since<
+        # is folded on each call, and a fresh Controller (post-crash restart)
+        # starts with an empty cache and rebuilds from the journal exactly as
+        # before, so this is purely an in-process optimization.
+        self._state_cache: dict[str, TaskState] = {}
+        self._cached_seq: dict[str, int] = {}
 
     # -- journal helpers ------------------------------------------------------------
 
@@ -81,7 +90,18 @@ class Controller:
         self.j.append(task_id, t, f"{a.action_id}/{n}/{t.value}", payload, step_id=a.step_id, action_id=a.action_id)
 
     def state(self, task_id: str) -> TaskState:
-        return replay(self.j.events(task_id))
+        cached = self._state_cache.get(task_id)
+        if cached is None:
+            events = self.j.events(task_id)
+            cached = replay(events)  # raises JournalIntegrityError on empty/invalid history, as before
+            self._state_cache[task_id] = cached
+            self._cached_seq[task_id] = events[-1].seq
+            return cached
+        new_events = self.j.events_since(task_id, self._cached_seq[task_id])
+        if new_events:
+            advance(cached, new_events)
+            self._cached_seq[task_id] = new_events[-1].seq
+        return cached
 
     # -- public API -----------------------------------------------------------------
 

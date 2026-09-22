@@ -99,19 +99,35 @@ class TaskState:
 
 
 def replay(events: Iterable[Event]) -> TaskState:
-    state: TaskState | None = None
+    events = iter(events)
+    try:
+        first = next(events)
+    except StopIteration:
+        raise JournalIntegrityError("no events for task") from None
+    if first.type != E.TASK_CREATED:
+        raise JournalIntegrityError(f"first event must be TASK_CREATED, got {first.type}")
+    p = first.payload
+    state = TaskState(first.task_id, tuple(p["granted_kinds"]),
+                      {s["step_id"]: StepState(s["step_id"], s) for s in p["steps"]})
+    state.event_count = 1
+    return advance(state, events)
+
+
+def advance(state: TaskState, events: Iterable[Event]) -> TaskState:
+    """Fold events onto an already-materialized `TaskState`, in place.
+
+    `events` must be exactly the suffix of the task's journal strictly after
+    whatever was last folded into `state` -- never a `TASK_CREATED`, which
+    only appears once and is consumed by `replay()`. This lets a caller that
+    keeps a `TaskState` cache (see `Controller.state`) apply only the events
+    it hasn't seen yet instead of re-replaying a task's entire history on
+    every call; skipping, reordering, or duplicating events here would
+    silently desync the cache from the journal, so callers must source
+    `events` from `Journal.events_since(task_id, <state's last-applied seq>)`.
+    """
     for ev in events:
-        if state is None:
-            if ev.type != E.TASK_CREATED:
-                raise JournalIntegrityError(f"first event must be TASK_CREATED, got {ev.type}")
-            p = ev.payload
-            state = TaskState(ev.task_id, tuple(p["granted_kinds"]),
-                              {s["step_id"]: StepState(s["step_id"], s) for s in p["steps"]})
-        else:
-            _apply(state, ev)
+        _apply(state, ev)
         state.event_count += 1
-    if state is None:
-        raise JournalIntegrityError("no events for task")
     return state
 
 
